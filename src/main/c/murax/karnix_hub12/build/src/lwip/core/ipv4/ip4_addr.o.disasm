@@ -1,0 +1,382 @@
+	.file	"ip4_addr.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	2
+	.globl	ip4_addr_isbroadcast_u32
+	.type	ip4_addr_isbroadcast_u32, @function
+ip4_addr_isbroadcast_u32:
+	addi	a3,a0,-1
+	li	a5,-3
+	mv	a4,a0
+	bgtu	a3,a5,.L3
+	lbu	a5,53(a1)
+	andi	a0,a5,2
+	beq	a0,zero,.L2
+	lw	a5,4(a1)
+	li	a0,0
+	beq	a5,a4,.L2
+	lw	a3,8(a1)
+	xor	a5,a5,a4
+	and	a5,a5,a3
+	bne	a5,zero,.L2
+	not	a3,a3
+	and	a0,a3,a4
+	sub	a0,a0,a3
+	seqz	a0,a0
+	ret
+.L3:
+	li	a0,1
+.L2:
+	ret
+	.size	ip4_addr_isbroadcast_u32, .-ip4_addr_isbroadcast_u32
+	.align	2
+	.globl	ip4_addr_netmask_valid
+	.type	ip4_addr_netmask_valid, @function
+ip4_addr_netmask_valid:
+	addi	sp,sp,-16
+	sw	ra,12(sp)
+	call	lwip_htonl
+	li	a4,32
+	li	a5,-2147483648
+.L11:
+	and	a3,a0,a5
+	beq	a3,zero,.L10
+	addi	a4,a4,-1
+	srli	a5,a5,1
+	bne	a4,zero,.L11
+.L19:
+	li	a0,1
+.L12:
+	lw	ra,12(sp)
+	addi	sp,sp,16
+	jr	ra
+.L13:
+	and	a4,a5,a0
+	bne	a4,zero,.L14
+	srli	a5,a5,1
+.L10:
+	bne	a5,zero,.L13
+	j	.L19
+.L14:
+	li	a0,0
+	j	.L12
+	.size	ip4_addr_netmask_valid, .-ip4_addr_netmask_valid
+	.globl	__mulsi3
+	.align	2
+	.globl	ip4addr_aton
+	.type	ip4addr_aton, @function
+ip4addr_aton:
+	addi	sp,sp,-80
+	sw	s0,72(sp)
+	sw	s2,64(sp)
+	sw	s3,60(sp)
+	sw	s5,52(sp)
+	sw	s7,44(sp)
+	sw	s8,40(sp)
+	sw	s9,36(sp)
+	sw	s10,32(sp)
+	sw	s11,28(sp)
+	sw	ra,76(sp)
+	sw	s1,68(sp)
+	sw	s4,56(sp)
+	sw	s6,48(sp)
+	lbu	s1,0(a0)
+	mv	s2,sp
+	lui	s5,%hi(_ctype_+1)
+	mv	s3,a1
+	mv	s7,s2
+	addi	s5,s5,%lo(_ctype_+1)
+	li	s0,48
+	li	s8,88
+	li	s9,16
+	li	s10,2
+	li	s11,46
+	addi	a4,sp,12
+.L30:
+	add	a5,s1,s5
+	lbu	a5,0(a5)
+	andi	a5,a5,4
+	beq	a5,zero,.L40
+	li	s6,10
+	bne	s1,s0,.L22
+	lbu	s1,1(a0)
+	andi	a5,s1,223
+	beq	a5,s8,.L23
+	addi	a0,a0,1
+	li	s6,8
+.L22:
+	mv	s4,a0
+	li	a0,0
+.L24:
+	add	a5,s5,s1
+	lbu	a5,0(a5)
+	andi	a3,a5,4
+	beq	a3,zero,.L25
+	mv	a1,a0
+	mv	a0,s6
+	call	__mulsi3
+	add	a0,a0,s1
+	lbu	s1,1(s4)
+	addi	a0,a0,-48
+	addi	a4,sp,12
+.L26:
+	addi	s4,s4,1
+	j	.L24
+.L23:
+	lbu	s1,2(a0)
+	li	s6,16
+	addi	a0,a0,2
+	j	.L22
+.L25:
+	bne	s6,s9,.L27
+	andi	a3,a5,68
+	beq	a3,zero,.L27
+	andi	a5,a5,3
+	slli	a0,a0,4
+	addi	s1,s1,10
+	li	a1,97
+	beq	a5,s10,.L28
+	li	a1,65
+.L28:
+	sub	s1,s1,a1
+	or	a0,s1,a0
+	lbu	s1,1(s4)
+	j	.L26
+.L27:
+	bne	s1,s11,.L29
+	beq	s2,a4,.L40
+	addi	s2,s2,4
+	sw	a0,-4(s2)
+	lbu	s1,1(s4)
+	addi	a0,s4,1
+	j	.L30
+.L29:
+	beq	s1,zero,.L31
+	andi	a5,a5,8
+	li	s0,0
+	beq	a5,zero,.L20
+.L31:
+	sub	s0,s2,s7
+	srai	s0,s0,2
+	addi	s0,s0,1
+	li	a5,2
+	beq	s0,a5,.L32
+	bgt	s0,a5,.L33
+	beq	s0,zero,.L20
+.L34:
+	li	s0,1
+	beq	s3,zero,.L20
+	call	lwip_htonl
+	sw	a0,0(s3)
+.L20:
+	mv	a0,s0
+	lw	ra,76(sp)
+	lw	s0,72(sp)
+	lw	s1,68(sp)
+	lw	s2,64(sp)
+	lw	s3,60(sp)
+	lw	s4,56(sp)
+	lw	s5,52(sp)
+	lw	s6,48(sp)
+	lw	s7,44(sp)
+	lw	s8,40(sp)
+	lw	s9,36(sp)
+	lw	s10,32(sp)
+	lw	s11,28(sp)
+	addi	sp,sp,80
+	jr	ra
+.L33:
+	li	a5,3
+	beq	s0,a5,.L35
+	li	a5,4
+	bne	s0,a5,.L34
+	li	a2,255
+	li	s0,0
+	bgtu	a0,a2,.L20
+	lw	a5,0(sp)
+	bgtu	a5,a2,.L20
+	lw	a3,4(sp)
+	bgtu	a3,a2,.L20
+	lw	a4,8(sp)
+	bgtu	a4,a2,.L20
+	slli	a5,a5,24
+	slli	a3,a3,16
+	or	a5,a5,a3
+	slli	a4,a4,8
+	j	.L64
+.L32:
+	li	a5,16777216
+	li	s0,0
+	bgeu	a0,a5,.L20
+	lw	a5,0(sp)
+	li	a4,255
+	bgtu	a5,a4,.L20
+	slli	a5,a5,24
+.L63:
+	or	a0,a0,a5
+	j	.L34
+.L35:
+	li	a5,65536
+	li	s0,0
+	bgeu	a0,a5,.L20
+	lw	a5,0(sp)
+	li	a3,255
+	bgtu	a5,a3,.L20
+	lw	a4,4(sp)
+	bgtu	a4,a3,.L20
+	slli	a5,a5,24
+	slli	a4,a4,16
+.L64:
+	or	a5,a5,a4
+	j	.L63
+.L40:
+	li	s0,0
+	j	.L20
+	.size	ip4addr_aton, .-ip4addr_aton
+	.align	2
+	.globl	ipaddr_addr
+	.type	ipaddr_addr, @function
+ipaddr_addr:
+	addi	sp,sp,-32
+	addi	a1,sp,12
+	sw	ra,28(sp)
+	call	ip4addr_aton
+	beq	a0,zero,.L67
+	lw	a0,12(sp)
+.L65:
+	lw	ra,28(sp)
+	addi	sp,sp,32
+	jr	ra
+.L67:
+	li	a0,-1
+	j	.L65
+	.size	ipaddr_addr, .-ipaddr_addr
+	.globl	__udivsi3
+	.globl	__umodsi3
+	.align	2
+	.globl	ip4addr_ntoa_r
+	.type	ip4addr_ntoa_r, @function
+ip4addr_ntoa_r:
+	addi	sp,sp,-80
+	sw	s1,68(sp)
+	sw	s2,64(sp)
+	sw	s3,60(sp)
+	sw	s6,48(sp)
+	sw	s8,40(sp)
+	sw	s9,36(sp)
+	sw	s10,32(sp)
+	sw	ra,76(sp)
+	sw	s0,72(sp)
+	sw	s4,56(sp)
+	sw	s5,52(sp)
+	sw	s7,44(sp)
+	lw	a5,0(a0)
+	mv	s1,a1
+	mv	s6,a1
+	sw	a5,28(sp)
+	li	s3,0
+	addi	s2,sp,28
+	li	s9,9
+	li	s10,255
+	li	s8,46
+.L74:
+	lbu	s4,0(s2)
+	li	s0,0
+.L70:
+	li	a1,10
+	mv	a0,s4
+	sw	a2,12(sp)
+	call	__udivsi3
+	andi	s7,a0,0xff
+	li	a1,10
+	mv	a0,s4
+	call	__umodsi3
+	addi	a5,sp,32
+	addi	a0,a0,48
+	add	a5,a5,s0
+	addi	s5,s0,1
+	sb	a0,-8(a5)
+	andi	s5,s5,0xff
+	lw	a2,12(sp)
+	bgtu	s4,s9,.L75
+	sb	s7,0(s2)
+	mv	a4,s3
+	mv	a5,s6
+.L71:
+	addi	s3,s3,1
+	bne	s0,s10,.L73
+	bge	a4,a2,.L77
+	sb	s8,0(a5)
+	addi	s2,s2,1
+	addi	a4,sp,32
+	addi	s6,a5,1
+	bne	s2,a4,.L74
+	sb	zero,0(a5)
+	mv	a0,s1
+.L69:
+	lw	ra,76(sp)
+	lw	s0,72(sp)
+	lw	s1,68(sp)
+	lw	s2,64(sp)
+	lw	s3,60(sp)
+	lw	s4,56(sp)
+	lw	s5,52(sp)
+	lw	s6,48(sp)
+	lw	s7,44(sp)
+	lw	s8,40(sp)
+	lw	s9,36(sp)
+	lw	s10,32(sp)
+	addi	sp,sp,80
+	jr	ra
+.L75:
+	mv	s4,s7
+	mv	s0,s5
+	j	.L70
+.L73:
+	addi	a3,s0,-1
+	andi	a3,a3,0xff
+	bge	a4,a2,.L77
+	addi	a4,sp,32
+	add	s0,a4,s0
+	lbu	a4,-8(s0)
+	addi	a5,a5,1
+	mv	s0,a3
+	sb	a4,-1(a5)
+	mv	a4,s3
+	j	.L71
+.L77:
+	li	a0,0
+	j	.L69
+	.size	ip4addr_ntoa_r, .-ip4addr_ntoa_r
+	.align	2
+	.globl	ip4addr_ntoa
+	.type	ip4addr_ntoa, @function
+ip4addr_ntoa:
+	lui	a1,%hi(.LANCHOR0)
+	li	a2,16
+	addi	a1,a1,%lo(.LANCHOR0)
+	tail	ip4addr_ntoa_r
+	.size	ip4addr_ntoa, .-ip4addr_ntoa
+	.globl	ip_addr_broadcast
+	.globl	ip_addr_any
+	.bss
+	.align	2
+	.set	.LANCHOR0,. + 0
+	.type	str.4106, @object
+	.size	str.4106, 16
+str.4106:
+	.zero	16
+	.section	.srodata,"a"
+	.align	2
+	.type	ip_addr_broadcast, @object
+	.size	ip_addr_broadcast, 4
+ip_addr_broadcast:
+	.word	-1
+	.type	ip_addr_any, @object
+	.size	ip_addr_any, 4
+ip_addr_any:
+	.zero	4
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"

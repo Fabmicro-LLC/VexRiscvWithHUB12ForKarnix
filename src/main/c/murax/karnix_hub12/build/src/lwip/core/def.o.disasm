@@ -1,0 +1,216 @@
+	.file	"def.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	2
+	.globl	lwip_htons
+	.type	lwip_htons, @function
+lwip_htons:
+	slli	a5,a0,8
+	srli	a0,a0,8
+	or	a0,a5,a0
+	slli	a0,a0,16
+	srli	a0,a0,16
+	ret
+	.size	lwip_htons, .-lwip_htons
+	.align	2
+	.globl	lwip_htonl
+	.type	lwip_htonl, @function
+lwip_htonl:
+	srli	a4,a0,24
+	slli	a5,a0,24
+	or	a5,a5,a4
+	li	a3,16711680
+	slli	a4,a0,8
+	and	a4,a4,a3
+	or	a5,a5,a4
+	li	a4,65536
+	addi	a4,a4,-256
+	srli	a0,a0,8
+	and	a0,a0,a4
+	or	a0,a5,a0
+	ret
+	.size	lwip_htonl, .-lwip_htonl
+	.align	2
+	.globl	lwip_strnstr
+	.type	lwip_strnstr, @function
+lwip_strnstr:
+	addi	sp,sp,-32
+	sw	s0,24(sp)
+	mv	s0,a0
+	mv	a0,a1
+	sw	s1,20(sp)
+	sw	s3,12(sp)
+	sw	ra,28(sp)
+	sw	s2,16(sp)
+	mv	s3,a1
+	mv	s1,a2
+	call	strlen
+	beq	a0,zero,.L3
+	mv	s2,a0
+	add	s1,s0,s1
+.L5:
+	lbu	a5,0(s0)
+	beq	a5,zero,.L9
+	add	a4,s0,s2
+	bgeu	s1,a4,.L7
+.L9:
+	li	s0,0
+.L3:
+	mv	a0,s0
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	lw	s2,16(sp)
+	lw	s3,12(sp)
+	addi	sp,sp,32
+	jr	ra
+.L7:
+	lbu	a4,0(s3)
+	bne	a4,a5,.L6
+	mv	a2,s2
+	mv	a1,s3
+	mv	a0,s0
+	call	strncmp
+	beq	a0,zero,.L3
+.L6:
+	addi	s0,s0,1
+	j	.L5
+	.size	lwip_strnstr, .-lwip_strnstr
+	.align	2
+	.globl	lwip_stricmp
+	.type	lwip_stricmp, @function
+lwip_stricmp:
+	li	a6,25
+.L17:
+	addi	a0,a0,1
+	addi	a1,a1,1
+	lbu	a4,-1(a0)
+	lbu	a5,-1(a1)
+	beq	a4,a5,.L15
+	ori	a2,a4,32
+	addi	a3,a2,-97
+	andi	a3,a3,0xff
+	bgtu	a3,a6,.L19
+	ori	a5,a5,32
+	bne	a2,a5,.L19
+.L15:
+	bne	a4,zero,.L17
+	li	a0,0
+	ret
+.L19:
+	li	a0,1
+	ret
+	.size	lwip_stricmp, .-lwip_stricmp
+	.align	2
+	.globl	lwip_strnicmp
+	.type	lwip_strnicmp, @function
+lwip_strnicmp:
+	addi	a2,a2,-1
+	li	a5,0
+	li	t1,25
+.L24:
+	add	a4,a0,a5
+	lbu	a3,0(a4)
+	add	a4,a1,a5
+	lbu	a4,0(a4)
+	beq	a3,a4,.L22
+	ori	a7,a3,32
+	addi	a6,a7,-97
+	andi	a6,a6,0xff
+	bgtu	a6,t1,.L26
+	ori	a4,a4,32
+	bne	a7,a4,.L26
+.L22:
+	beq	a2,a5,.L27
+	addi	a5,a5,1
+	bne	a3,zero,.L24
+.L27:
+	li	a0,0
+	ret
+.L26:
+	li	a0,1
+	ret
+	.size	lwip_strnicmp, .-lwip_strnicmp
+	.globl	__umodsi3
+	.globl	__modsi3
+	.globl	__udivsi3
+	.globl	__divsi3
+	.align	2
+	.globl	lwip_itoa
+	.type	lwip_itoa, @function
+lwip_itoa:
+	addi	sp,sp,-32
+	sw	s2,16(sp)
+	sw	s4,8(sp)
+	sw	ra,28(sp)
+	sw	s0,24(sp)
+	sw	s1,20(sp)
+	sw	s3,12(sp)
+	li	a5,1
+	mv	s2,a0
+	mv	s4,a1
+	bgtu	a1,a5,.L30
+	bne	a1,a5,.L29
+.L36:
+	sb	zero,0(s2)
+.L29:
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	lw	s2,16(sp)
+	lw	s3,12(sp)
+	lw	s4,8(sp)
+	addi	sp,sp,32
+	jr	ra
+.L30:
+	mv	s3,a0
+	bge	a2,zero,.L32
+	li	a5,45
+	addi	s3,a0,1
+	sb	a5,0(a0)
+.L32:
+	srai	a5,a2,31
+	addi	s0,s4,-1
+	add	s0,s2,s0
+	xor	s1,a5,a2
+	sub	s1,s1,a5
+	sb	zero,0(s0)
+.L33:
+	beq	s1,zero,.L34
+	bgeu	s3,s0,.L36
+	li	a1,10
+	mv	a0,s1
+	call	__modsi3
+	addi	a0,a0,48
+	addi	s0,s0,-1
+	sb	a0,0(s0)
+	li	a1,10
+	mv	a0,s1
+	call	__divsi3
+	mv	s1,a0
+	j	.L33
+.L37:
+	li	a5,48
+	sb	a5,0(s3)
+	sb	zero,1(s3)
+	j	.L29
+.L34:
+	lbu	a5,0(s0)
+	beq	a5,zero,.L37
+	add	a2,s2,s4
+	sub	a2,a2,s0
+	mv	a1,s0
+	lw	s0,24(sp)
+	lw	ra,28(sp)
+	lw	s1,20(sp)
+	lw	s2,16(sp)
+	lw	s4,8(sp)
+	mv	a0,s3
+	lw	s3,12(sp)
+	addi	sp,sp,32
+	tail	memmove
+	.size	lwip_itoa, .-lwip_itoa
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"

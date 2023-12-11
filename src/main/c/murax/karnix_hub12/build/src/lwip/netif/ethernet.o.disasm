@@ -1,0 +1,194 @@
+	.file	"ethernet.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	2
+	.globl	ethernet_input
+	.type	ethernet_input, @function
+ethernet_input:
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	sw	ra,12(sp)
+	sw	s1,4(sp)
+	sw	s2,0(sp)
+	lhu	a4,10(a0)
+	li	a5,16
+	mv	s0,a0
+	bgtu	a4,a5,.L2
+.L20:
+	lui	a5,%hi(lwip_stats)
+	addi	a5,a5,%lo(lwip_stats)
+	lw	a4,80(a5)
+	addi	a4,a4,1
+	sw	a4,80(a5)
+	j	.L23
+.L2:
+	lbu	a5,15(a0)
+	mv	s2,a1
+	bne	a5,zero,.L4
+	lbu	a5,56(a1)
+	addi	a5,a5,1
+	sb	a5,15(a0)
+.L4:
+	lw	a0,4(s0)
+	lbu	s1,15(a0)
+	lbu	a5,14(a0)
+	slli	s1,s1,8
+	or	s1,s1,a5
+	lbu	a5,2(a0)
+	andi	a4,a5,1
+	beq	a4,zero,.L5
+	li	a4,1
+	bne	a5,a4,.L6
+	lbu	a5,3(a0)
+	bne	a5,zero,.L5
+	lbu	a4,4(a0)
+	li	a5,94
+	bne	a4,a5,.L5
+	lbu	a5,13(s0)
+	ori	a5,a5,16
+.L22:
+	sb	a5,13(s0)
+.L5:
+	li	a5,8
+	beq	s1,a5,.L7
+	li	a5,1544
+	bne	s1,a5,.L20
+	lbu	a5,53(s2)
+	andi	a5,a5,8
+	beq	a5,zero,.L3
+	li	a1,16
+	mv	a0,s0
+	call	pbuf_remove_header
+	beq	a0,zero,.L13
+	lui	a5,%hi(lwip_stats)
+	addi	a5,a5,%lo(lwip_stats)
+	lw	a4,68(a5)
+	addi	a4,a4,1
+	sw	a4,68(a5)
+.L23:
+	lw	a4,60(a5)
+	addi	a4,a4,1
+	sw	a4,60(a5)
+.L3:
+	mv	a0,s0
+	call	pbuf_free
+	j	.L12
+.L6:
+	lui	a1,%hi(ethbroadcast)
+	li	a2,6
+	addi	a1,a1,%lo(ethbroadcast)
+	addi	a0,a0,2
+	call	memcmp
+	bne	a0,zero,.L5
+	lbu	a5,13(s0)
+	ori	a5,a5,8
+	j	.L22
+.L7:
+	lbu	a5,53(s2)
+	andi	a5,a5,8
+	beq	a5,zero,.L3
+	li	a1,16
+	mv	a0,s0
+	call	pbuf_remove_header
+	bne	a0,zero,.L3
+	mv	a1,s2
+	mv	a0,s0
+	call	ip4_input
+.L12:
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	lw	s1,4(sp)
+	lw	s2,0(sp)
+	li	a0,0
+	addi	sp,sp,16
+	jr	ra
+.L13:
+	mv	a1,s2
+	mv	a0,s0
+	call	etharp_input
+	j	.L12
+	.size	ethernet_input, .-ethernet_input
+	.align	2
+	.globl	ethernet_output
+	.type	ethernet_output, @function
+ethernet_output:
+	addi	sp,sp,-48
+	sw	s3,28(sp)
+	mv	s3,a0
+	mv	a0,a4
+	sw	a3,12(sp)
+	sw	ra,44(sp)
+	sw	s1,36(sp)
+	sw	s2,32(sp)
+	sw	s4,24(sp)
+	mv	s2,a1
+	mv	s4,a2
+	sw	s0,40(sp)
+	call	lwip_htons
+	mv	s1,a0
+	li	a1,16
+	mv	a0,s2
+	call	pbuf_add_header
+	lw	a3,12(sp)
+	bne	a0,zero,.L28
+	lw	s0,4(s2)
+	mv	a1,a3
+	li	a2,6
+	sb	s1,14(s0)
+	srli	s1,s1,8
+	sb	s1,15(s0)
+	addi	a0,s0,2
+	call	memcpy
+	mv	a1,s4
+	addi	a0,s0,8
+	li	a2,6
+	call	memcpy
+	lw	s0,40(sp)
+	lw	t1,24(s3)
+	lw	ra,44(sp)
+	lw	s1,36(sp)
+	lw	s4,24(sp)
+	mv	a1,s2
+	mv	a0,s3
+	lw	s2,32(sp)
+	lw	s3,28(sp)
+	addi	sp,sp,48
+	jr	t1
+.L28:
+	lui	a5,%hi(lwip_stats)
+	addi	a5,a5,%lo(lwip_stats)
+	lw	a4,20(a5)
+	li	a0,-2
+	addi	a4,a4,1
+	sw	a4,20(a5)
+	lw	ra,44(sp)
+	lw	s0,40(sp)
+	lw	s1,36(sp)
+	lw	s2,32(sp)
+	lw	s3,28(sp)
+	lw	s4,24(sp)
+	addi	sp,sp,48
+	jr	ra
+	.size	ethernet_output, .-ethernet_output
+	.globl	ethzero
+	.globl	ethbroadcast
+	.section	.srodata,"a"
+	.align	2
+	.type	ethzero, @object
+	.size	ethzero, 6
+ethzero:
+	.zero	6
+	.zero	2
+	.type	ethbroadcast, @object
+	.size	ethbroadcast, 6
+ethbroadcast:
+	.byte	-1
+	.byte	-1
+	.byte	-1
+	.byte	-1
+	.byte	-1
+	.byte	-1
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"

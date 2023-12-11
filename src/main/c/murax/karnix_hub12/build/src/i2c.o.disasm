@@ -1,0 +1,53 @@
+	.file	"i2c.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	2
+	.globl	i2c_init
+	.type	i2c_init, @function
+i2c_init:
+	li	a5,250
+	sw	a5,8(a0)
+	ret
+	.size	i2c_init, .-i2c_init
+	.align	2
+	.globl	i2c_wait_for_busy
+	.type	i2c_wait_for_busy, @function
+i2c_wait_for_busy:
+	li	a5,0
+.L3:
+	blt	a5,a1,.L5
+	li	a0,0
+	ret
+.L5:
+	lw	a4,12(a0)
+	andi	a4,a4,2
+	bne	a4,zero,.L6
+	addi	a5,a5,1
+	j	.L3
+.L6:
+	li	a0,1
+	ret
+	.size	i2c_wait_for_busy, .-i2c_wait_for_busy
+	.align	2
+	.globl	i2c_wait_for_release
+	.type	i2c_wait_for_release, @function
+i2c_wait_for_release:
+	li	a5,0
+.L8:
+	blt	a5,a1,.L10
+	li	a0,0
+	ret
+.L10:
+	lw	a4,12(a0)
+	andi	a4,a4,2
+	beq	a4,zero,.L11
+	addi	a5,a5,1
+	j	.L8
+.L11:
+	li	a0,1
+	ret
+	.size	i2c_wait_for_release, .-i2c_wait_for_release
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"

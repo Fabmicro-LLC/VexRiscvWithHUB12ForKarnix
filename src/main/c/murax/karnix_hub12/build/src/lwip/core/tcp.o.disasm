@@ -1,0 +1,7 @@
+	.file	"tcp.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"

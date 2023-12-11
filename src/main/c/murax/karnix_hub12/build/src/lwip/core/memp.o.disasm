@@ -1,0 +1,214 @@
+	.file	"memp.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	2
+	.type	do_memp_free_pool, @function
+do_memp_free_pool:
+	addi	sp,sp,-16
+	sw	ra,12(sp)
+	sw	s0,8(sp)
+	sw	s1,4(sp)
+	sw	s2,0(sp)
+	mv	s0,a1
+	mv	s1,a0
+	call	sys_arch_protect
+	lw	a3,0(s1)
+	lhu	a1,4(s1)
+	lui	a2,%hi(.LC0)
+	mv	s2,a0
+	addi	a2,a2,%lo(.LC0)
+	mv	a0,s0
+	call	mem_overflow_check_raw
+	mv	a0,s2
+	call	sys_arch_unprotect
+	addi	a0,s0,-28
+	lw	s0,8(sp)
+	lw	ra,12(sp)
+	lw	s1,4(sp)
+	lw	s2,0(sp)
+	addi	sp,sp,16
+	tail	lwip_free
+	.size	do_memp_free_pool, .-do_memp_free_pool
+	.align	2
+	.type	do_memp_malloc_pool_fn, @function
+do_memp_malloc_pool_fn:
+	addi	sp,sp,-32
+	sw	s0,24(sp)
+	sw	s1,20(sp)
+	sw	ra,28(sp)
+	sw	s2,16(sp)
+	mv	s1,a0
+	lhu	a0,4(a0)
+	sw	a1,12(sp)
+	sw	a2,8(sp)
+	addi	a0,a0,3
+	andi	a0,a0,-4
+	addi	a0,a0,44
+	call	lwip_malloc
+	mv	s0,a0
+	call	sys_arch_protect
+	beq	s0,zero,.L4
+	lw	a1,12(sp)
+	lw	a2,8(sp)
+	addi	s0,s0,28
+	sw	a1,-24(s0)
+	sw	a2,-20(s0)
+	lhu	a1,4(s1)
+	mv	s2,a0
+	mv	a0,s0
+	call	mem_overflow_init_raw
+	mv	a0,s2
+.L4:
+	call	sys_arch_unprotect
+	mv	a0,s0
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	lw	s2,16(sp)
+	addi	sp,sp,32
+	jr	ra
+	.size	do_memp_malloc_pool_fn, .-do_memp_malloc_pool_fn
+	.align	2
+	.globl	memp_init_pool
+	.type	memp_init_pool, @function
+memp_init_pool:
+	ret
+	.size	memp_init_pool, .-memp_init_pool
+	.align	2
+	.globl	memp_init
+	.type	memp_init, @function
+memp_init:
+	ret
+	.size	memp_init, .-memp_init
+	.align	2
+	.globl	memp_malloc_pool_fn
+	.type	memp_malloc_pool_fn, @function
+memp_malloc_pool_fn:
+	beq	a0,zero,.L10
+	tail	do_memp_malloc_pool_fn
+.L10:
+	ret
+	.size	memp_malloc_pool_fn, .-memp_malloc_pool_fn
+	.align	2
+	.globl	memp_malloc_fn
+	.type	memp_malloc_fn, @function
+memp_malloc_fn:
+	li	a5,5
+	bgtu	a0,a5,.L12
+	slli	a5,a0,2
+	lui	a0,%hi(.LANCHOR0)
+	addi	a0,a0,%lo(.LANCHOR0)
+	add	a0,a0,a5
+	lw	a0,0(a0)
+	tail	do_memp_malloc_pool_fn
+.L12:
+	li	a0,0
+	ret
+	.size	memp_malloc_fn, .-memp_malloc_fn
+	.align	2
+	.globl	memp_free_pool
+	.type	memp_free_pool, @function
+memp_free_pool:
+	beq	a0,zero,.L13
+	beq	a1,zero,.L13
+	tail	do_memp_free_pool
+.L13:
+	ret
+	.size	memp_free_pool, .-memp_free_pool
+	.align	2
+	.globl	memp_free
+	.type	memp_free, @function
+memp_free:
+	li	a4,5
+	bgtu	a0,a4,.L21
+	beq	a1,zero,.L21
+	slli	a5,a0,2
+	lui	a0,%hi(.LANCHOR0)
+	addi	a0,a0,%lo(.LANCHOR0)
+	add	a0,a0,a5
+	lw	a0,0(a0)
+	tail	do_memp_free_pool
+.L21:
+	ret
+	.size	memp_free, .-memp_free
+	.globl	memp_pools
+	.globl	memp_PBUF_POOL
+	.globl	memp_PBUF
+	.globl	memp_SYS_TIMEOUT
+	.globl	memp_FRAG_PBUF
+	.globl	memp_UDP_PCB
+	.globl	memp_RAW_PCB
+	.section	.rodata
+	.align	2
+	.set	.LANCHOR0,. + 0
+	.type	memp_pools, @object
+	.size	memp_pools, 24
+memp_pools:
+	.word	memp_RAW_PCB
+	.word	memp_UDP_PCB
+	.word	memp_FRAG_PBUF
+	.word	memp_SYS_TIMEOUT
+	.word	memp_PBUF
+	.word	memp_PBUF_POOL
+	.section	.rodata.str1.4,"aMS",@progbits,1
+	.align	2
+.LC0:
+	.string	"pool "
+	.zero	2
+.LC1:
+	.string	"PBUF_POOL"
+	.zero	2
+.LC2:
+	.string	"PBUF_REF/ROM"
+	.zero	3
+.LC3:
+	.string	"SYS_TIMEOUT"
+.LC4:
+	.string	"FRAG_PBUF"
+	.zero	2
+.LC5:
+	.string	"UDP_PCB"
+.LC6:
+	.string	"RAW_PCB"
+	.section	.srodata,"a"
+	.align	2
+	.type	memp_PBUF_POOL, @object
+	.size	memp_PBUF_POOL, 8
+memp_PBUF_POOL:
+	.word	.LC1
+	.half	1532
+	.zero	2
+	.type	memp_PBUF, @object
+	.size	memp_PBUF, 8
+memp_PBUF:
+	.word	.LC2
+	.half	16
+	.zero	2
+	.type	memp_SYS_TIMEOUT, @object
+	.size	memp_SYS_TIMEOUT, 8
+memp_SYS_TIMEOUT:
+	.word	.LC3
+	.half	16
+	.zero	2
+	.type	memp_FRAG_PBUF, @object
+	.size	memp_FRAG_PBUF, 8
+memp_FRAG_PBUF:
+	.word	.LC4
+	.half	24
+	.zero	2
+	.type	memp_UDP_PCB, @object
+	.size	memp_UDP_PCB, 8
+memp_UDP_PCB:
+	.word	.LC5
+	.half	36
+	.zero	2
+	.type	memp_RAW_PCB, @object
+	.size	memp_RAW_PCB, 8
+memp_RAW_PCB:
+	.word	.LC6
+	.half	32
+	.zero	2
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"

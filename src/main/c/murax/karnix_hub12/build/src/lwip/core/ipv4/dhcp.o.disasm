@@ -1,0 +1,2212 @@
+	.file	"dhcp.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	2
+	.type	dhcp_set_state, @function
+dhcp_set_state:
+	lbu	a5,5(a0)
+	beq	a5,a1,.L1
+	sb	a1,5(a0)
+	sb	zero,6(a0)
+	sh	zero,8(a0)
+.L1:
+	ret
+	.size	dhcp_set_state, .-dhcp_set_state
+	.align	2
+	.type	dhcp_option_short, @function
+dhcp_option_short:
+	add	a5,a1,a0
+	srli	a4,a2,8
+	sb	a4,0(a5)
+	addi	a5,a0,1
+	slli	a5,a5,16
+	srli	a5,a5,16
+	addi	a0,a0,2
+	add	a1,a1,a5
+	slli	a0,a0,16
+	sb	a2,0(a1)
+	srli	a0,a0,16
+	ret
+	.size	dhcp_option_short, .-dhcp_option_short
+	.align	2
+	.type	dhcp_option_long, @function
+dhcp_option_long:
+	add	a5,a1,a0
+	srli	a4,a2,24
+	sb	a4,0(a5)
+	addi	a5,a0,1
+	slli	a5,a5,16
+	srli	a5,a5,16
+	add	a5,a1,a5
+	srli	a4,a2,16
+	sb	a4,0(a5)
+	addi	a5,a0,2
+	slli	a5,a5,16
+	srli	a5,a5,16
+	add	a5,a1,a5
+	srli	a4,a2,8
+	sb	a4,0(a5)
+	addi	a5,a0,3
+	slli	a5,a5,16
+	srli	a5,a5,16
+	addi	a0,a0,4
+	add	a1,a1,a5
+	slli	a0,a0,16
+	sb	a2,0(a1)
+	srli	a0,a0,16
+	ret
+	.size	dhcp_option_long, .-dhcp_option_long
+	.align	2
+	.type	dhcp_create_msg, @function
+dhcp_create_msg:
+	addi	sp,sp,-32
+	sw	ra,28(sp)
+	sw	s0,24(sp)
+	sw	s1,20(sp)
+	sw	s2,16(sp)
+	sw	s3,12(sp)
+	sw	s4,8(sp)
+	sw	s5,4(sp)
+	sw	s6,0(sp)
+	bne	a0,zero,.L6
+.L8:
+	li	s5,0
+.L5:
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	mv	a0,s5
+	lw	s1,20(sp)
+	lw	s2,16(sp)
+	lw	s3,12(sp)
+	lw	s4,8(sp)
+	lw	s5,4(sp)
+	lw	s6,0(sp)
+	addi	sp,sp,32
+	jr	ra
+.L6:
+	beq	a1,zero,.L8
+	mv	s2,a2
+	mv	s3,a1
+	mv	s1,a0
+	li	a2,640
+	li	a1,308
+	li	a0,56
+	mv	s4,a3
+	call	pbuf_alloc
+	mv	s5,a0
+	beq	a0,zero,.L8
+	li	a5,3
+	bne	s2,a5,.L9
+	lbu	a5,5(s3)
+	bne	a5,s2,.L10
+.L9:
+	lbu	a4,6(s3)
+	lui	a5,%hi(xid.4812)
+	bne	a4,zero,.L11
+	lw	a4,%lo(xid.4812)(a5)
+	addi	a4,a4,1
+	sw	a4,%lo(xid.4812)(a5)
+.L11:
+	lw	a5,%lo(xid.4812)(a5)
+	sw	a5,0(s3)
+.L10:
+	lw	s0,4(s5)
+	li	a2,308
+	li	a1,0
+	li	s6,1
+	mv	a0,s0
+	call	memset
+	sb	s6,0(s0)
+	sb	s6,1(s0)
+	lbu	a5,52(s1)
+	sb	a5,2(s0)
+	lw	a0,0(s3)
+	call	lwip_htonl
+	srli	a5,a0,8
+	sb	a0,4(s0)
+	sb	a5,5(s0)
+	srli	a5,a0,16
+	srli	a0,a0,24
+	sb	a5,6(s0)
+	sb	a0,7(s0)
+	li	a5,4
+	beq	s2,a5,.L12
+	addi	a5,s2,-7
+	andi	a5,a5,0xff
+	bleu	a5,s6,.L12
+	li	a5,3
+	bne	s2,a5,.L13
+	lbu	a5,5(s3)
+	addi	a5,a5,-4
+	andi	a5,a5,0xff
+	bgtu	a5,s6,.L13
+.L12:
+	lw	a5,4(s1)
+	srli	a4,a5,8
+	sb	a5,12(s0)
+	sb	a4,13(s0)
+	srli	a4,a5,16
+	srli	a5,a5,24
+	sb	a4,14(s0)
+	sb	a5,15(s0)
+.L13:
+	addi	a5,s1,46
+	addi	a4,s0,28
+	addi	s1,s1,52
+.L14:
+	lbu	a3,0(a5)
+	addi	a5,a5,1
+	addi	a4,a4,1
+	sb	a3,-1(a4)
+	bne	a5,s1,.L14
+	li	a5,99
+	sb	a5,236(s0)
+	li	a4,-126
+	sb	a5,239(s0)
+	li	a5,53
+	sb	a4,237(s0)
+	sb	a5,240(s0)
+	li	a4,83
+	li	a5,1
+	sb	a5,241(s0)
+	sb	a4,238(s0)
+	sb	s2,242(s0)
+	li	a5,3
+	sh	a5,0(s4)
+	j	.L5
+	.size	dhcp_create_msg, .-dhcp_create_msg
+	.align	2
+	.type	dhcp_option_trailer, @function
+dhcp_option_trailer:
+	addi	a5,a0,1
+	slli	a5,a5,16
+	add	a4,a1,a0
+	srli	a5,a5,16
+	li	a3,-1
+	sb	a3,0(a4)
+	add	a1,a1,a5
+	li	a4,67
+.L24:
+	bleu	a5,a4,.L25
+	addi	a1,a5,240
+	slli	a1,a1,16
+	srli	a1,a1,16
+	mv	a0,a2
+	tail	pbuf_realloc
+.L25:
+	addi	a5,a5,1
+	slli	a5,a5,16
+	sb	zero,0(a1)
+	srli	a5,a5,16
+	addi	a1,a1,1
+	j	.L24
+	.size	dhcp_option_trailer, .-dhcp_option_trailer
+	.globl	__udivsi3
+	.globl	__divsi3
+	.align	2
+	.type	dhcp_reboot, @function
+dhcp_reboot:
+	addi	sp,sp,-48
+	sw	ra,44(sp)
+	sw	s0,40(sp)
+	sw	s2,32(sp)
+	sw	s1,36(sp)
+	sw	s3,28(sp)
+	sw	s4,24(sp)
+	lw	s1,40(a0)
+	mv	s2,a0
+	li	a1,3
+	mv	a0,s1
+	call	dhcp_set_state
+	addi	a3,sp,14
+	li	a2,3
+	mv	a1,s1
+	mv	a0,s2
+	call	dhcp_create_msg
+	li	s0,-1
+	beq	a0,zero,.L27
+	lw	s0,4(a0)
+	lhu	a5,14(sp)
+	mv	s3,a0
+	addi	s0,s0,240
+	add	a4,s0,a5
+	addi	a0,a5,2
+	addi	a5,a5,1
+	slli	a5,a5,16
+	li	a3,57
+	srli	a5,a5,16
+	sb	a3,0(a4)
+	add	a5,s0,a5
+	li	a4,2
+	slli	a0,a0,16
+	sb	a4,0(a5)
+	mv	a1,s0
+	li	a2,576
+	srli	a0,a0,16
+	sh	a0,14(sp)
+	call	dhcp_option_short
+	add	a5,s0,a0
+	addi	s4,a0,2
+	addi	a0,a0,1
+	slli	a0,a0,16
+	li	a4,50
+	srli	a0,a0,16
+	sb	a4,0(a5)
+	add	a0,s0,a0
+	li	a5,4
+	sb	a5,0(a0)
+	lw	a0,28(s1)
+	slli	s4,s4,16
+	srli	s4,s4,16
+	sh	s4,14(sp)
+	call	lwip_htonl
+	mv	a2,a0
+	mv	a1,s0
+	mv	a0,s4
+	call	dhcp_option_long
+	add	a4,s0,a0
+	li	a3,55
+	sb	a3,0(a4)
+	addi	a4,a0,1
+	slli	a4,a4,16
+	srli	a4,a4,16
+	li	a3,3
+	add	a4,s0,a4
+	sb	a3,0(a4)
+	addi	a4,a0,2
+	slli	a4,a4,16
+	srli	a4,a4,16
+	add	a4,s0,a4
+	li	a2,1
+	sb	a2,0(a4)
+	mv	a5,a0
+	addi	a4,a0,3
+	slli	a4,a4,16
+	addi	a5,a5,4
+	srli	a4,a4,16
+	slli	a5,a5,16
+	add	a4,s0,a4
+	addi	a0,a0,5
+	srli	a5,a5,16
+	sb	a3,0(a4)
+	add	a5,s0,a5
+	li	a4,28
+	slli	a0,a0,16
+	sb	a4,0(a5)
+	srli	a0,a0,16
+	mv	a1,s0
+	mv	a2,s3
+	sh	a0,14(sp)
+	call	dhcp_option_trailer
+	lui	a5,%hi(dhcp_pcb)
+	lw	a0,%lo(dhcp_pcb)(a5)
+	lui	a2,%hi(ip_addr_broadcast)
+	mv	a4,s2
+	li	a3,67
+	addi	a2,a2,%lo(ip_addr_broadcast)
+	mv	a1,s3
+	call	udp_sendto_if
+	mv	s0,a0
+	mv	a0,s3
+	call	pbuf_free
+.L27:
+	lbu	a5,6(s1)
+	li	a4,255
+	beq	a5,a4,.L28
+	addi	a5,a5,1
+	sb	a5,6(s1)
+.L28:
+	lbu	a0,6(s1)
+	li	a5,9
+	bgtu	a0,a5,.L31
+	slli	a5,a0,5
+	sub	a5,a5,a0
+	slli	a5,a5,2
+	add	a0,a0,a5
+	slli	a0,a0,3
+	slli	a0,a0,16
+	srli	a0,a0,16
+.L29:
+	li	a1,500
+	addi	a0,a0,499
+	call	__divsi3
+	sh	a0,8(s1)
+	lw	ra,44(sp)
+	mv	a0,s0
+	lw	s0,40(sp)
+	lw	s1,36(sp)
+	lw	s2,32(sp)
+	lw	s3,28(sp)
+	lw	s4,24(sp)
+	addi	sp,sp,48
+	jr	ra
+.L31:
+	li	a0,8192
+	addi	a0,a0,1808
+	j	.L29
+	.size	dhcp_reboot, .-dhcp_reboot
+	.align	2
+	.type	dhcp_select, @function
+dhcp_select:
+	addi	sp,sp,-48
+	sw	s0,40(sp)
+	sw	ra,44(sp)
+	sw	s1,36(sp)
+	sw	s2,32(sp)
+	sw	s3,28(sp)
+	sw	s4,24(sp)
+	sw	s5,20(sp)
+	li	s0,-16
+	beq	a0,zero,.L34
+	lw	s1,40(a0)
+	li	s0,-6
+	beq	s1,zero,.L34
+	mv	s2,a0
+	li	a1,1
+	mv	a0,s1
+	call	dhcp_set_state
+	addi	a3,sp,14
+	li	a2,3
+	mv	a1,s1
+	mv	a0,s2
+	call	dhcp_create_msg
+	mv	s3,a0
+	li	s0,-1
+	beq	a0,zero,.L36
+	lw	s0,4(a0)
+	lhu	a5,14(sp)
+	li	a3,57
+	addi	s0,s0,240
+	add	a4,s0,a5
+	addi	a0,a5,2
+	addi	a5,a5,1
+	slli	a5,a5,16
+	srli	a5,a5,16
+	sb	a3,0(a4)
+	add	a5,s0,a5
+	li	a4,2
+	sb	a4,0(a5)
+	lhu	a2,44(s2)
+	slli	a0,a0,16
+	mv	a1,s0
+	srli	a0,a0,16
+	sh	a0,14(sp)
+	call	dhcp_option_short
+	add	a5,s0,a0
+	li	a4,50
+	sb	a4,0(a5)
+	addi	a5,a0,1
+	slli	a5,a5,16
+	srli	a5,a5,16
+	add	a5,s0,a5
+	li	s5,4
+	sb	s5,0(a5)
+	addi	s4,a0,2
+	lw	a0,28(s1)
+	slli	s4,s4,16
+	srli	s4,s4,16
+	sh	s4,14(sp)
+	call	lwip_htonl
+	mv	a2,a0
+	mv	a1,s0
+	mv	a0,s4
+	call	dhcp_option_long
+	add	a5,s0,a0
+	li	a4,54
+	sb	a4,0(a5)
+	addi	a5,a0,1
+	slli	a5,a5,16
+	srli	a5,a5,16
+	add	a5,s0,a5
+	sb	s5,0(a5)
+	addi	s4,a0,2
+	lw	a0,24(s1)
+	slli	s4,s4,16
+	srli	s4,s4,16
+	sh	s4,14(sp)
+	call	lwip_htonl
+	mv	a2,a0
+	mv	a1,s0
+	mv	a0,s4
+	call	dhcp_option_long
+	add	a4,s0,a0
+	li	a3,55
+	sb	a3,0(a4)
+	addi	a4,a0,1
+	slli	a4,a4,16
+	srli	a4,a4,16
+	li	a3,3
+	add	a4,s0,a4
+	sb	a3,0(a4)
+	addi	a4,a0,2
+	slli	a4,a4,16
+	srli	a4,a4,16
+	add	a4,s0,a4
+	li	a2,1
+	sb	a2,0(a4)
+	mv	a5,a0
+	addi	a4,a0,3
+	slli	a4,a4,16
+	addi	a5,a5,4
+	srli	a4,a4,16
+	slli	a5,a5,16
+	add	a4,s0,a4
+	addi	a0,a0,5
+	srli	a5,a5,16
+	sb	a3,0(a4)
+	add	a5,s0,a5
+	li	a4,28
+	slli	a0,a0,16
+	sb	a4,0(a5)
+	srli	a0,a0,16
+	mv	a1,s0
+	mv	a2,s3
+	sh	a0,14(sp)
+	call	dhcp_option_trailer
+	lui	a0,%hi(dhcp_pcb)
+	lw	a0,%lo(dhcp_pcb)(a0)
+	lui	a5,%hi(ip_addr_any)
+	lui	a2,%hi(ip_addr_broadcast)
+	addi	a5,a5,%lo(ip_addr_any)
+	mv	a4,s2
+	li	a3,67
+	addi	a2,a2,%lo(ip_addr_broadcast)
+	mv	a1,s3
+	call	udp_sendto_if_src
+	mv	s0,a0
+	mv	a0,s3
+	call	pbuf_free
+.L36:
+	lbu	a5,6(s1)
+	li	a4,255
+	beq	a5,a4,.L37
+	addi	a5,a5,1
+	sb	a5,6(s1)
+.L37:
+	lbu	a5,6(s1)
+	li	a4,5
+	bgtu	a5,a4,.L42
+	li	a0,1
+	sll	a0,a0,a5
+	slli	a5,a0,5
+	sub	a5,a5,a0
+	slli	a5,a5,2
+	add	a0,a0,a5
+	slli	a0,a0,3
+	slli	a0,a0,16
+	srli	a0,a0,16
+.L38:
+	li	a1,500
+	addi	a0,a0,499
+	call	__divsi3
+	sh	a0,8(s1)
+.L34:
+	mv	a0,s0
+	lw	ra,44(sp)
+	lw	s0,40(sp)
+	lw	s1,36(sp)
+	lw	s2,32(sp)
+	lw	s3,28(sp)
+	lw	s4,24(sp)
+	lw	s5,20(sp)
+	addi	sp,sp,48
+	jr	ra
+.L42:
+	li	a0,61440
+	addi	a0,a0,-1440
+	j	.L38
+	.size	dhcp_select, .-dhcp_select
+	.align	2
+	.type	dhcp_discover, @function
+dhcp_discover:
+	addi	sp,sp,-48
+	sw	s3,28(sp)
+	sw	ra,44(sp)
+	sw	s0,40(sp)
+	sw	s1,36(sp)
+	sw	s2,32(sp)
+	lw	s1,40(a0)
+	mv	s3,a0
+	li	a1,6
+	mv	a0,s1
+	sw	zero,28(s1)
+	call	dhcp_set_state
+	addi	a3,sp,14
+	li	a2,1
+	mv	a1,s1
+	mv	a0,s3
+	call	dhcp_create_msg
+	beq	a0,zero,.L46
+	lw	s0,4(a0)
+	lhu	a5,14(sp)
+	mv	s2,a0
+	addi	s0,s0,240
+	add	a4,s0,a5
+	addi	a0,a5,2
+	addi	a5,a5,1
+	slli	a5,a5,16
+	li	a3,57
+	srli	a5,a5,16
+	sb	a3,0(a4)
+	add	a5,s0,a5
+	li	a4,2
+	sb	a4,0(a5)
+	lhu	a2,44(s3)
+	slli	a0,a0,16
+	srli	a0,a0,16
+	mv	a1,s0
+	sh	a0,14(sp)
+	call	dhcp_option_short
+	add	a4,s0,a0
+	li	a3,55
+	sb	a3,0(a4)
+	addi	a4,a0,1
+	slli	a4,a4,16
+	srli	a4,a4,16
+	li	a2,3
+	add	a4,s0,a4
+	sb	a2,0(a4)
+	addi	a4,a0,2
+	slli	a4,a4,16
+	srli	a4,a4,16
+	add	a4,s0,a4
+	li	a3,1
+	sb	a3,0(a4)
+	mv	a5,a0
+	addi	a3,a0,3
+	slli	a3,a3,16
+	addi	a5,a5,4
+	srli	a3,a3,16
+	slli	a5,a5,16
+	add	a3,s0,a3
+	addi	a0,a0,5
+	srli	a5,a5,16
+	sb	a2,0(a3)
+	add	a5,s0,a5
+	li	a4,28
+	slli	a0,a0,16
+	sb	a4,0(a5)
+	srli	a0,a0,16
+	mv	a2,s2
+	mv	a1,s0
+	sh	a0,14(sp)
+	call	dhcp_option_trailer
+	lui	a0,%hi(dhcp_pcb)
+	lw	a0,%lo(dhcp_pcb)(a0)
+	lui	a5,%hi(ip_addr_any)
+	lui	a2,%hi(ip_addr_broadcast)
+	addi	a5,a5,%lo(ip_addr_any)
+	mv	a4,s3
+	li	a3,67
+	addi	a2,a2,%lo(ip_addr_broadcast)
+	mv	a1,s2
+	call	udp_sendto_if_src
+	mv	a0,s2
+	call	pbuf_free
+.L46:
+	lbu	a5,6(s1)
+	li	a4,255
+	beq	a5,a4,.L47
+	addi	a5,a5,1
+	sb	a5,6(s1)
+.L47:
+	lbu	a5,6(s1)
+	li	a4,5
+	bgtu	a5,a4,.L49
+	li	a0,1
+	sll	a0,a0,a5
+	slli	a5,a0,5
+	sub	a5,a5,a0
+	slli	a5,a5,2
+	add	a0,a0,a5
+	slli	a0,a0,3
+	slli	a0,a0,16
+	srli	a0,a0,16
+.L48:
+	li	a1,500
+	addi	a0,a0,499
+	call	__divsi3
+	sh	a0,8(s1)
+	lw	ra,44(sp)
+	lw	s0,40(sp)
+	lw	s1,36(sp)
+	lw	s2,32(sp)
+	lw	s3,28(sp)
+	li	a0,0
+	addi	sp,sp,48
+	jr	ra
+.L49:
+	li	a0,61440
+	addi	a0,a0,-1440
+	j	.L48
+	.size	dhcp_discover, .-dhcp_discover
+	.align	2
+	.type	dhcp_check, @function
+dhcp_check:
+	addi	sp,sp,-16
+	sw	ra,12(sp)
+	sw	s1,4(sp)
+	sw	s0,8(sp)
+	lw	s0,40(a0)
+	mv	s1,a0
+	li	a1,8
+	mv	a0,s0
+	call	dhcp_set_state
+	li	a2,0
+	addi	a1,s0,28
+	mv	a0,s1
+	call	etharp_query
+	lbu	a5,6(s0)
+	li	a4,255
+	beq	a5,a4,.L55
+	addi	a5,a5,1
+	sb	a5,6(s0)
+.L55:
+	li	a5,1
+	sh	a5,8(s0)
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	lw	s1,4(sp)
+	addi	sp,sp,16
+	jr	ra
+	.size	dhcp_check, .-dhcp_check
+	.align	2
+	.type	dhcp_bind, @function
+dhcp_bind:
+	beq	a0,zero,.L95
+	addi	sp,sp,-32
+	sw	ra,28(sp)
+	sw	s0,24(sp)
+	sw	s1,20(sp)
+	lw	s0,40(a0)
+	beq	s0,zero,.L57
+	mv	s1,a0
+	lw	a0,40(s0)
+	sh	zero,18(s0)
+	li	a5,-1
+	beq	a0,a5,.L60
+	addi	a0,a0,30
+	li	a5,3932160
+	bgeu	a0,a5,.L79
+	li	a1,60
+	call	__udivsi3
+	slli	a5,a0,16
+	srli	a5,a5,16
+	beq	a0,zero,.L62
+.L98:
+	sh	a5,20(s0)
+.L60:
+	lw	a0,44(s0)
+	li	a5,-1
+	beq	a0,a5,.L64
+	addi	a0,a0,30
+	li	a5,3932160
+	bgeu	a0,a5,.L80
+	li	a1,60
+	call	__udivsi3
+	slli	a5,a0,16
+	srli	a5,a5,16
+	beq	a0,zero,.L66
+.L99:
+	sh	a5,10(s0)
+	lhu	a5,10(s0)
+	sh	a5,14(s0)
+.L64:
+	lw	a0,48(s0)
+	li	a5,-1
+	beq	a0,a5,.L68
+	addi	a0,a0,30
+	li	a5,3932160
+	bgeu	a0,a5,.L81
+	li	a1,60
+	call	__udivsi3
+	slli	a5,a0,16
+	srli	a5,a5,16
+	beq	a0,zero,.L70
+.L100:
+	sh	a5,12(s0)
+	lhu	a5,12(s0)
+	sh	a5,16(s0)
+.L68:
+	lhu	a5,12(s0)
+	lhu	a4,10(s0)
+	bltu	a4,a5,.L72
+	beq	a5,zero,.L72
+	sh	zero,10(s0)
+.L72:
+	lbu	a5,7(s0)
+	beq	a5,zero,.L73
+	lw	a5,32(s0)
+.L101:
+	sw	a5,8(sp)
+	lw	a5,36(s0)
+	sw	a5,12(sp)
+	bne	a5,zero,.L77
+	lw	a4,8(sp)
+	lw	a5,28(s0)
+	and	a5,a5,a4
+	li	a4,16777216
+	or	a5,a5,a4
+	sw	a5,12(sp)
+.L77:
+	li	a1,10
+	mv	a0,s0
+	call	dhcp_set_state
+	addi	a3,sp,12
+	addi	a2,sp,8
+	addi	a1,s0,28
+	mv	a0,s1
+	call	netif_set_addr
+.L57:
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	addi	sp,sp,32
+	jr	ra
+.L79:
+	li	a5,65536
+	addi	a5,a5,-1
+	j	.L98
+.L62:
+	li	a5,1
+	j	.L98
+.L80:
+	li	a5,65536
+	addi	a5,a5,-1
+	j	.L99
+.L66:
+	li	a5,1
+	j	.L99
+.L81:
+	li	a5,65536
+	addi	a5,a5,-1
+	j	.L100
+.L70:
+	li	a5,1
+	j	.L100
+.L73:
+	lbu	a5,28(s0)
+	slli	a4,a5,24
+	srai	a4,a4,24
+	blt	a4,zero,.L75
+	li	a5,255
+	j	.L101
+.L75:
+	li	a4,191
+	bleu	a5,a4,.L76
+	li	a5,16777216
+.L102:
+	addi	a5,a5,-1
+	j	.L101
+.L76:
+	li	a5,65536
+	j	.L102
+.L95:
+	ret
+	.size	dhcp_bind, .-dhcp_bind
+	.align	2
+	.type	dhcp_inc_pcb_refcount, @function
+dhcp_inc_pcb_refcount:
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	lui	s0,%hi(dhcp_pcb_refcount)
+	lbu	a5,%lo(dhcp_pcb_refcount)(s0)
+	sw	ra,12(sp)
+	sw	s1,4(sp)
+	sw	s2,0(sp)
+	bne	a5,zero,.L104
+	call	udp_new
+	lui	s1,%hi(dhcp_pcb)
+	sw	a0,%lo(dhcp_pcb)(s1)
+	li	a4,-1
+	beq	a0,zero,.L103
+	lbu	a4,9(a0)
+	lui	s2,%hi(ip_addr_any)
+	li	a2,68
+	ori	a4,a4,32
+	sb	a4,9(a0)
+	addi	a1,s2,%lo(ip_addr_any)
+	call	udp_bind
+	lw	a0,%lo(dhcp_pcb)(s1)
+	li	a2,67
+	addi	a1,s2,%lo(ip_addr_any)
+	call	udp_connect
+	lw	a0,%lo(dhcp_pcb)(s1)
+	lui	a1,%hi(dhcp_recv)
+	li	a2,0
+	addi	a1,a1,%lo(dhcp_recv)
+	call	udp_recv
+.L104:
+	lbu	a5,%lo(dhcp_pcb_refcount)(s0)
+	li	a4,0
+	addi	a5,a5,1
+	sb	a5,%lo(dhcp_pcb_refcount)(s0)
+.L103:
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	lw	s1,4(sp)
+	lw	s2,0(sp)
+	mv	a0,a4
+	addi	sp,sp,16
+	jr	ra
+	.size	dhcp_inc_pcb_refcount, .-dhcp_inc_pcb_refcount
+	.align	2
+	.type	dhcp_handle_ack.isra.0, @function
+dhcp_handle_ack.isra.0:
+	addi	sp,sp,-16
+	sw	s1,4(sp)
+	lui	s1,%hi(dhcp_rx_options_given)
+	sw	s0,8(sp)
+	sw	ra,12(sp)
+	addi	a5,s1,%lo(dhcp_rx_options_given)
+	lbu	a5,3(a5)
+	sw	zero,32(a0)
+	sw	zero,36(a0)
+	mv	s0,a0
+	addi	s1,s1,%lo(dhcp_rx_options_given)
+	beq	a5,zero,.L109
+	lui	a5,%hi(.LANCHOR0+12)
+	lw	a5,%lo(.LANCHOR0+12)(a5)
+	sw	a5,40(a0)
+.L109:
+	lbu	a5,4(s1)
+	beq	a5,zero,.L110
+	lui	a5,%hi(.LANCHOR0+16)
+	lw	a5,%lo(.LANCHOR0+16)(a5)
+.L111:
+	sw	a5,44(s0)
+	lbu	a5,5(s1)
+	beq	a5,zero,.L112
+	lui	a5,%hi(.LANCHOR0+20)
+	lw	a5,%lo(.LANCHOR0+20)(a5)
+.L113:
+	sw	a5,48(s0)
+	lbu	a4,17(a1)
+	lbu	a5,16(a1)
+	slli	a4,a4,8
+	or	a4,a4,a5
+	lbu	a5,18(a1)
+	slli	a5,a5,16
+	or	a4,a5,a4
+	lbu	a5,19(a1)
+	slli	a5,a5,24
+	or	a5,a5,a4
+	sw	a5,28(s0)
+	lbu	a5,6(s1)
+	beq	a5,zero,.L114
+	lui	a5,%hi(.LANCHOR0+24)
+	lw	a0,%lo(.LANCHOR0+24)(a5)
+	call	lwip_htonl
+	li	a5,1
+	sw	a0,32(s0)
+	sb	a5,7(s0)
+.L115:
+	lbu	a5,7(s1)
+	beq	a5,zero,.L108
+	lui	a5,%hi(.LANCHOR0+28)
+	lw	a0,%lo(.LANCHOR0+28)(a5)
+	call	lwip_htonl
+	sw	a0,36(s0)
+.L108:
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	lw	s1,4(sp)
+	addi	sp,sp,16
+	jr	ra
+.L110:
+	lw	a5,40(s0)
+	srli	a5,a5,1
+	j	.L111
+.L112:
+	lw	a4,40(s0)
+	slli	a5,a4,3
+	sub	a5,a5,a4
+	srli	a5,a5,3
+	j	.L113
+.L114:
+	sb	zero,7(s0)
+	j	.L115
+	.size	dhcp_handle_ack.isra.0, .-dhcp_handle_ack.isra.0
+	.align	2
+	.type	dhcp_dec_pcb_refcount, @function
+dhcp_dec_pcb_refcount:
+	lui	a4,%hi(dhcp_pcb_refcount)
+	lbu	a5,%lo(dhcp_pcb_refcount)(a4)
+	addi	a5,a5,-1
+	andi	a5,a5,0xff
+	sb	a5,%lo(dhcp_pcb_refcount)(a4)
+	bne	a5,zero,.L127
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	lui	s0,%hi(dhcp_pcb)
+	lw	a0,%lo(dhcp_pcb)(s0)
+	sw	ra,12(sp)
+	call	udp_remove
+	lw	ra,12(sp)
+	sw	zero,%lo(dhcp_pcb)(s0)
+	lw	s0,8(sp)
+	addi	sp,sp,16
+	jr	ra
+.L127:
+	ret
+	.size	dhcp_dec_pcb_refcount, .-dhcp_dec_pcb_refcount
+	.align	2
+	.type	dhcp_recv, @function
+dhcp_recv:
+	addi	sp,sp,-96
+	lui	a5,%hi(ip_data+4)
+	sw	s2,80(sp)
+	lw	s2,%lo(ip_data+4)(a5)
+	sw	s3,76(sp)
+	sw	ra,92(sp)
+	sw	s0,88(sp)
+	sw	s1,84(sp)
+	sw	s4,72(sp)
+	sw	s5,68(sp)
+	sw	s6,64(sp)
+	sw	s7,60(sp)
+	sw	s8,56(sp)
+	sw	s9,52(sp)
+	sw	s10,48(sp)
+	sw	s11,44(sp)
+	lw	s7,40(s2)
+	mv	s3,a2
+	beq	s7,zero,.L132
+	lbu	a5,4(s7)
+	beq	a5,zero,.L132
+	lhu	a4,10(a2)
+	li	a5,43
+	bleu	a4,a5,.L132
+	lw	a5,4(a2)
+	li	a4,2
+	lbu	a3,0(a5)
+	bne	a3,a4,.L132
+	lbu	a2,52(s2)
+	li	a4,0
+	li	a3,6
+.L134:
+	andi	a1,a4,0xff
+	bleu	a2,a1,.L135
+	bne	a4,a3,.L136
+.L135:
+	lbu	a0,5(a5)
+	lbu	a4,4(a5)
+	slli	a0,a0,8
+	or	a0,a0,a4
+	lbu	a4,6(a5)
+	slli	a4,a4,16
+	or	a4,a4,a0
+	lbu	a0,7(a5)
+	slli	a0,a0,24
+	or	a0,a0,a4
+	call	lwip_htonl
+	lw	a5,0(s7)
+	bne	a0,a5,.L132
+	lui	a6,%hi(dhcp_rx_options_given)
+	addi	a5,a6,%lo(dhcp_rx_options_given)
+	sw	zero,4(a5)
+	lhu	a4,10(s3)
+	sw	zero,0(a5)
+	li	a5,43
+	addi	a6,a6,%lo(dhcp_rx_options_given)
+	bleu	a4,a5,.L132
+	li	s5,65536
+	addi	a5,s5,-3
+	lui	s4,%hi(.LANCHOR0)
+	lhu	s11,8(s3)
+	sw	a5,8(sp)
+	addi	a5,s4,%lo(.LANCHOR0)
+	li	s6,0
+	li	s10,240
+	sw	a5,4(sp)
+.L137:
+	mv	s8,s3
+.L138:
+	lhu	a5,10(s8)
+	bleu	a5,s10,.L139
+	lw	a5,4(s8)
+	mv	s0,s10
+	li	s5,4
+	sw	a5,0(sp)
+	li	s4,1
+	j	.L177
+.L136:
+	add	a1,s2,a4
+	addi	a4,a4,1
+	add	a0,a5,a4
+	lbu	a1,46(a1)
+	lbu	a0,27(a0)
+	beq	a0,a1,.L134
+.L132:
+	mv	a0,s3
+	call	pbuf_free
+	lw	ra,92(sp)
+	lw	s0,88(sp)
+	lw	s1,84(sp)
+	lw	s2,80(sp)
+	lw	s3,76(sp)
+	lw	s4,72(sp)
+	lw	s5,68(sp)
+	lw	s6,64(sp)
+	lw	s7,60(sp)
+	lw	s8,56(sp)
+	lw	s9,52(sp)
+	lw	s10,48(sp)
+	lw	s11,44(sp)
+	addi	sp,sp,96
+	jr	ra
+.L139:
+	lw	s8,0(s8)
+	sub	s10,s10,a5
+	sub	s11,s11,a5
+	slli	s10,s10,16
+	slli	s11,s11,16
+	srli	s10,s10,16
+	srli	s11,s11,16
+	bne	s8,zero,.L138
+	j	.L132
+.L164:
+	addi	a3,s0,2
+	slli	a3,a3,16
+	srli	a3,a3,16
+	bltu	a3,s0,.L132
+	lhu	a1,10(s8)
+	addi	a2,s0,1
+	bge	a2,a1,.L141
+	lbu	a4,1(a4)
+.L142:
+	li	a1,52
+	beq	a5,a1,.L144
+	bgtu	a5,a1,.L145
+	beq	a5,s4,.L146
+	beq	a5,zero,.L147
+	li	a2,3
+	beq	a5,a2,.L148
+	li	a2,51
+	beq	a5,a2,.L149
+.L150:
+	li	s1,-1
+	li	s9,0
+	j	.L156
+.L141:
+	lw	a4,0(s8)
+	beq	a4,zero,.L143
+	lw	a4,4(a4)
+	lbu	a4,0(a4)
+	j	.L142
+.L145:
+	li	a2,54
+	beq	a5,a2,.L151
+	bltu	a5,a2,.L152
+	li	a2,58
+	beq	a5,a2,.L153
+	li	a2,59
+.L217:
+	bne	a5,a2,.L150
+	bne	a4,s5,.L132
+	li	s9,4
+	li	s1,5
+	j	.L156
+.L146:
+	bne	a4,s5,.L132
+	li	s9,4
+	li	s1,6
+.L156:
+	lw	a5,8(sp)
+	add	s0,a4,s0
+	bgt	s0,a5,.L132
+	add	a4,a3,a4
+	slli	s0,a4,16
+	srli	s0,s0,16
+	beq	s9,zero,.L157
+	add	a5,a6,s1
+	lbu	a5,0(a5)
+	sw	zero,28(sp)
+	bne	a5,zero,.L157
+	slli	a5,s9,16
+	srli	a5,a5,16
+	mv	a2,a5
+	addi	a1,sp,28
+	mv	a0,s8
+	sw	a5,12(sp)
+	call	pbuf_copy_partial
+	lw	a5,12(sp)
+	bne	a5,a0,.L132
+	lui	a5,%hi(dhcp_rx_options_given)
+	addi	a6,a5,%lo(dhcp_rx_options_given)
+	bne	s9,s5,.L160
+	lw	a0,28(sp)
+	call	lwip_htonl
+	lui	a5,%hi(dhcp_rx_options_given)
+	sw	a0,28(sp)
+	addi	a6,a5,%lo(dhcp_rx_options_given)
+.L161:
+	add	a5,a6,s1
+	sb	s4,0(a5)
+	lw	a5,4(sp)
+	slli	s1,s1,2
+	add	s1,a5,s1
+	lw	a5,28(sp)
+	sw	a5,0(s1)
+	j	.L157
+.L148:
+	bleu	a4,a5,.L132
+	li	s1,7
+	li	s9,4
+	j	.L156
+.L149:
+	bne	a4,s5,.L132
+	li	s9,4
+	li	s1,3
+	j	.L156
+.L181:
+	li	a4,0
+.L144:
+	bne	a4,s4,.L132
+	li	a5,240
+	bne	s10,a5,.L132
+	li	s9,1
+	li	s1,0
+	j	.L156
+.L183:
+	li	a4,0
+.L152:
+	bne	a4,s4,.L132
+	li	s9,1
+	li	s1,1
+	j	.L156
+.L182:
+	li	a4,0
+.L151:
+	bne	a4,s5,.L132
+	li	s9,4
+	li	s1,2
+	j	.L156
+.L184:
+	li	a4,0
+.L153:
+	bne	a4,s5,.L132
+	li	s9,4
+	li	s1,4
+	j	.L156
+.L147:
+	slli	s0,a2,16
+	srli	s0,s0,16
+.L157:
+	lhu	a5,10(s8)
+	bgtu	a5,s0,.L177
+	sub	s0,s0,a5
+	sub	s11,s11,a5
+	slli	s0,s0,16
+	slli	s11,s11,16
+	srli	s0,s0,16
+	srli	s11,s11,16
+	bgeu	s0,s11,.L132
+	lw	s8,0(s8)
+	beq	s8,zero,.L132
+	lw	a5,4(s8)
+	sw	a5,0(sp)
+.L177:
+	bgeu	s0,s11,.L163
+	lw	a5,0(sp)
+	li	a3,255
+	add	a4,a5,s0
+	lbu	a5,0(a4)
+	bne	a5,a3,.L164
+.L163:
+	lbu	a5,0(a6)
+	bne	a5,zero,.L165
+.L170:
+	bne	s6,zero,.L166
+	lbu	a5,1(a6)
+	beq	a5,zero,.L132
+	lui	a5,%hi(.LANCHOR0)
+	addi	a5,a5,%lo(.LANCHOR0)
+	lbu	a4,4(a5)
+	li	a3,5
+	lw	a1,4(s3)
+	bne	a4,a3,.L171
+	lbu	a5,5(s7)
+	li	a4,1
+	bne	a5,a4,.L172
+	lw	a0,40(s2)
+	call	dhcp_handle_ack.isra.0
+	lbu	a5,53(s2)
+	mv	a0,s2
+	andi	a5,a5,8
+	beq	a5,zero,.L218
+	call	dhcp_check
+	j	.L132
+.L160:
+	bne	s9,s4,.L132
+	lbu	a5,28(sp)
+	sw	a5,28(sp)
+	j	.L161
+.L165:
+	lw	a5,4(sp)
+	sb	zero,0(a6)
+	li	a4,1
+	lw	a5,0(a5)
+	beq	a5,a4,.L215
+	li	a4,2
+	bne	a5,a4,.L169
+.L166:
+	li	s6,0
+	li	s11,108
+	li	s10,44
+	j	.L137
+.L169:
+	li	a4,3
+	bne	a5,a4,.L170
+	li	s6,1
+.L215:
+	li	s11,236
+	li	s10,108
+	j	.L137
+.L172:
+	addi	a5,a5,-3
+	andi	a5,a5,0xff
+	li	a4,2
+	bgtu	a5,a4,.L132
+	lw	a0,40(s2)
+	call	dhcp_handle_ack.isra.0
+	mv	a0,s2
+.L218:
+	call	dhcp_bind
+	j	.L132
+.L171:
+	li	a3,6
+	bne	a4,a3,.L174
+	lbu	a4,5(s7)
+	li	a3,2
+	addi	a5,a4,-3
+	andi	a5,a5,0xff
+	bleu	a5,a3,.L175
+	li	a5,1
+	bne	a4,a5,.L132
+.L175:
+	lw	a0,40(s2)
+	li	a1,12
+	call	dhcp_set_state
+	lui	a1,%hi(ip_addr_any)
+	addi	a3,a1,%lo(ip_addr_any)
+	addi	a2,a1,%lo(ip_addr_any)
+	mv	a0,s2
+	addi	a1,a1,%lo(ip_addr_any)
+	call	netif_set_addr
+	mv	a0,s2
+	call	dhcp_discover
+	j	.L132
+.L174:
+	li	a2,2
+	bne	a4,a2,.L132
+	lbu	a4,5(s7)
+	bne	a4,a3,.L132
+	lbu	a4,2(a6)
+	beq	a4,zero,.L132
+	lw	s0,40(s2)
+	sw	a1,0(sp)
+	sh	zero,8(s0)
+	lw	a0,8(a5)
+	call	lwip_htonl
+	lw	a1,0(sp)
+	sw	a0,24(s0)
+	mv	a0,s2
+	lbu	a4,17(a1)
+	lbu	a5,16(a1)
+	slli	a4,a4,8
+	or	a4,a4,a5
+	lbu	a5,18(a1)
+	slli	a5,a5,16
+	or	a4,a5,a4
+	lbu	a5,19(a1)
+	slli	a5,a5,24
+	or	a5,a5,a4
+	sw	a5,28(s0)
+	call	dhcp_select
+	j	.L132
+.L143:
+	li	a4,52
+	beq	a5,a4,.L181
+	bgtu	a5,a4,.L178
+	beq	a5,s4,.L132
+	beq	a5,zero,.L147
+	li	a4,3
+	beq	a5,a4,.L132
+	li	a4,51
+	beq	a5,a4,.L132
+	li	a4,0
+	j	.L150
+.L178:
+	li	a4,54
+	beq	a5,a4,.L182
+	bltu	a5,a4,.L183
+	li	a4,58
+	beq	a5,a4,.L184
+	li	a2,59
+	li	a4,0
+	j	.L217
+	.size	dhcp_recv, .-dhcp_recv
+	.align	2
+	.globl	dhcp_set_struct
+	.type	dhcp_set_struct, @function
+dhcp_set_struct:
+	addi	sp,sp,-16
+	mv	a5,a1
+	sw	s0,8(sp)
+	li	a2,52
+	mv	s0,a0
+	li	a1,0
+	mv	a0,a5
+	sw	ra,12(sp)
+	call	memset
+	sw	a0,40(s0)
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	addi	sp,sp,16
+	jr	ra
+	.size	dhcp_set_struct, .-dhcp_set_struct
+	.align	2
+	.globl	dhcp_cleanup
+	.type	dhcp_cleanup, @function
+dhcp_cleanup:
+	lw	a5,40(a0)
+	beq	a5,zero,.L227
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	mv	s0,a0
+	mv	a0,a5
+	sw	ra,12(sp)
+	call	lwip_free
+	sw	zero,40(s0)
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	addi	sp,sp,16
+	jr	ra
+.L227:
+	ret
+	.size	dhcp_cleanup, .-dhcp_cleanup
+	.align	2
+	.globl	dhcp_inform
+	.type	dhcp_inform, @function
+dhcp_inform:
+	beq	a0,zero,.L241
+	addi	sp,sp,-80
+	sw	s0,72(sp)
+	sw	ra,76(sp)
+	sw	s1,68(sp)
+	sw	s2,64(sp)
+	mv	s0,a0
+	call	dhcp_inc_pcb_refcount
+	bne	a0,zero,.L230
+	li	a2,52
+	li	a1,0
+	addi	a0,sp,12
+	call	memset
+	li	a1,7
+	addi	a0,sp,12
+	call	dhcp_set_state
+	addi	a3,sp,10
+	li	a2,8
+	addi	a1,sp,12
+	mv	a0,s0
+	call	dhcp_create_msg
+	mv	s2,a0
+	beq	a0,zero,.L232
+	lw	s1,4(a0)
+	lhu	a5,10(sp)
+	li	a3,57
+	addi	s1,s1,240
+	add	a4,s1,a5
+	addi	a0,a5,2
+	addi	a5,a5,1
+	slli	a5,a5,16
+	srli	a5,a5,16
+	sb	a3,0(a4)
+	add	a5,s1,a5
+	li	a4,2
+	sb	a4,0(a5)
+	lhu	a2,44(s0)
+	slli	a0,a0,16
+	srli	a0,a0,16
+	mv	a1,s1
+	sh	a0,10(sp)
+	call	dhcp_option_short
+	mv	a2,s2
+	mv	a1,s1
+	sh	a0,10(sp)
+	call	dhcp_option_trailer
+	lui	a5,%hi(dhcp_pcb)
+	lw	a0,%lo(dhcp_pcb)(a5)
+	lui	a2,%hi(ip_addr_broadcast)
+	mv	a4,s0
+	li	a3,67
+	addi	a2,a2,%lo(ip_addr_broadcast)
+	mv	a1,s2
+	call	udp_sendto_if
+	mv	a0,s2
+	call	pbuf_free
+.L232:
+	call	dhcp_dec_pcb_refcount
+.L230:
+	lw	ra,76(sp)
+	lw	s0,72(sp)
+	lw	s1,68(sp)
+	lw	s2,64(sp)
+	addi	sp,sp,80
+	jr	ra
+.L241:
+	ret
+	.size	dhcp_inform, .-dhcp_inform
+	.align	2
+	.globl	dhcp_network_changed
+	.type	dhcp_network_changed, @function
+dhcp_network_changed:
+	lw	a5,40(a0)
+	beq	a5,zero,.L244
+	lbu	a4,5(a5)
+	li	a3,5
+	bgtu	a4,a3,.L246
+	li	a3,3
+	bgeu	a4,a3,.L247
+	beq	a4,zero,.L244
+.L248:
+	sb	zero,6(a5)
+	tail	dhcp_discover
+.L246:
+	li	a3,10
+	bne	a4,a3,.L248
+.L247:
+	sb	zero,6(a5)
+	tail	dhcp_reboot
+.L244:
+	ret
+	.size	dhcp_network_changed, .-dhcp_network_changed
+	.align	2
+	.globl	dhcp_arp_reply
+	.type	dhcp_arp_reply, @function
+dhcp_arp_reply:
+	beq	a0,zero,.L269
+	addi	sp,sp,-48
+	sw	ra,44(sp)
+	sw	s0,40(sp)
+	sw	s1,36(sp)
+	sw	s2,32(sp)
+	sw	s3,28(sp)
+	sw	s4,24(sp)
+	lw	s0,40(a0)
+	beq	s0,zero,.L255
+	lbu	a4,5(s0)
+	li	a5,8
+	bne	a4,a5,.L255
+	lw	a4,0(a1)
+	lw	a5,28(s0)
+	bne	a4,a5,.L255
+	mv	s4,a0
+	li	a1,12
+	mv	a0,s0
+	call	dhcp_set_state
+	addi	a3,sp,14
+	li	a2,4
+	mv	a1,s0
+	mv	a0,s4
+	call	dhcp_create_msg
+	mv	s2,a0
+	beq	a0,zero,.L257
+	lw	s1,4(a0)
+	lhu	a5,14(sp)
+	li	a3,50
+	addi	s1,s1,240
+	add	a4,s1,a5
+	addi	s3,a5,2
+	addi	a5,a5,1
+	slli	a5,a5,16
+	srli	a5,a5,16
+	sb	a3,0(a4)
+	add	a5,s1,a5
+	li	a4,4
+	sb	a4,0(a5)
+	lw	a0,28(s0)
+	slli	s3,s3,16
+	srli	s3,s3,16
+	sh	s3,14(sp)
+	call	lwip_htonl
+	mv	a2,a0
+	mv	a1,s1
+	mv	a0,s3
+	call	dhcp_option_long
+	mv	a2,s2
+	mv	a1,s1
+	sh	a0,14(sp)
+	call	dhcp_option_trailer
+	lui	a0,%hi(dhcp_pcb)
+	lw	a0,%lo(dhcp_pcb)(a0)
+	lui	a5,%hi(ip_addr_any)
+	lui	a2,%hi(ip_addr_broadcast)
+	addi	a5,a5,%lo(ip_addr_any)
+	mv	a4,s4
+	li	a3,67
+	addi	a2,a2,%lo(ip_addr_broadcast)
+	mv	a1,s2
+	call	udp_sendto_if_src
+	mv	a0,s2
+	call	pbuf_free
+.L257:
+	lbu	a5,6(s0)
+	li	a4,255
+	beq	a5,a4,.L258
+	addi	a5,a5,1
+	sb	a5,6(s0)
+.L258:
+	li	a5,20
+	sh	a5,8(s0)
+.L255:
+	lw	ra,44(sp)
+	lw	s0,40(sp)
+	lw	s1,36(sp)
+	lw	s2,32(sp)
+	lw	s3,28(sp)
+	lw	s4,24(sp)
+	addi	sp,sp,48
+	jr	ra
+.L269:
+	ret
+	.size	dhcp_arp_reply, .-dhcp_arp_reply
+	.align	2
+	.globl	dhcp_renew
+	.type	dhcp_renew, @function
+dhcp_renew:
+	addi	sp,sp,-48
+	sw	ra,44(sp)
+	sw	s0,40(sp)
+	sw	s3,28(sp)
+	sw	s1,36(sp)
+	sw	s2,32(sp)
+	lw	s1,40(a0)
+	mv	s3,a0
+	li	a1,5
+	mv	a0,s1
+	call	dhcp_set_state
+	addi	a3,sp,14
+	li	a2,3
+	mv	a1,s1
+	mv	a0,s3
+	call	dhcp_create_msg
+	li	s0,-1
+	beq	a0,zero,.L273
+	lw	s0,4(a0)
+	lhu	a5,14(sp)
+	mv	s2,a0
+	addi	s0,s0,240
+	add	a4,s0,a5
+	addi	a0,a5,2
+	addi	a5,a5,1
+	slli	a5,a5,16
+	li	a3,57
+	srli	a5,a5,16
+	sb	a3,0(a4)
+	add	a5,s0,a5
+	li	a4,2
+	sb	a4,0(a5)
+	lhu	a2,44(s3)
+	slli	a0,a0,16
+	mv	a1,s0
+	srli	a0,a0,16
+	sh	a0,14(sp)
+	call	dhcp_option_short
+	add	a4,s0,a0
+	li	a3,55
+	sb	a3,0(a4)
+	addi	a4,a0,1
+	slli	a4,a4,16
+	srli	a4,a4,16
+	add	a4,s0,a4
+	li	a2,3
+	sb	a2,0(a4)
+	addi	a4,a0,2
+	slli	a4,a4,16
+	srli	a4,a4,16
+	add	a4,s0,a4
+	li	a3,1
+	sb	a3,0(a4)
+	mv	a5,a0
+	addi	a3,a0,3
+	slli	a3,a3,16
+	addi	a5,a5,4
+	srli	a3,a3,16
+	slli	a5,a5,16
+	add	a3,s0,a3
+	addi	a0,a0,5
+	srli	a5,a5,16
+	sb	a2,0(a3)
+	add	a5,s0,a5
+	li	a4,28
+	slli	a0,a0,16
+	sb	a4,0(a5)
+	srli	a0,a0,16
+	mv	a1,s0
+	mv	a2,s2
+	sh	a0,14(sp)
+	call	dhcp_option_trailer
+	lui	a5,%hi(dhcp_pcb)
+	lw	a0,%lo(dhcp_pcb)(a5)
+	mv	a4,s3
+	li	a3,67
+	addi	a2,s1,24
+	mv	a1,s2
+	call	udp_sendto_if
+	mv	s0,a0
+	mv	a0,s2
+	call	pbuf_free
+.L273:
+	lbu	a5,6(s1)
+	li	a4,255
+	beq	a5,a4,.L274
+	addi	a5,a5,1
+	sb	a5,6(s1)
+.L274:
+	lbu	a0,6(s1)
+	li	a5,9
+	bgtu	a0,a5,.L277
+	slli	a5,a0,5
+	sub	a5,a5,a0
+	slli	a5,a5,2
+	add	a0,a0,a5
+	slli	a0,a0,4
+	slli	a0,a0,16
+	srli	a0,a0,16
+.L275:
+	li	a1,500
+	addi	a0,a0,499
+	call	__divsi3
+	sh	a0,8(s1)
+	lw	ra,44(sp)
+	mv	a0,s0
+	lw	s0,40(sp)
+	lw	s1,36(sp)
+	lw	s2,32(sp)
+	lw	s3,28(sp)
+	addi	sp,sp,48
+	jr	ra
+.L277:
+	li	a0,20480
+	addi	a0,a0,-480
+	j	.L275
+	.size	dhcp_renew, .-dhcp_renew
+	.align	2
+	.globl	dhcp_supplied_address
+	.type	dhcp_supplied_address, @function
+dhcp_supplied_address:
+	beq	a0,zero,.L283
+	lw	a5,40(a0)
+	li	a0,0
+	beq	a5,zero,.L281
+	lbu	a5,5(a5)
+	li	a4,10
+	li	a0,1
+	beq	a5,a4,.L282
+	addi	a0,a5,-4
+	sltiu	a0,a0,2
+.L282:
+	andi	a0,a0,0xff
+	ret
+.L283:
+	li	a0,0
+.L281:
+	ret
+	.size	dhcp_supplied_address, .-dhcp_supplied_address
+	.align	2
+	.globl	dhcp_release_and_stop
+	.type	dhcp_release_and_stop, @function
+dhcp_release_and_stop:
+	addi	sp,sp,-48
+	sw	ra,44(sp)
+	sw	s0,40(sp)
+	sw	s1,36(sp)
+	sw	s2,32(sp)
+	sw	s3,28(sp)
+	sw	s4,24(sp)
+	lw	s0,40(a0)
+	beq	s0,zero,.L287
+	lbu	a5,5(s0)
+	beq	a5,zero,.L287
+	lw	a5,24(s0)
+	sw	zero,28(s0)
+	sw	zero,24(s0)
+	sw	zero,32(s0)
+	sw	zero,36(s0)
+	sw	zero,48(s0)
+	sw	zero,44(s0)
+	sw	zero,40(s0)
+	sh	zero,14(s0)
+	sw	zero,16(s0)
+	sh	zero,20(s0)
+	mv	s1,a0
+	sw	a5,12(sp)
+	call	dhcp_supplied_address
+	beq	a0,zero,.L289
+	addi	a3,sp,10
+	li	a2,7
+	mv	a1,s0
+	mv	a0,s1
+	call	dhcp_create_msg
+	mv	s3,a0
+	beq	a0,zero,.L289
+	lw	s2,4(a0)
+	lhu	a5,10(sp)
+	li	a3,54
+	addi	s2,s2,240
+	add	a4,s2,a5
+	addi	s4,a5,2
+	addi	a5,a5,1
+	slli	a5,a5,16
+	srli	a5,a5,16
+	sb	a3,0(a4)
+	add	a5,s2,a5
+	li	a4,4
+	sb	a4,0(a5)
+	lw	a0,12(sp)
+	slli	s4,s4,16
+	srli	s4,s4,16
+	sh	s4,10(sp)
+	call	lwip_htonl
+	mv	a2,a0
+	mv	a1,s2
+	mv	a0,s4
+	call	dhcp_option_long
+	mv	a2,s3
+	mv	a1,s2
+	sh	a0,10(sp)
+	call	dhcp_option_trailer
+	lui	a5,%hi(dhcp_pcb)
+	lw	a0,%lo(dhcp_pcb)(a5)
+	mv	a4,s1
+	li	a3,67
+	addi	a2,sp,12
+	mv	a1,s3
+	call	udp_sendto_if
+	mv	a0,s3
+	call	pbuf_free
+.L289:
+	lui	a1,%hi(ip_addr_any)
+	addi	a3,a1,%lo(ip_addr_any)
+	addi	a2,a1,%lo(ip_addr_any)
+	mv	a0,s1
+	addi	a1,a1,%lo(ip_addr_any)
+	call	netif_set_addr
+	li	a1,0
+	mv	a0,s0
+	call	dhcp_set_state
+	lbu	a5,4(s0)
+	beq	a5,zero,.L287
+	call	dhcp_dec_pcb_refcount
+	sb	zero,4(s0)
+.L287:
+	lw	ra,44(sp)
+	lw	s0,40(sp)
+	lw	s1,36(sp)
+	lw	s2,32(sp)
+	lw	s3,28(sp)
+	lw	s4,24(sp)
+	addi	sp,sp,48
+	jr	ra
+	.size	dhcp_release_and_stop, .-dhcp_release_and_stop
+	.align	2
+	.globl	dhcp_start
+	.type	dhcp_start, @function
+dhcp_start:
+	addi	sp,sp,-16
+	sw	s1,4(sp)
+	sw	ra,12(sp)
+	sw	s0,8(sp)
+	sw	s2,0(sp)
+	li	s1,-16
+	beq	a0,zero,.L308
+	lbu	a5,53(a0)
+	li	s1,-16
+	andi	a5,a5,1
+	beq	a5,zero,.L308
+	lhu	a4,44(a0)
+	li	a5,575
+	lw	s2,40(a0)
+	bgtu	a4,a5,.L310
+.L327:
+	li	s1,-1
+	j	.L308
+.L310:
+	mv	s0,a0
+	bne	s2,zero,.L311
+	li	a0,52
+	call	lwip_malloc
+	mv	s2,a0
+	beq	a0,zero,.L327
+	sw	a0,40(s0)
+.L313:
+	li	a2,52
+	li	a1,0
+	mv	a0,s2
+	call	memset
+	call	dhcp_inc_pcb_refcount
+	mv	s1,a0
+	bne	a0,zero,.L327
+	li	a5,1
+	sb	a5,4(s2)
+	lbu	a5,53(s0)
+	andi	a5,a5,4
+	bne	a5,zero,.L314
+	li	a1,2
+	mv	a0,s2
+	call	dhcp_set_state
+.L308:
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	mv	a0,s1
+	lw	s2,0(sp)
+	lw	s1,4(sp)
+	addi	sp,sp,16
+	jr	ra
+.L311:
+	lbu	a5,4(s2)
+	beq	a5,zero,.L313
+	call	dhcp_dec_pcb_refcount
+	j	.L313
+.L314:
+	mv	a0,s0
+	call	dhcp_discover
+	mv	s1,a0
+	beq	a0,zero,.L308
+	mv	a0,s0
+	call	dhcp_release_and_stop
+	j	.L327
+	.size	dhcp_start, .-dhcp_start
+	.align	2
+	.globl	dhcp_coarse_tmr
+	.type	dhcp_coarse_tmr, @function
+dhcp_coarse_tmr:
+	addi	sp,sp,-64
+	lui	a5,%hi(netif_list)
+	sw	s0,56(sp)
+	lw	s0,%lo(netif_list)(a5)
+	sw	s3,44(sp)
+	li	s3,8192
+	sw	s2,48(sp)
+	sw	s4,40(sp)
+	sw	s5,36(sp)
+	sw	s6,32(sp)
+	sw	s7,28(sp)
+	sw	ra,60(sp)
+	sw	s1,52(sp)
+	sw	s8,24(sp)
+	sw	s9,20(sp)
+	li	s2,1
+	li	s4,10
+	li	s5,1074
+	addi	s3,s3,1808
+	lui	s6,%hi(dhcp_pcb)
+	lui	s7,%hi(ip_addr_broadcast)
+.L329:
+	bne	s0,zero,.L339
+	lw	ra,60(sp)
+	lw	s0,56(sp)
+	lw	s1,52(sp)
+	lw	s2,48(sp)
+	lw	s3,44(sp)
+	lw	s4,40(sp)
+	lw	s5,36(sp)
+	lw	s6,32(sp)
+	lw	s7,28(sp)
+	lw	s8,24(sp)
+	lw	s9,20(sp)
+	addi	sp,sp,64
+	jr	ra
+.L339:
+	lw	a5,40(s0)
+	beq	a5,zero,.L331
+	lbu	a4,5(a5)
+	beq	a4,zero,.L331
+	lhu	a3,20(a5)
+	beq	a3,zero,.L333
+	lhu	a4,18(a5)
+	addi	a4,a4,1
+	slli	a4,a4,16
+	srli	a4,a4,16
+	sh	a4,18(a5)
+	bne	a3,a4,.L333
+	mv	a0,s0
+	call	dhcp_release_and_stop
+	mv	a0,s0
+	call	dhcp_start
+.L331:
+	lw	s0,0(s0)
+	j	.L329
+.L333:
+	lhu	a4,16(a5)
+	beq	a4,zero,.L334
+	addi	a3,a4,-1
+	sh	a3,16(a5)
+	bne	a4,s2,.L334
+	lw	s8,40(s0)
+	lbu	a5,5(s8)
+	bgtu	a5,s4,.L331
+	srl	a5,s5,a5
+	andi	a5,a5,1
+	beq	a5,zero,.L331
+	li	a1,4
+	mv	a0,s8
+	call	dhcp_set_state
+	addi	a3,sp,14
+	li	a2,3
+	mv	a1,s8
+	mv	a0,s0
+	call	dhcp_create_msg
+	mv	s9,a0
+	beq	a0,zero,.L335
+	lw	s1,4(a0)
+	lhu	a5,14(sp)
+	li	a3,57
+	addi	s1,s1,240
+	add	a4,s1,a5
+	addi	a0,a5,2
+	addi	a5,a5,1
+	slli	a5,a5,16
+	srli	a5,a5,16
+	sb	a3,0(a4)
+	add	a5,s1,a5
+	li	a4,2
+	sb	a4,0(a5)
+	lhu	a2,44(s0)
+	slli	a0,a0,16
+	srli	a0,a0,16
+	mv	a1,s1
+	sh	a0,14(sp)
+	call	dhcp_option_short
+	add	a4,s1,a0
+	li	a3,55
+	sb	a3,0(a4)
+	addi	a4,a0,1
+	slli	a4,a4,16
+	srli	a4,a4,16
+	li	a3,3
+	add	a4,s1,a4
+	sb	a3,0(a4)
+	addi	a4,a0,2
+	slli	a4,a4,16
+	srli	a4,a4,16
+	add	a4,s1,a4
+	sb	s2,0(a4)
+	mv	a5,a0
+	addi	a4,a0,3
+	slli	a4,a4,16
+	addi	a5,a5,4
+	srli	a4,a4,16
+	slli	a5,a5,16
+	add	a4,s1,a4
+	addi	a0,a0,5
+	srli	a5,a5,16
+	sb	a3,0(a4)
+	add	a5,s1,a5
+	li	a4,28
+	slli	a0,a0,16
+	sb	a4,0(a5)
+	srli	a0,a0,16
+	mv	a2,s9
+	mv	a1,s1
+	sh	a0,14(sp)
+	call	dhcp_option_trailer
+	lw	a0,%lo(dhcp_pcb)(s6)
+	mv	a4,s0
+	li	a3,67
+	addi	a2,s7,%lo(ip_addr_broadcast)
+	mv	a1,s9
+	call	udp_sendto_if
+	mv	a0,s9
+	call	pbuf_free
+.L335:
+	lbu	a5,6(s8)
+	li	a4,255
+	beq	a5,a4,.L336
+	addi	a5,a5,1
+	sb	a5,6(s8)
+.L336:
+	lbu	a5,6(s8)
+	li	a4,9
+	mv	a0,s3
+	bgtu	a5,a4,.L337
+	slli	a0,a5,5
+	sub	a0,a0,a5
+	slli	a0,a0,2
+	add	a5,a5,a0
+	slli	a5,a5,3
+	slli	a0,a5,16
+	srli	a0,a0,16
+.L337:
+	li	a1,500
+	addi	a0,a0,499
+	call	__divsi3
+	lhu	a5,20(s8)
+	lhu	a4,18(s8)
+	sh	a0,8(s8)
+	sub	a5,a5,a4
+	ble	a5,s2,.L331
+	srai	a5,a5,1
+	sh	a5,16(s8)
+	j	.L331
+.L334:
+	lhu	a4,14(a5)
+	beq	a4,zero,.L331
+	addi	a3,a4,-1
+	sh	a3,14(a5)
+	bne	a4,s2,.L331
+	lw	s1,40(s0)
+	lbu	a5,5(s1)
+	andi	a4,a5,251
+	beq	a4,s2,.L338
+	bne	a5,s4,.L331
+.L338:
+	mv	a0,s0
+	call	dhcp_renew
+	lhu	a5,12(s1)
+	lhu	a4,18(s1)
+	sub	a5,a5,a4
+	ble	a5,s2,.L331
+	srai	a5,a5,1
+	sh	a5,14(s1)
+	j	.L331
+	.size	dhcp_coarse_tmr, .-dhcp_coarse_tmr
+	.align	2
+	.globl	dhcp_fine_tmr
+	.type	dhcp_fine_tmr, @function
+dhcp_fine_tmr:
+	addi	sp,sp,-32
+	lui	a5,%hi(netif_list)
+	sw	s0,24(sp)
+	lw	s0,%lo(netif_list)(a5)
+	sw	s1,20(sp)
+	sw	s2,16(sp)
+	sw	s3,12(sp)
+	sw	s4,8(sp)
+	sw	s5,4(sp)
+	sw	s6,0(sp)
+	sw	ra,28(sp)
+	li	s1,1
+	li	s2,12
+	li	s3,6
+	li	s4,8
+	li	s5,3
+	li	s6,5
+.L358:
+	bne	s0,zero,.L370
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	lw	s2,16(sp)
+	lw	s3,12(sp)
+	lw	s4,8(sp)
+	lw	s5,4(sp)
+	lw	s6,0(sp)
+	addi	sp,sp,32
+	jr	ra
+.L370:
+	lw	a4,40(s0)
+	beq	a4,zero,.L360
+	lhu	a5,8(a4)
+	bleu	a5,s1,.L361
+	addi	a5,a5,-1
+	sh	a5,8(a4)
+.L360:
+	lw	s0,0(s0)
+	j	.L358
+.L361:
+	bne	a5,s1,.L360
+	sh	zero,8(a4)
+	lw	a4,40(s0)
+	lbu	a5,5(a4)
+	beq	a5,s2,.L363
+	bne	a5,s3,.L364
+.L363:
+	mv	a0,s0
+.L369:
+	call	dhcp_discover
+	j	.L360
+.L364:
+	bne	a5,s1,.L365
+	lbu	a5,6(a4)
+	mv	a0,s0
+	bgtu	a5,s6,.L366
+	call	dhcp_select
+	j	.L360
+.L366:
+	call	dhcp_release_and_stop
+	mv	a0,s0
+	call	dhcp_start
+	j	.L360
+.L365:
+	bne	a5,s4,.L367
+	lbu	a5,6(a4)
+	mv	a0,s0
+	bgtu	a5,s1,.L368
+	call	dhcp_check
+	j	.L360
+.L368:
+	call	dhcp_bind
+	j	.L360
+.L367:
+	bne	a5,s5,.L360
+	lbu	a5,6(a4)
+	mv	a0,s0
+	bgtu	a5,s1,.L369
+	call	dhcp_reboot
+	j	.L360
+	.size	dhcp_fine_tmr, .-dhcp_fine_tmr
+	.align	2
+	.globl	dhcp_release
+	.type	dhcp_release, @function
+dhcp_release:
+	addi	sp,sp,-16
+	sw	ra,12(sp)
+	call	dhcp_release_and_stop
+	lw	ra,12(sp)
+	li	a0,0
+	addi	sp,sp,16
+	jr	ra
+	.size	dhcp_release, .-dhcp_release
+	.align	2
+	.globl	dhcp_stop
+	.type	dhcp_stop, @function
+dhcp_stop:
+	tail	dhcp_release_and_stop
+	.size	dhcp_stop, .-dhcp_stop
+	.globl	dhcp_rx_options_given
+	.globl	dhcp_rx_options_val
+	.bss
+	.align	2
+	.set	.LANCHOR0,. + 0
+	.type	dhcp_rx_options_val, @object
+	.size	dhcp_rx_options_val, 32
+dhcp_rx_options_val:
+	.zero	32
+	.section	.sbss,"aw",@nobits
+	.align	2
+	.type	dhcp_pcb_refcount, @object
+	.size	dhcp_pcb_refcount, 1
+dhcp_pcb_refcount:
+	.zero	1
+	.zero	3
+	.type	dhcp_pcb, @object
+	.size	dhcp_pcb, 4
+dhcp_pcb:
+	.zero	4
+	.type	dhcp_rx_options_given, @object
+	.size	dhcp_rx_options_given, 8
+dhcp_rx_options_given:
+	.zero	8
+	.section	.sdata,"aw"
+	.align	2
+	.type	xid.4812, @object
+	.size	xid.4812, 4
+xid.4812:
+	.word	-1412628480
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"

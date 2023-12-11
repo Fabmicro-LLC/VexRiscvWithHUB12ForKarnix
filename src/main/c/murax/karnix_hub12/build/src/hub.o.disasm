@@ -1,0 +1,415 @@
+	.file	"hub.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.globl	__mulsi3
+	.align	2
+	.globl	hub_init
+	.type	hub_init, @function
+hub_init:
+	addi	sp,sp,-32
+	sw	s1,20(sp)
+	lui	s1,%hi(.LANCHOR0)
+	lbu	a5,%lo(.LANCHOR0)(s1)
+	sw	ra,28(sp)
+	sw	s0,24(sp)
+	sw	s2,16(sp)
+	sw	s3,12(sp)
+	sw	s4,8(sp)
+	sw	s5,4(sp)
+	sw	s6,0(sp)
+	addi	s1,s1,%lo(.LANCHOR0)
+	beq	a0,a5,.L6
+	lbu	a4,5(s1)
+	li	a5,-1
+	li	s4,1
+	beq	a0,a4,.L2
+.L1:
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	lw	s2,16(sp)
+	lw	s3,12(sp)
+	lw	s4,8(sp)
+	lw	s5,4(sp)
+	lw	s6,0(sp)
+	mv	a0,a5
+	addi	sp,sp,32
+	jr	ra
+.L6:
+	li	s4,0
+.L2:
+	slli	s3,s4,2
+	add	a5,s3,s4
+	add	a5,s1,a5
+	lbu	s0,1(a5)
+	lbu	s2,2(a5)
+	lbu	s5,3(a5)
+	mv	a0,s0
+	mv	a1,s2
+	lbu	s6,4(a5)
+	call	__mulsi3
+	mv	a1,s5
+	call	__mulsi3
+	mv	a1,s6
+	call	__mulsi3
+	srai	a0,a0,3
+	lui	a5,%hi(hub_frame_size)
+	sw	a0,%lo(hub_frame_size)(a5)
+	lui	a5,%hi(hub_frame_width)
+	sw	s0,%lo(hub_frame_width)(a5)
+	mv	a1,s5
+	mv	a0,s2
+	call	__mulsi3
+	lui	a5,%hi(hub_frame_height)
+	sw	a0,%lo(hub_frame_height)(a5)
+	li	a5,-268091392
+	sw	zero,0(a5)
+	mv	a1,s6
+	mv	a0,s0
+	call	__mulsi3
+	mv	a1,s5
+	call	__mulsi3
+	li	a3,0
+	li	a4,0
+	li	a2,-268107776
+	li	a1,4096
+.L4:
+	bgt	s2,a4,.L5
+	add	s3,s3,s4
+	add	s1,s1,s3
+	lbu	a5,0(s1)
+	slli	s0,s0,16
+	slli	s2,s2,24
+	or	s0,s0,s2
+	or	s0,s0,a5
+	li	a5,65536
+	addi	a5,a5,-128
+	or	s0,s0,a5
+	li	a5,-268091392
+	sw	s0,0(a5)
+	li	a5,0
+	j	.L1
+.L5:
+	add	a5,a4,a1
+	slli	a5,a5,2
+	srai	a6,a3,3
+	add	a5,a2,a5
+	sw	a6,4(a5)
+	addi	a4,a4,1
+	add	a3,a3,a0
+	j	.L4
+	.size	hub_init, .-hub_init
+	.globl	__bswapsi2
+	.align	2
+	.globl	hub_print_char
+	.type	hub_print_char, @function
+hub_print_char:
+	addi	sp,sp,-112
+	sw	s8,72(sp)
+	mv	s8,a5
+	lw	a5,120(sp)
+	sw	s1,100(sp)
+	sw	s3,92(sp)
+	srai	s1,a5,31
+	andi	s1,s1,7
+	add	s1,s1,a5
+	sw	s4,88(sp)
+	sw	a0,32(sp)
+	sw	ra,108(sp)
+	sw	s0,104(sp)
+	sw	s2,96(sp)
+	sw	s5,84(sp)
+	sw	s6,80(sp)
+	sw	s7,76(sp)
+	sw	s9,68(sp)
+	sw	s10,64(sp)
+	sw	s11,60(sp)
+	sw	a2,36(sp)
+	sw	a4,40(sp)
+	sw	a6,44(sp)
+	andi	a5,a5,7
+	mv	a0,a1
+	mv	s3,a3
+	mv	s4,a7
+	srai	s1,s1,3
+	beq	a5,zero,.L10
+	addi	s1,s1,1
+.L10:
+	lw	a1,116(sp)
+	li	s7,0
+	call	__mulsi3
+	mv	a1,s1
+	call	__mulsi3
+	lw	s5,112(sp)
+	slli	a5,s8,3
+	mv	a1,s3
+	add	s5,s5,a0
+	mv	a0,s8
+	sw	a5,28(sp)
+	call	__mulsi3
+	sw	a0,16(sp)
+.L11:
+	bgt	s1,s7,.L30
+	lw	ra,108(sp)
+	lw	s0,104(sp)
+	lw	s1,100(sp)
+	lw	s2,96(sp)
+	lw	s3,92(sp)
+	lw	s4,88(sp)
+	lw	s5,84(sp)
+	lw	s6,80(sp)
+	lw	s7,76(sp)
+	lw	s8,72(sp)
+	lw	s9,68(sp)
+	lw	s10,64(sp)
+	lw	s11,60(sp)
+	addi	sp,sp,112
+	jr	ra
+.L30:
+	lw	a4,120(sp)
+	slli	a5,s7,3
+	sub	a5,a4,a5
+	sw	a5,12(sp)
+	lw	a4,12(sp)
+	li	a5,8
+	ble	a4,a5,.L12
+	sw	a5,12(sp)
+.L12:
+	lw	s6,36(sp)
+	li	s9,0
+.L13:
+	lw	a5,116(sp)
+	blt	s9,a5,.L29
+	add	s5,s5,a5
+	lw	a4,28(sp)
+	lw	a5,16(sp)
+	addi	s7,s7,1
+	addi	s3,s3,8
+	add	a5,a5,a4
+	sw	a5,16(sp)
+	j	.L11
+.L29:
+	blt	s6,zero,.L14
+	bge	s6,s8,.L14
+	add	a5,s5,s9
+	lbu	a5,0(a5)
+	li	s10,0
+	sw	a5,24(sp)
+	lw	a5,16(sp)
+	add	s11,s6,a5
+	li	a5,1
+	sw	a5,8(sp)
+.L15:
+	lw	a5,12(sp)
+	blt	s10,a5,.L28
+.L14:
+	addi	s6,s6,1
+	addi	s9,s9,1
+	j	.L13
+.L28:
+	add	a5,s10,s3
+	blt	a5,zero,.L16
+	lw	a4,44(sp)
+	ble	a4,a5,.L16
+	li	a5,12
+	beq	s4,a5,.L17
+	li	a5,75
+	beq	s4,a5,.L18
+.L19:
+	lw	a5,20(sp)
+	slli	s2,a5,2
+	lw	a5,32(sp)
+	add	s2,a5,s2
+	lw	a0,0(s2)
+	call	__bswapsi2
+	lw	a5,24(sp)
+	lw	a4,8(sp)
+	and	a5,a5,a4
+	beq	a5,zero,.L22
+	li	a5,12
+	beq	s4,a5,.L23
+	li	a5,75
+	beq	s4,a5,.L24
+.L16:
+	lw	a5,8(sp)
+	addi	s10,s10,1
+	add	s11,s11,s8
+	slli	a5,a5,1
+	andi	a5,a5,0xff
+	sw	a5,8(sp)
+	j	.L15
+.L17:
+	srai	a5,s11,31
+	andi	a5,a5,31
+	add	a5,a5,s11
+	srai	a5,a5,5
+	sw	a5,20(sp)
+	li	a5,-2147483648
+	addi	a5,a5,31
+	and	s0,s11,a5
+	bge	s0,zero,.L20
+	addi	s0,s0,-1
+	ori	s0,s0,-32
+	addi	s0,s0,1
+.L20:
+	li	a5,-2147483648
+	srl	s0,a5,s0
+	j	.L19
+.L18:
+	srai	a5,s11,31
+	andi	a5,a5,3
+	add	a5,a5,s11
+	srai	a5,a5,2
+	sw	a5,20(sp)
+	li	a5,-2147483648
+	addi	a5,a5,3
+	and	s0,s11,a5
+	bge	s0,zero,.L21
+	addi	s0,s0,-1
+	ori	s0,s0,-4
+	addi	s0,s0,1
+.L21:
+	li	a5,3
+	sub	s0,a5,s0
+	slli	s0,s0,3
+	li	a5,255
+	sll	s0,a5,s0
+	j	.L19
+.L23:
+	or	a0,s0,a0
+.L35:
+	call	__bswapsi2
+	sw	a0,0(s2)
+	j	.L16
+.L24:
+	not	a5,s0
+	and	a0,a5,a0
+	li	a5,-2147483648
+	addi	a5,a5,3
+	and	a5,s11,a5
+	bge	a5,zero,.L25
+	addi	a5,a5,-1
+	ori	a5,a5,-4
+	addi	a5,a5,1
+.L25:
+	li	a4,3
+	sub	a5,a4,a5
+	lw	a4,40(sp)
+	slli	a5,a5,3
+	sll	a5,a4,a5
+	or	a0,a5,a0
+	j	.L35
+.L22:
+	li	a5,12
+	beq	s4,a5,.L27
+	li	a5,75
+	bne	s4,a5,.L16
+.L27:
+	not	a5,s0
+	and	a0,a5,a0
+	j	.L35
+	.size	hub_print_char, .-hub_print_char
+	.align	2
+	.globl	hub_print
+	.type	hub_print, @function
+hub_print:
+	addi	sp,sp,-80
+	sw	s0,72(sp)
+	sw	s1,68(sp)
+	sw	s2,64(sp)
+	sw	s3,60(sp)
+	sw	s4,56(sp)
+	sw	s5,52(sp)
+	sw	s6,48(sp)
+	sw	s7,44(sp)
+	sw	s8,40(sp)
+	sw	s9,36(sp)
+	sw	s10,32(sp)
+	sw	s11,28(sp)
+	sw	ra,76(sp)
+	mv	s4,a1
+	mv	s5,a3
+	mv	s3,a4
+	mv	s6,a5
+	mv	s2,a6
+	mv	s7,a7
+	mv	s1,a0
+	li	s0,0
+	li	s8,-268091392
+	lui	s9,%hi(hub_frame_height)
+	lui	s10,%hi(hub_frame_width)
+	andi	s11,a2,0xff
+.L37:
+	blt	s0,s3,.L38
+	lw	ra,76(sp)
+	lw	s0,72(sp)
+	lw	s1,68(sp)
+	lw	s2,64(sp)
+	lw	s3,60(sp)
+	lw	s4,56(sp)
+	lw	s5,52(sp)
+	lw	s6,48(sp)
+	lw	s7,44(sp)
+	lw	s8,40(sp)
+	lw	s9,36(sp)
+	lw	s10,32(sp)
+	lw	s11,28(sp)
+	addi	sp,sp,80
+	jr	ra
+.L38:
+	lw	a7,0(s8)
+	add	a1,s5,s0
+	sw	s7,8(sp)
+	sw	s2,4(sp)
+	sw	s6,0(sp)
+	lw	a6,%lo(hub_frame_height)(s9)
+	lw	a5,%lo(hub_frame_width)(s10)
+	lbu	a1,0(a1)
+	mv	a2,s1
+	andi	a7,a7,127
+	mv	a4,s11
+	mv	a3,s4
+	li	a0,-268107776
+	call	hub_print_char
+	addi	s0,s0,1
+	add	s1,s1,s2
+	j	.L37
+	.size	hub_print, .-hub_print
+	.globl	hub_frame_height
+	.globl	hub_frame_width
+	.globl	hub_frame_size
+	.globl	hub_configs
+	.data
+	.align	2
+	.set	.LANCHOR0,. + 0
+	.type	hub_configs, @object
+	.size	hub_configs, 10
+hub_configs:
+	.byte	12
+	.byte	32
+	.byte	4
+	.byte	4
+	.byte	1
+	.byte	75
+	.byte	80
+	.byte	2
+	.byte	20
+	.byte	8
+	.section	.sbss,"aw",@nobits
+	.align	2
+	.type	hub_frame_height, @object
+	.size	hub_frame_height, 4
+hub_frame_height:
+	.zero	4
+	.type	hub_frame_width, @object
+	.size	hub_frame_width, 4
+hub_frame_width:
+	.zero	4
+	.type	hub_frame_size, @object
+	.size	hub_frame_size, 4
+hub_frame_size:
+	.zero	4
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"

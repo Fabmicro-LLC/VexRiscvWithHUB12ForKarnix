@@ -1,0 +1,255 @@
+	.file	"ip4_frag.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	2
+	.type	ipfrag_free_pbuf_custom, @function
+ipfrag_free_pbuf_custom:
+	mv	a1,a0
+	lw	a0,20(a0)
+	beq	a0,zero,.L7
+	addi	sp,sp,-32
+	sw	ra,28(sp)
+	sw	a1,12(sp)
+	call	pbuf_free
+	lw	a1,12(sp)
+	lw	ra,28(sp)
+	li	a0,2
+	addi	sp,sp,32
+.L10:
+	tail	memp_free
+.L7:
+	li	a0,2
+	j	.L10
+	.size	ipfrag_free_pbuf_custom, .-ipfrag_free_pbuf_custom
+	.align	2
+	.globl	ip4_frag
+	.type	ip4_frag, @function
+ip4_frag:
+	addi	sp,sp,-96
+	sw	ra,92(sp)
+	sw	s0,88(sp)
+	sw	s1,84(sp)
+	sw	s2,80(sp)
+	sw	s3,76(sp)
+	sw	s4,72(sp)
+	sw	s5,68(sp)
+	sw	s6,64(sp)
+	sw	s7,60(sp)
+	sw	s8,56(sp)
+	sw	s9,52(sp)
+	sw	s10,48(sp)
+	sw	s11,44(sp)
+	lhu	a5,44(a1)
+	lw	s8,4(a0)
+	sw	a2,12(sp)
+	addi	a4,a5,-20
+	srai	a5,a4,31
+	andi	a5,a5,7
+	add	a5,a5,a4
+	srai	a5,a5,3
+	slli	a5,a5,16
+	srli	a5,a5,16
+	sw	a5,4(sp)
+	lbu	a5,0(s8)
+	li	a4,20
+	andi	a5,a5,15
+	slli	a5,a5,2
+	bne	a5,a4,.L25
+	lhu	a4,10(a0)
+	li	a5,19
+	mv	s0,a0
+	li	a0,-6
+	bleu	a4,a5,.L11
+	lbu	a5,7(s8)
+	lbu	a0,6(s8)
+	mv	s9,a1
+	slli	a5,a5,8
+	or	a0,a5,a0
+	call	lwip_htons
+	li	a5,8192
+	and	a5,a0,a5
+	sw	a5,8(sp)
+	lw	a5,4(sp)
+	lhu	s1,8(s0)
+	slli	s7,a0,19
+	slli	a5,a5,3
+	slli	a5,a5,16
+	srli	a5,a5,16
+	addi	s1,s1,-20
+	sw	a5,0(sp)
+	sh	a5,18(sp)
+	lui	a5,%hi(ipfrag_free_pbuf_custom)
+	slli	s1,s1,16
+	addi	a5,a5,%lo(ipfrag_free_pbuf_custom)
+	lui	s10,%hi(lwip_stats)
+	srli	s7,s7,19
+	srli	s1,s1,16
+	li	s4,20
+	li	s2,0
+	sw	a5,20(sp)
+	addi	s10,s10,%lo(lwip_stats)
+.L13:
+	bne	s1,zero,.L24
+	li	a0,0
+.L11:
+	lw	ra,92(sp)
+	lw	s0,88(sp)
+	lw	s1,84(sp)
+	lw	s2,80(sp)
+	lw	s3,76(sp)
+	lw	s4,72(sp)
+	lw	s5,68(sp)
+	lw	s6,64(sp)
+	lw	s7,60(sp)
+	lw	s8,56(sp)
+	lw	s9,52(sp)
+	lw	s10,48(sp)
+	lw	s11,44(sp)
+	addi	sp,sp,96
+	jr	ra
+.L24:
+	lw	a5,0(sp)
+	lhu	s5,18(sp)
+	bleu	a5,s1,.L14
+	mv	s5,s1
+.L14:
+	li	a2,640
+	li	a1,20
+	li	a0,16
+	slli	s5,s5,16
+	call	pbuf_alloc
+	srli	s5,s5,16
+	mv	s6,a0
+	beq	a0,zero,.L27
+	lw	a0,4(a0)
+	li	a2,20
+	mv	a1,s8
+	call	memcpy
+	lw	s3,4(s6)
+	mv	s11,s5
+.L15:
+	beq	s11,zero,.L34
+	lhu	a5,10(s0)
+	sub	a5,a5,s4
+	mv	s2,a5
+	slli	a5,a5,16
+	srli	a5,a5,16
+	bleu	a5,s11,.L16
+	mv	s2,s11
+.L16:
+	slli	s2,s2,16
+	srli	s2,s2,16
+	bne	s2,zero,.L17
+.L36:
+	lw	s0,0(s0)
+	li	s4,0
+	j	.L15
+.L17:
+	lui	a5,%hi(.LC0)
+	li	a2,701
+	addi	a1,a5,%lo(.LC0)
+	li	a0,2
+	call	memp_malloc_fn
+	bne	a0,zero,.L19
+.L37:
+	mv	a0,s6
+	call	pbuf_free
+.L27:
+	li	a0,-1
+	j	.L11
+.L19:
+	lw	a4,4(s0)
+	mv	a3,a0
+	sw	a0,24(sp)
+	mv	a5,s2
+	add	a4,a4,s4
+	li	a2,65
+	mv	a1,s2
+	li	a0,0
+	call	pbuf_alloced_custom
+	lw	a7,24(sp)
+	bne	a0,zero,.L20
+	mv	a1,a7
+	li	a0,2
+	call	memp_free
+	j	.L37
+.L20:
+	sw	a0,24(sp)
+	mv	a0,s0
+	sw	a7,28(sp)
+	call	pbuf_ref
+	lw	a7,28(sp)
+	lw	a5,20(sp)
+	lw	a1,24(sp)
+	sw	s0,20(a7)
+	sw	a5,16(a7)
+	mv	a0,s6
+	call	pbuf_cat
+	sub	a6,s11,s2
+	slli	s11,a6,16
+	srli	s11,s11,16
+	bne	s11,zero,.L36
+.L34:
+	lhu	a5,44(s9)
+	add	s4,s2,s4
+	slli	s4,s4,16
+	slli	a0,s7,19
+	addi	a5,a5,-19
+	srli	s4,s4,16
+	srli	a0,a0,19
+	ble	a5,s1,.L22
+	lw	a5,8(sp)
+	beq	a5,zero,.L23
+.L22:
+	li	a5,8192
+	or	a0,a0,a5
+.L23:
+	call	lwip_htons
+	sb	a0,6(s3)
+	srli	a0,a0,8
+	sb	a0,7(s3)
+	addi	a0,s5,20
+	slli	a0,a0,16
+	srli	a0,a0,16
+	call	lwip_htons
+	sb	a0,2(s3)
+	srli	a0,a0,8
+	sb	a0,3(s3)
+	li	a1,20
+	sb	zero,10(s3)
+	sb	zero,11(s3)
+	mv	a0,s3
+	call	inet_chksum
+	sb	a0,10(s3)
+	srli	a0,a0,8
+	sb	a0,11(s3)
+	lw	a5,20(s9)
+	lw	a2,12(sp)
+	mv	a1,s6
+	mv	a0,s9
+	jalr	a5
+	lw	a5,96(s10)
+	mv	a0,s6
+	sub	s1,s1,s5
+	addi	a5,a5,1
+	sw	a5,96(s10)
+	call	pbuf_free
+	lw	a5,4(sp)
+	slli	s1,s1,16
+	srli	s1,s1,16
+	add	s7,s7,a5
+	slli	s7,s7,16
+	srli	s7,s7,16
+	j	.L13
+.L25:
+	li	a0,-6
+	j	.L11
+	.size	ip4_frag, .-ip4_frag
+	.section	.rodata.str1.4,"aMS",@progbits,1
+	.align	2
+.LC0:
+	.string	"src/lwip/core/ipv4/ip4_frag.c"
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"

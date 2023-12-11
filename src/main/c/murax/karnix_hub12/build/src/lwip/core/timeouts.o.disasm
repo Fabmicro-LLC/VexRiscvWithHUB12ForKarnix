@@ -1,0 +1,288 @@
+	.file	"timeouts.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	2
+	.type	sys_timeout_abs, @function
+sys_timeout_abs:
+	addi	sp,sp,-16
+	sw	s2,0(sp)
+	mv	s2,a1
+	lui	a1,%hi(.LC0)
+	sw	s0,8(sp)
+	sw	s1,4(sp)
+	mv	s0,a0
+	mv	s1,a2
+	addi	a1,a1,%lo(.LC0)
+	li	a2,188
+	li	a0,3
+	sw	ra,12(sp)
+	call	memp_malloc_fn
+	beq	a0,zero,.L1
+	lui	a4,%hi(next_timeout)
+	lw	a5,%lo(next_timeout)(a4)
+	sw	zero,0(a0)
+	sw	s2,8(a0)
+	sw	s1,12(a0)
+	sw	s0,4(a0)
+	bne	a5,zero,.L3
+.L16:
+	sw	a0,%lo(next_timeout)(a4)
+.L1:
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	lw	s1,4(sp)
+	lw	s2,0(sp)
+	addi	sp,sp,16
+	jr	ra
+.L3:
+	lw	a3,4(a5)
+	sub	a3,s0,a3
+	bge	a3,zero,.L4
+	sw	a5,0(a0)
+	j	.L16
+.L6:
+	mv	a5,a4
+.L4:
+	lw	a4,0(a5)
+	beq	a4,zero,.L5
+	lw	a3,4(a4)
+	sub	a3,s0,a3
+	bge	a3,zero,.L6
+.L5:
+	sw	a4,0(a0)
+	sw	a0,0(a5)
+	j	.L1
+	.size	sys_timeout_abs, .-sys_timeout_abs
+	.align	2
+	.type	lwip_cyclic_timer, @function
+lwip_cyclic_timer:
+	addi	sp,sp,-32
+	sw	ra,28(sp)
+	lw	a5,4(a0)
+	sw	a0,12(sp)
+	jalr	a5
+	call	sys_now
+	lw	a2,12(sp)
+	lui	a5,%hi(current_timeout_due_time)
+	lw	a5,%lo(current_timeout_due_time)(a5)
+	lw	a4,0(a2)
+	lui	a1,%hi(lwip_cyclic_timer)
+	addi	a1,a1,%lo(lwip_cyclic_timer)
+	add	a5,a4,a5
+	sub	a3,a5,a0
+	add	a0,a4,a0
+	blt	a3,zero,.L20
+	mv	a0,a5
+.L20:
+	lw	ra,28(sp)
+	addi	sp,sp,32
+	tail	sys_timeout_abs
+	.size	lwip_cyclic_timer, .-lwip_cyclic_timer
+	.align	2
+	.globl	sys_timeout
+	.type	sys_timeout, @function
+sys_timeout:
+	addi	sp,sp,-32
+	sw	s0,24(sp)
+	sw	ra,28(sp)
+	mv	s0,a0
+	sw	a1,12(sp)
+	sw	a2,8(sp)
+	call	sys_now
+	add	a0,a0,s0
+	lw	s0,24(sp)
+	lw	a2,8(sp)
+	lw	a1,12(sp)
+	lw	ra,28(sp)
+	addi	sp,sp,32
+	tail	sys_timeout_abs
+	.size	sys_timeout, .-sys_timeout
+	.align	2
+	.globl	sys_timeouts_init
+	.type	sys_timeouts_init, @function
+sys_timeouts_init:
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	lui	a2,%hi(.LANCHOR0)
+	lui	s0,%hi(lwip_cyclic_timer)
+	sw	s1,4(sp)
+	addi	a1,s0,%lo(lwip_cyclic_timer)
+	addi	s1,a2,%lo(.LANCHOR0)
+	li	a0,1000
+	addi	a2,a2,%lo(.LANCHOR0)
+	sw	ra,12(sp)
+	call	sys_timeout
+	li	a0,61440
+	addi	a2,s1,8
+	addi	a1,s0,%lo(lwip_cyclic_timer)
+	addi	a0,a0,-1440
+	call	sys_timeout
+	addi	a1,s0,%lo(lwip_cyclic_timer)
+	lw	s0,8(sp)
+	lw	ra,12(sp)
+	addi	a2,s1,16
+	lw	s1,4(sp)
+	li	a0,500
+	addi	sp,sp,16
+	tail	sys_timeout
+	.size	sys_timeouts_init, .-sys_timeouts_init
+	.align	2
+	.globl	sys_untimeout
+	.type	sys_untimeout, @function
+sys_untimeout:
+	lui	a4,%hi(next_timeout)
+	lw	a5,%lo(next_timeout)(a4)
+	mv	a3,a4
+	li	a2,0
+	bne	a5,zero,.L30
+.L25:
+	ret
+.L28:
+	sw	a4,0(a2)
+	j	.L29
+.L27:
+	mv	a2,a5
+	beq	a4,zero,.L25
+	mv	a5,a4
+.L30:
+	lw	a6,8(a5)
+	lw	a4,0(a5)
+	bne	a6,a0,.L27
+	lw	a6,12(a5)
+	bne	a6,a1,.L27
+	bne	a2,zero,.L28
+	sw	a4,%lo(next_timeout)(a3)
+.L29:
+	mv	a1,a5
+	li	a0,3
+	tail	memp_free
+	.size	sys_untimeout, .-sys_untimeout
+	.align	2
+	.globl	sys_check_timeouts
+	.type	sys_check_timeouts, @function
+sys_check_timeouts:
+	addi	sp,sp,-32
+	sw	s1,20(sp)
+	sw	s3,12(sp)
+	sw	s4,8(sp)
+	sw	ra,28(sp)
+	sw	s0,24(sp)
+	sw	s2,16(sp)
+	call	sys_now
+	mv	s3,a0
+	lui	s1,%hi(next_timeout)
+	lui	s4,%hi(current_timeout_due_time)
+.L37:
+	lw	a1,%lo(next_timeout)(s1)
+	beq	a1,zero,.L35
+	lw	a5,4(a1)
+	sub	a4,s3,a5
+	blt	a4,zero,.L35
+	lw	a4,0(a1)
+	lw	s0,8(a1)
+	li	a0,3
+	sw	a4,%lo(next_timeout)(s1)
+	lw	s2,12(a1)
+	sw	a5,%lo(current_timeout_due_time)(s4)
+	call	memp_free
+	beq	s0,zero,.L37
+	mv	a0,s2
+	jalr	s0
+	j	.L37
+.L35:
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	lw	s2,16(sp)
+	lw	s3,12(sp)
+	lw	s4,8(sp)
+	addi	sp,sp,32
+	jr	ra
+	.size	sys_check_timeouts, .-sys_check_timeouts
+	.align	2
+	.globl	sys_restart_timeouts
+	.type	sys_restart_timeouts, @function
+sys_restart_timeouts:
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	lui	s0,%hi(next_timeout)
+	lw	a5,%lo(next_timeout)(s0)
+	sw	ra,12(sp)
+	beq	a5,zero,.L45
+	call	sys_now
+	lw	a5,%lo(next_timeout)(s0)
+	lw	a4,4(a5)
+	sub	a0,a0,a4
+.L47:
+	lw	a4,4(a5)
+	add	a4,a4,a0
+	sw	a4,4(a5)
+	lw	a5,0(a5)
+	bne	a5,zero,.L47
+.L45:
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	addi	sp,sp,16
+	jr	ra
+	.size	sys_restart_timeouts, .-sys_restart_timeouts
+	.align	2
+	.globl	sys_timeouts_sleeptime
+	.type	sys_timeouts_sleeptime, @function
+sys_timeouts_sleeptime:
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	lui	s0,%hi(next_timeout)
+	lw	a5,%lo(next_timeout)(s0)
+	sw	ra,12(sp)
+	li	a0,-1
+	beq	a5,zero,.L53
+	call	sys_now
+	lw	a5,%lo(next_timeout)(s0)
+	lw	a5,4(a5)
+	sub	a0,a5,a0
+	bge	a0,zero,.L53
+	li	a0,0
+.L53:
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	addi	sp,sp,16
+	jr	ra
+	.size	sys_timeouts_sleeptime, .-sys_timeouts_sleeptime
+	.globl	lwip_num_cyclic_timers
+	.globl	lwip_cyclic_timers
+	.section	.rodata
+	.align	2
+	.set	.LANCHOR0,. + 0
+	.type	lwip_cyclic_timers, @object
+	.size	lwip_cyclic_timers, 24
+lwip_cyclic_timers:
+	.word	1000
+	.word	etharp_tmr
+	.word	60000
+	.word	dhcp_coarse_tmr
+	.word	500
+	.word	dhcp_fine_tmr
+	.section	.rodata.str1.4,"aMS",@progbits,1
+	.align	2
+.LC0:
+	.string	"src/lwip/core/timeouts.c"
+	.section	.sbss,"aw",@nobits
+	.align	2
+	.type	current_timeout_due_time, @object
+	.size	current_timeout_due_time, 4
+current_timeout_due_time:
+	.zero	4
+	.type	next_timeout, @object
+	.size	next_timeout, 4
+next_timeout:
+	.zero	4
+	.section	.srodata,"a"
+	.align	2
+	.type	lwip_num_cyclic_timers, @object
+	.size	lwip_num_cyclic_timers, 4
+lwip_num_cyclic_timers:
+	.word	3
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"

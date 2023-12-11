@@ -1,0 +1,624 @@
+	.file	"netif.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	2
+	.type	netif_null_output_ip4, @function
+netif_null_output_ip4:
+	li	a0,-12
+	ret
+	.size	netif_null_output_ip4, .-netif_null_output_ip4
+	.align	2
+	.type	netif_issue_reports, @function
+netif_issue_reports:
+	lbu	a5,53(a0)
+	li	a3,5
+	andi	a2,a5,5
+	bne	a2,a3,.L2
+	andi	a1,a1,1
+	beq	a1,zero,.L2
+	lw	a3,4(a0)
+	beq	a3,zero,.L2
+	andi	a5,a5,8
+	beq	a5,zero,.L2
+	addi	a1,a0,4
+	tail	etharp_request
+.L2:
+	ret
+	.size	netif_issue_reports, .-netif_issue_reports
+	.align	2
+	.type	netif_do_set_ipaddr, @function
+netif_do_set_ipaddr:
+	lw	a5,4(a0)
+	lw	a4,0(a1)
+	beq	a4,a5,.L16
+	addi	sp,sp,-32
+	sw	a5,0(a2)
+	sw	s0,24(sp)
+	sw	s2,16(sp)
+	mv	s0,a0
+	mv	s2,a1
+	mv	a0,a2
+	addi	a1,sp,12
+	sw	ra,28(sp)
+	sw	a4,12(sp)
+	sw	s1,20(sp)
+	mv	s1,a2
+	call	udp_netif_ip_addr_changed
+	addi	a1,sp,12
+	mv	a0,s1
+	call	raw_netif_ip_addr_changed
+	lw	a5,0(s2)
+	li	a1,1
+	mv	a0,s0
+	sw	a5,4(s0)
+	call	netif_issue_reports
+	lw	a5,28(s0)
+	beq	a5,zero,.L15
+	mv	a0,s0
+	jalr	a5
+.L15:
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	lw	s2,16(sp)
+	li	a0,1
+	addi	sp,sp,32
+	jr	ra
+.L16:
+	li	a0,0
+	ret
+	.size	netif_do_set_ipaddr, .-netif_do_set_ipaddr
+	.align	2
+	.globl	netif_init
+	.type	netif_init, @function
+netif_init:
+	ret
+	.size	netif_init, .-netif_init
+	.align	2
+	.globl	netif_input
+	.type	netif_input, @function
+netif_input:
+	lbu	a5,53(a1)
+	andi	a5,a5,24
+	beq	a5,zero,.L26
+	tail	ethernet_input
+.L26:
+	tail	ip4_input
+	.size	netif_input, .-netif_input
+	.align	2
+	.globl	netif_set_ipaddr
+	.type	netif_set_ipaddr, @function
+netif_set_ipaddr:
+	beq	a0,zero,.L32
+	addi	sp,sp,-32
+	sw	ra,28(sp)
+	bne	a1,zero,.L30
+	lui	a1,%hi(ip_addr_any)
+	addi	a1,a1,%lo(ip_addr_any)
+.L30:
+	addi	a2,sp,12
+	call	netif_do_set_ipaddr
+	lw	ra,28(sp)
+	addi	sp,sp,32
+	jr	ra
+.L32:
+	ret
+	.size	netif_set_ipaddr, .-netif_set_ipaddr
+	.align	2
+	.globl	netif_set_netmask
+	.type	netif_set_netmask, @function
+netif_set_netmask:
+	beq	a0,zero,.L35
+	bne	a1,zero,.L37
+	lui	a1,%hi(ip_addr_any)
+	addi	a1,a1,%lo(ip_addr_any)
+.L37:
+	lw	a5,0(a1)
+	lw	a4,8(a0)
+	beq	a5,a4,.L35
+	sw	a5,8(a0)
+.L35:
+	ret
+	.size	netif_set_netmask, .-netif_set_netmask
+	.align	2
+	.globl	netif_set_gw
+	.type	netif_set_gw, @function
+netif_set_gw:
+	beq	a0,zero,.L41
+	bne	a1,zero,.L43
+	lui	a1,%hi(ip_addr_any)
+	addi	a1,a1,%lo(ip_addr_any)
+.L43:
+	lw	a5,0(a1)
+	lw	a4,12(a0)
+	beq	a5,a4,.L41
+	sw	a5,12(a0)
+.L41:
+	ret
+	.size	netif_set_gw, .-netif_set_gw
+	.align	2
+	.globl	netif_set_addr
+	.type	netif_set_addr, @function
+netif_set_addr:
+	addi	sp,sp,-48
+	sw	s0,40(sp)
+	sw	s1,36(sp)
+	sw	s2,32(sp)
+	sw	ra,44(sp)
+	mv	s1,a0
+	mv	s2,a2
+	mv	s0,a1
+	bne	a1,zero,.L48
+	lui	s0,%hi(ip_addr_any)
+	addi	s0,s0,%lo(ip_addr_any)
+.L48:
+	bne	s2,zero,.L49
+	lui	s2,%hi(ip_addr_any)
+	addi	s2,s2,%lo(ip_addr_any)
+.L49:
+	bne	a3,zero,.L51
+	lui	a3,%hi(ip_addr_any)
+	addi	a3,a3,%lo(ip_addr_any)
+.L51:
+	lw	a5,0(s0)
+	beq	a5,zero,.L55
+	li	a5,0
+	j	.L56
+.L55:
+	addi	a2,sp,28
+	mv	a1,s0
+	mv	a0,s1
+	sw	a3,12(sp)
+	call	netif_do_set_ipaddr
+	lw	a3,12(sp)
+	li	a5,1
+.L56:
+	lw	a4,0(s2)
+	lw	a2,8(s1)
+	beq	a4,a2,.L52
+	sw	a4,8(s1)
+.L52:
+	lw	a4,0(a3)
+	lw	a3,12(s1)
+	beq	a4,a3,.L53
+	sw	a4,12(s1)
+.L53:
+	bne	a5,zero,.L47
+	addi	a2,sp,28
+	mv	a1,s0
+	mv	a0,s1
+	call	netif_do_set_ipaddr
+.L47:
+	lw	ra,44(sp)
+	lw	s0,40(sp)
+	lw	s1,36(sp)
+	lw	s2,32(sp)
+	addi	sp,sp,48
+	jr	ra
+	.size	netif_set_addr, .-netif_set_addr
+	.align	2
+	.globl	netif_add
+	.type	netif_add, @function
+netif_add:
+	addi	sp,sp,-32
+	sw	ra,28(sp)
+	sw	s0,24(sp)
+	sw	s1,20(sp)
+	bne	a0,zero,.L60
+.L62:
+	li	s0,0
+.L78:
+	mv	a0,s0
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	addi	sp,sp,32
+	jr	ra
+.L60:
+	beq	a5,zero,.L62
+	mv	s0,a0
+	bne	a1,zero,.L63
+	lui	a1,%hi(ip_addr_any)
+	addi	a1,a1,%lo(ip_addr_any)
+.L63:
+	bne	a2,zero,.L64
+	lui	a2,%hi(ip_addr_any)
+	addi	a2,a2,%lo(ip_addr_any)
+.L64:
+	bne	a3,zero,.L65
+	lui	a3,%hi(ip_addr_any)
+	addi	a3,a3,%lo(ip_addr_any)
+.L65:
+	lui	s1,%hi(netif_num)
+	sw	a4,36(s0)
+	lbu	a4,%lo(netif_num)(s1)
+	lui	a0,%hi(netif_null_output_ip4)
+	addi	a0,a0,%lo(netif_null_output_ip4)
+	sw	a0,20(s0)
+	sw	zero,4(s0)
+	mv	a0,s0
+	sw	zero,8(s0)
+	sw	zero,12(s0)
+	sh	zero,44(s0)
+	sb	zero,53(s0)
+	sb	zero,40(s0)
+	sb	zero,41(s0)
+	sb	zero,42(s0)
+	sb	zero,43(s0)
+	sw	zero,28(s0)
+	sw	zero,32(s0)
+	sb	a4,56(s0)
+	sw	a6,16(s0)
+	sw	zero,60(s0)
+	sw	a5,12(sp)
+	call	netif_set_addr
+	lw	a5,12(sp)
+	mv	a0,s0
+	jalr	a5
+	bne	a0,zero,.L62
+	lui	a5,%hi(netif_list)
+	lw	a2,%lo(netif_list)(a5)
+	mv	a4,a5
+	li	a1,255
+.L69:
+	lbu	a5,56(s0)
+	bne	a5,a1,.L66
+	sb	zero,56(s0)
+.L66:
+	lbu	a5,56(s0)
+	mv	a3,a2
+.L67:
+	bne	a3,zero,.L70
+	li	a1,254
+	li	a3,0
+	beq	a5,a1,.L72
+	addi	a5,a5,1
+	andi	a3,a5,0xff
+.L72:
+	sw	a2,0(s0)
+	sb	a3,%lo(netif_num)(s1)
+	sw	s0,%lo(netif_list)(a4)
+	j	.L78
+.L70:
+	lbu	a0,56(a3)
+	bne	a0,a5,.L68
+	addi	a5,a5,1
+	sb	a5,56(s0)
+	j	.L69
+.L68:
+	lw	a3,0(a3)
+	j	.L67
+	.size	netif_add, .-netif_add
+	.align	2
+	.globl	netif_add_noaddr
+	.type	netif_add_noaddr, @function
+netif_add_noaddr:
+	mv	a6,a3
+	mv	a5,a2
+	mv	a4,a1
+	li	a3,0
+	li	a2,0
+	li	a1,0
+	tail	netif_add
+	.size	netif_add_noaddr, .-netif_add_noaddr
+	.align	2
+	.globl	netif_set_default
+	.type	netif_set_default, @function
+netif_set_default:
+	lui	a5,%hi(netif_default)
+	sw	a0,%lo(netif_default)(a5)
+	ret
+	.size	netif_set_default, .-netif_set_default
+	.align	2
+	.globl	netif_set_up
+	.type	netif_set_up, @function
+netif_set_up:
+	beq	a0,zero,.L94
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	sw	ra,12(sp)
+	lbu	a5,53(a0)
+	mv	s0,a0
+	andi	a4,a5,1
+	bne	a4,zero,.L84
+	ori	a5,a5,1
+	sb	a5,53(a0)
+	lw	a5,28(a0)
+	beq	a5,zero,.L86
+	jalr	a5
+.L86:
+	mv	a0,s0
+	lw	s0,8(sp)
+	lw	ra,12(sp)
+	li	a1,3
+	addi	sp,sp,16
+	tail	netif_issue_reports
+.L84:
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	addi	sp,sp,16
+	jr	ra
+.L94:
+	ret
+	.size	netif_set_up, .-netif_set_up
+	.align	2
+	.globl	netif_set_down
+	.type	netif_set_down, @function
+netif_set_down:
+	beq	a0,zero,.L112
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	sw	ra,12(sp)
+	lbu	a5,53(a0)
+	mv	s0,a0
+	andi	a4,a5,1
+	beq	a4,zero,.L97
+	andi	a4,a5,-2
+	sb	a4,53(a0)
+	andi	a5,a5,8
+	beq	a5,zero,.L101
+	call	etharp_cleanup_netif
+.L101:
+	lw	t1,28(s0)
+	beq	t1,zero,.L97
+	mv	a0,s0
+	lw	s0,8(sp)
+	lw	ra,12(sp)
+	addi	sp,sp,16
+	jr	t1
+.L97:
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	addi	sp,sp,16
+	jr	ra
+.L112:
+	ret
+	.size	netif_set_down, .-netif_set_down
+	.align	2
+	.globl	netif_remove
+	.type	netif_remove, @function
+netif_remove:
+	beq	a0,zero,.L133
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	sw	ra,12(sp)
+	sw	s1,4(sp)
+	lw	a5,4(a0)
+	mv	s0,a0
+	beq	a5,zero,.L118
+	addi	s1,a0,4
+	li	a1,0
+	mv	a0,s1
+	call	udp_netif_ip_addr_changed
+	li	a1,0
+	mv	a0,s1
+	call	raw_netif_ip_addr_changed
+.L118:
+	lbu	a5,53(s0)
+	andi	a5,a5,1
+	beq	a5,zero,.L119
+	mv	a0,s0
+	call	netif_set_down
+.L119:
+	lui	a5,%hi(netif_default)
+	lw	a4,%lo(netif_default)(a5)
+	bne	a4,s0,.L120
+	sw	zero,%lo(netif_default)(a5)
+.L120:
+	lui	a4,%hi(netif_list)
+	lw	a5,%lo(netif_list)(a4)
+	bne	a5,s0,.L121
+	lw	a5,0(s0)
+	sw	a5,%lo(netif_list)(a4)
+.L115:
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	lw	s1,4(sp)
+	addi	sp,sp,16
+	jr	ra
+.L124:
+	mv	a5,a4
+.L121:
+	beq	a5,zero,.L115
+	lw	a4,0(a5)
+	bne	a4,s0,.L124
+	lw	a4,0(s0)
+	sw	a4,0(a5)
+	j	.L115
+.L133:
+	ret
+	.size	netif_remove, .-netif_remove
+	.align	2
+	.globl	netif_set_status_callback
+	.type	netif_set_status_callback, @function
+netif_set_status_callback:
+	beq	a0,zero,.L136
+	sw	a1,28(a0)
+.L136:
+	ret
+	.size	netif_set_status_callback, .-netif_set_status_callback
+	.align	2
+	.globl	netif_set_link_up
+	.type	netif_set_link_up, @function
+netif_set_link_up:
+	beq	a0,zero,.L149
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	sw	ra,12(sp)
+	lbu	a5,53(a0)
+	mv	s0,a0
+	andi	a4,a5,4
+	bne	a4,zero,.L141
+	ori	a5,a5,4
+	sb	a5,53(a0)
+	call	dhcp_network_changed
+	li	a1,3
+	mv	a0,s0
+	call	netif_issue_reports
+	lw	t1,32(s0)
+	beq	t1,zero,.L141
+	mv	a0,s0
+	lw	s0,8(sp)
+	lw	ra,12(sp)
+	addi	sp,sp,16
+	jr	t1
+.L141:
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	addi	sp,sp,16
+	jr	ra
+.L149:
+	ret
+	.size	netif_set_link_up, .-netif_set_link_up
+	.align	2
+	.globl	netif_set_link_down
+	.type	netif_set_link_down, @function
+netif_set_link_down:
+	beq	a0,zero,.L152
+	lbu	a4,53(a0)
+	andi	a3,a4,4
+	beq	a3,zero,.L152
+	lw	t1,32(a0)
+	andi	a4,a4,-5
+	sb	a4,53(a0)
+	beq	t1,zero,.L152
+	jr	t1
+.L152:
+	ret
+	.size	netif_set_link_down, .-netif_set_link_down
+	.align	2
+	.globl	netif_set_link_callback
+	.type	netif_set_link_callback, @function
+netif_set_link_callback:
+	beq	a0,zero,.L162
+	sw	a1,32(a0)
+.L162:
+	ret
+	.size	netif_set_link_callback, .-netif_set_link_callback
+	.align	2
+	.globl	netif_get_by_index
+	.type	netif_get_by_index, @function
+netif_get_by_index:
+	li	a5,0
+	beq	a0,zero,.L167
+	lui	a5,%hi(netif_list)
+	lw	a5,%lo(netif_list)(a5)
+.L169:
+	bne	a5,zero,.L170
+.L167:
+	mv	a0,a5
+	ret
+.L170:
+	lbu	a4,56(a5)
+	addi	a4,a4,1
+	andi	a4,a4,0xff
+	beq	a4,a0,.L167
+	lw	a5,0(a5)
+	j	.L169
+	.size	netif_get_by_index, .-netif_get_by_index
+	.align	2
+	.globl	netif_index_to_name
+	.type	netif_index_to_name, @function
+netif_index_to_name:
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	sw	s1,4(sp)
+	sw	ra,12(sp)
+	mv	s1,a0
+	mv	s0,a1
+	call	netif_get_by_index
+	beq	a0,zero,.L172
+	lbu	a5,54(a0)
+	addi	a2,s1,-1
+	li	a1,4
+	sb	a5,0(s0)
+	lbu	a5,55(a0)
+	addi	a0,s0,2
+	sb	a5,1(s0)
+	call	lwip_itoa
+	mv	a0,s0
+.L172:
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	lw	s1,4(sp)
+	addi	sp,sp,16
+	jr	ra
+	.size	netif_index_to_name, .-netif_index_to_name
+	.align	2
+	.globl	netif_find
+	.type	netif_find, @function
+netif_find:
+	bne	a0,zero,.L179
+	li	a0,0
+	ret
+.L179:
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	mv	s0,a0
+	addi	a0,a0,2
+	sw	ra,12(sp)
+	call	atoi
+	lui	a4,%hi(netif_list)
+	andi	a5,a0,0xff
+	lw	a0,%lo(netif_list)(a4)
+.L181:
+	bne	a0,zero,.L183
+	li	a0,0
+.L178:
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	addi	sp,sp,16
+	jr	ra
+.L183:
+	lbu	a4,56(a0)
+	bne	a4,a5,.L182
+	lbu	a3,0(s0)
+	lbu	a4,54(a0)
+	bne	a3,a4,.L182
+	lbu	a3,1(s0)
+	lbu	a4,55(a0)
+	beq	a3,a4,.L178
+.L182:
+	lw	a0,0(a0)
+	j	.L181
+	.size	netif_find, .-netif_find
+	.align	2
+	.globl	netif_name_to_index
+	.type	netif_name_to_index, @function
+netif_name_to_index:
+	addi	sp,sp,-16
+	sw	ra,12(sp)
+	call	netif_find
+	beq	a0,zero,.L190
+	lbu	a0,56(a0)
+	addi	a0,a0,1
+	andi	a0,a0,0xff
+.L189:
+	lw	ra,12(sp)
+	addi	sp,sp,16
+	jr	ra
+.L190:
+	li	a0,0
+	j	.L189
+	.size	netif_name_to_index, .-netif_name_to_index
+	.globl	netif_default
+	.globl	netif_list
+	.section	.sbss,"aw",@nobits
+	.align	2
+	.type	netif_num, @object
+	.size	netif_num, 1
+netif_num:
+	.zero	1
+	.zero	3
+	.type	netif_default, @object
+	.size	netif_default, 4
+netif_default:
+	.zero	4
+	.type	netif_list, @object
+	.size	netif_list, 4
+netif_list:
+	.zero	4
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"

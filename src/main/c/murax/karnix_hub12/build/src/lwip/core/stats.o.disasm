@@ -1,0 +1,20 @@
+	.file	"stats.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	2
+	.globl	stats_init
+	.type	stats_init, @function
+stats_init:
+	ret
+	.size	stats_init, .-stats_init
+	.globl	lwip_stats
+	.bss
+	.align	2
+	.type	lwip_stats, @object
+	.size	lwip_stats, 288
+lwip_stats:
+	.zero	288
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"

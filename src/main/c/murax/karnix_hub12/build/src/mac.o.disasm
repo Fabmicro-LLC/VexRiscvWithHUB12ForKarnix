@@ -1,0 +1,650 @@
+	.file	"mac.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+ #APP
+	.set regnum_x0  ,  0
+	.set regnum_x1  ,  1
+	.set regnum_x2  ,  2
+	.set regnum_x3  ,  3
+	.set regnum_x4  ,  4
+	.set regnum_x5  ,  5
+	.set regnum_x6  ,  6
+	.set regnum_x7  ,  7
+	.set regnum_x8  ,  8
+	.set regnum_x9  ,  9
+	.set regnum_x10 , 10
+	.set regnum_x11 , 11
+	.set regnum_x12 , 12
+	.set regnum_x13 , 13
+	.set regnum_x14 , 14
+	.set regnum_x15 , 15
+	.set regnum_x16 , 16
+	.set regnum_x17 , 17
+	.set regnum_x18 , 18
+	.set regnum_x19 , 19
+	.set regnum_x20 , 20
+	.set regnum_x21 , 21
+	.set regnum_x22 , 22
+	.set regnum_x23 , 23
+	.set regnum_x24 , 24
+	.set regnum_x25 , 25
+	.set regnum_x26 , 26
+	.set regnum_x27 , 27
+	.set regnum_x28 , 28
+	.set regnum_x29 , 29
+	.set regnum_x30 , 30
+	.set regnum_x31 , 31
+	.set regnum_zero,  0
+	.set regnum_ra  ,  1
+	.set regnum_sp  ,  2
+	.set regnum_gp  ,  3
+	.set regnum_tp  ,  4
+	.set regnum_t0  ,  5
+	.set regnum_t1  ,  6
+	.set regnum_t2  ,  7
+	.set regnum_s0  ,  8
+	.set regnum_s1  ,  9
+	.set regnum_a0  , 10
+	.set regnum_a1  , 11
+	.set regnum_a2  , 12
+	.set regnum_a3  , 13
+	.set regnum_a4  , 14
+	.set regnum_a5  , 15
+	.set regnum_a6  , 16
+	.set regnum_a7  , 17
+	.set regnum_s2  , 18
+	.set regnum_s3  , 19
+	.set regnum_s4  , 20
+	.set regnum_s5  , 21
+	.set regnum_s6  , 22
+	.set regnum_s7  , 23
+	.set regnum_s8  , 24
+	.set regnum_s9  , 25
+	.set regnum_s10 , 26
+	.set regnum_s11 , 27
+	.set regnum_t3  , 28
+	.set regnum_t4  , 29
+	.set regnum_t5  , 30
+	.set regnum_t6  , 31
+	.set CUSTOM0  , 0x0B
+	.set CUSTOM1  , 0x2B
+ #NO_APP
+	.align	2
+	.globl	mac_init
+	.type	mac_init, @function
+mac_init:
+	addi	sp,sp,-16
+	sw	ra,12(sp)
+	sw	s0,8(sp)
+	bne	a0,zero,.L2
+	lui	a0,%hi(.LC0)
+	addi	a0,a0,%lo(.LC0)
+	call	printf
+	li	a0,-16
+.L1:
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	addi	sp,sp,16
+	jr	ra
+.L2:
+	lui	a1,%hi(.LC1)
+	mv	s0,a0
+	li	a2,5
+	addi	a1,a1,%lo(.LC1)
+	addi	a0,a0,54
+	call	memcpy
+	lui	a5,%hi(etharp_output)
+	addi	a5,a5,%lo(etharp_output)
+	sw	a5,20(s0)
+	lui	a5,%hi(mac_tx_packet)
+	addi	a5,a5,%lo(mac_tx_packet)
+	lui	a1,%hi(active_config+13)
+	sw	a5,24(s0)
+	li	a2,6
+	addi	a1,a1,%lo(active_config+13)
+	addi	a0,s0,46
+	call	memcpy
+	li	a5,1500
+	sh	a5,44(s0)
+	li	a5,4096
+	addi	a5,a5,-506
+	sh	a5,52(s0)
+	li	a0,8192
+	li	a5,17
+	li	s0,-267976704
+	sw	a5,0(s0)
+	addi	a0,a0,1808
+	call	delay_us
+	lui	a0,%hi(.LC2)
+	sw	zero,0(s0)
+	addi	a0,a0,%lo(.LC2)
+	call	printf
+	li	a0,0
+	j	.L1
+	.size	mac_init, .-mac_init
+	.align	2
+	.globl	mac_tx_packet
+	.type	mac_tx_packet, @function
+mac_tx_packet:
+	beq	a0,zero,.L6
+	bne	a1,zero,.L7
+.L6:
+	li	a4,-268435456
+	lw	a5,4(a4)
+	li	a0,-16
+	ori	a5,a5,2
+	sw	a5,4(a4)
+	ret
+.L7:
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	mv	s0,a1
+	mv	a0,s0
+	li	a1,-2
+	sw	ra,12(sp)
+	call	pbuf_header
+	mv	a4,s0
+	li	a5,0
+.L9:
+	lhu	a3,10(a4)
+	lw	a4,0(a4)
+	add	a5,a5,a3
+	bne	a4,zero,.L9
+	slli	a5,a5,3
+	li	a3,-267976704
+.L10:
+	lw	a4,0(a3)
+	andi	a4,a4,2
+	beq	a4,zero,.L10
+	li	a4,-267976704
+.L11:
+	lw	a3,20(a4)
+	beq	a3,zero,.L11
+	sw	a5,16(a4)
+	mv	a3,s0
+	li	a4,0
+	li	a5,0
+	li	a7,3
+	li	a6,-267976704
+.L16:
+	lw	a2,4(a3)
+	lhu	a1,10(a3)
+	add	a1,a2,a1
+.L12:
+	bne	a1,a2,.L15
+	lw	a3,0(a3)
+	bne	a3,zero,.L16
+	beq	a5,zero,.L17
+	li	a5,-267976704
+.L18:
+	lw	a3,20(a5)
+	beq	a3,zero,.L18
+	sw	a4,16(a5)
+.L17:
+	mv	a0,s0
+	li	a1,2
+	call	pbuf_header
+	lui	a5,%hi(lwip_stats)
+	addi	a5,a5,%lo(lwip_stats)
+	lw	a4,0(a5)
+	li	a0,0
+	addi	a4,a4,1
+	sw	a4,0(a5)
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	addi	sp,sp,16
+	jr	ra
+.L15:
+	lbu	a0,0(a2)
+	slli	t1,a5,3
+	sll	a0,a0,t1
+	or	a4,a4,a0
+	bne	a5,a7,.L13
+.L14:
+	lw	a0,20(a6)
+	beq	a0,zero,.L14
+	sw	a4,16(a6)
+	li	a4,0
+.L13:
+	addi	a5,a5,1
+	andi	a5,a5,3
+	addi	a2,a2,1
+	j	.L12
+	.size	mac_tx_packet, .-mac_tx_packet
+	.globl	__udivdi3
+	.align	2
+	.globl	sys_now
+	.type	sys_now, @function
+sys_now:
+	addi	sp,sp,-16
+	sw	ra,12(sp)
+	li	a5,-267714560
+	lw	a0,0(a5)
+	lw	a1,4(a5)
+	li	a2,1000
+	li	a3,0
+	call	__udivdi3
+	lw	ra,12(sp)
+	addi	sp,sp,16
+	jr	ra
+	.size	sys_now, .-sys_now
+	.align	2
+	.globl	sys_arch_protect
+	.type	sys_arch_protect, @function
+sys_arch_protect:
+	ret
+	.size	sys_arch_protect, .-sys_arch_protect
+	.align	2
+	.globl	sys_arch_unprotect
+	.type	sys_arch_unprotect, @function
+sys_arch_unprotect:
+	ret
+	.size	sys_arch_unprotect, .-sys_arch_unprotect
+	.align	2
+	.globl	mac_lwip_init
+	.type	mac_lwip_init, @function
+mac_lwip_init:
+	addi	sp,sp,-16
+	sw	ra,12(sp)
+	sw	s0,8(sp)
+	sw	s1,4(sp)
+	call	lwip_init
+	call	sys_now
+	lui	a5,%hi(ts_ipreass)
+	sw	a0,%lo(ts_ipreass)(a5)
+	lui	a5,%hi(ts_etharp)
+	sw	a0,%lo(ts_etharp)(a5)
+	lui	s0,%hi(.LANCHOR0)
+	lui	a6,%hi(ethernet_input)
+	lui	a5,%hi(mac_init)
+	lui	a3,%hi(active_config+4)
+	lui	a2,%hi(active_config+8)
+	lui	s1,%hi(active_config)
+	addi	a6,a6,%lo(ethernet_input)
+	addi	a5,a5,%lo(mac_init)
+	li	a4,0
+	addi	a3,a3,%lo(active_config+4)
+	addi	a2,a2,%lo(active_config+8)
+	addi	a1,s1,%lo(active_config)
+	addi	a0,s0,%lo(.LANCHOR0)
+	call	netif_add
+	bne	a0,zero,.L43
+	lui	a0,%hi(.LC3)
+	addi	a0,a0,%lo(.LC3)
+	call	printf
+	li	s1,-1
+.L42:
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	mv	a0,s1
+	lw	s1,4(sp)
+	addi	sp,sp,16
+	jr	ra
+.L43:
+	addi	a0,s0,%lo(.LANCHOR0)
+	call	netif_set_default
+	addi	a0,s0,%lo(.LANCHOR0)
+	addi	s1,s1,%lo(active_config)
+	call	netif_set_up
+	lbu	a5,12(s1)
+	li	s1,0
+	andi	a5,a5,1
+	beq	a5,zero,.L42
+	addi	a0,s0,%lo(.LANCHOR0)
+	call	dhcp_start
+	j	.L42
+	.size	mac_lwip_init, .-mac_lwip_init
+	.align	2
+	.globl	mac_rx_isr
+	.type	mac_rx_isr, @function
+mac_rx_isr:
+	addi	sp,sp,-64
+	sw	s1,52(sp)
+	sw	s5,36(sp)
+	sw	s7,28(sp)
+	lui	s1,%hi(lwip_stats)
+	li	s7,4096
+	lui	s5,%hi(.LANCHOR0)
+	sw	s3,44(sp)
+	sw	s8,24(sp)
+	sw	s9,20(sp)
+	sw	ra,60(sp)
+	sw	s0,56(sp)
+	sw	s2,48(sp)
+	sw	s4,40(sp)
+	sw	s6,32(sp)
+	sw	s10,16(sp)
+	li	s3,0
+	addi	s7,s7,-2048
+	addi	s1,s1,%lo(lwip_stats)
+	addi	s5,s5,%lo(.LANCHOR0)
+	lui	s8,%hi(.LC8)
+	lui	s9,%hi(.LC7)
+.L49:
+	li	s2,-267976704
+	lw	a5,0(s2)
+	andi	a5,a5,32
+	beq	a5,zero,.L48
+	lw	a3,32(s2)
+	addi	s0,a3,7
+	srli	s0,s0,3
+	bleu	s0,s7,.L50
+	lui	a0,%hi(.LC4)
+	mv	a2,a3
+	mv	a1,s0
+	addi	a0,a0,%lo(.LC4)
+	call	printf
+	lui	a5,%hi(_impure_ptr)
+	lw	a5,%lo(_impure_ptr)(a5)
+	lw	a0,8(a5)
+	call	fflush
+	li	a5,17
+	li	a0,8192
+	sw	a5,0(s2)
+	addi	a0,a0,1808
+	call	delay_us
+	sw	zero,0(s2)
+.L48:
+	lw	ra,60(sp)
+	lw	s0,56(sp)
+	lw	s1,52(sp)
+	lw	s2,48(sp)
+	lw	s3,44(sp)
+	lw	s4,40(sp)
+	lw	s5,36(sp)
+	lw	s6,32(sp)
+	lw	s7,28(sp)
+	lw	s8,24(sp)
+	lw	s9,20(sp)
+	lw	s10,16(sp)
+	addi	sp,sp,64
+	jr	ra
+.L50:
+	addi	s10,s0,2
+	slli	s10,s10,16
+	srli	s10,s10,16
+	li	a2,386
+	mv	a1,s10
+	li	a0,0
+	sw	a3,12(sp)
+	call	pbuf_alloc
+	mv	s2,a0
+	lw	a3,12(sp)
+	bne	a0,zero,.L52
+	li	a4,-268435456
+	lw	a5,4(a4)
+	lui	a0,%hi(.LC5)
+	mv	a2,s0
+	ori	a5,a5,2
+	sw	a5,4(a4)
+	addi	a4,a3,31
+	srli	a4,a4,5
+	mv	a1,s10
+	addi	a0,a0,%lo(.LC5)
+	call	printf
+	lui	a5,%hi(lwip_stats)
+	addi	a5,a5,%lo(lwip_stats)
+	lw	a4,24(a5)
+	addi	a4,a4,1
+	sw	a4,24(a5)
+	lw	a4,12(a5)
+	addi	a4,a4,1
+	sw	a4,12(a5)
+	li	a4,-267976704
+.L53:
+	bgt	s0,zero,.L54
+	lw	s0,56(sp)
+	lw	ra,60(sp)
+	lw	s1,52(sp)
+	lw	s2,48(sp)
+	lw	s3,44(sp)
+	lw	s4,40(sp)
+	lw	s5,36(sp)
+	lw	s6,32(sp)
+	lw	s7,28(sp)
+	lw	s8,24(sp)
+	lw	s9,20(sp)
+	lw	s10,16(sp)
+	lui	a0,%hi(.LC6)
+	addi	a0,a0,%lo(.LC6)
+	addi	sp,sp,64
+	tail	printf
+.L54:
+	lw	a5,0(a4)
+	andi	a5,a5,32
+	beq	a5,zero,.L54
+	lw	a5,32(a4)
+	addi	s0,s0,-4
+	j	.L53
+.L52:
+	li	a1,-2
+	call	pbuf_header
+	li	a4,0
+	li	a5,0
+	li	a2,-267976704
+.L55:
+	bne	s0,zero,.L63
+	li	a1,2
+	mv	a0,s2
+	lw	s4,4(s2)
+	call	pbuf_header
+	lw	a5,4(s1)
+	mv	a1,s5
+	mv	a0,s2
+	addi	a5,a5,1
+	sw	a5,4(s1)
+	lw	a5,16(s5)
+	jalr	a5
+	mv	a1,a0
+	beq	a0,zero,.L60
+	li	a4,-268435456
+	lw	a5,4(a4)
+	addi	a0,s8,%lo(.LC8)
+	ori	a5,a5,2
+	sw	a5,4(a4)
+	call	printf
+	j	.L60
+.L63:
+	bne	s3,zero,.L56
+	beq	a5,zero,.L65
+	lw	a5,0(a5)
+	bne	a5,zero,.L57
+	li	a4,-268435456
+	lw	a5,4(a4)
+	addi	a0,s9,%lo(.LC7)
+	ori	a5,a5,2
+	sw	a5,4(a4)
+	call	printf
+	lw	a5,24(s1)
+	li	a4,-267976704
+	addi	a5,a5,1
+	sw	a5,24(s1)
+	lw	a5,12(s1)
+	addi	a5,a5,1
+	sw	a5,12(s1)
+.L58:
+	lw	a5,0(a4)
+	andi	a5,a5,32
+	beq	a5,zero,.L58
+	lw	a5,32(a4)
+	addi	s0,s0,-4
+	bgt	s0,zero,.L58
+	li	a1,2
+	mv	a0,s2
+	call	pbuf_header
+.L60:
+	mv	a0,s2
+	call	pbuf_free
+	j	.L49
+.L65:
+	mv	a5,s2
+.L57:
+	lhu	s3,10(a5)
+	lw	s4,4(a5)
+.L56:
+	bne	a4,zero,.L61
+.L62:
+	lw	a3,0(a2)
+	andi	a3,a3,32
+	beq	a3,zero,.L62
+	lw	s6,32(a2)
+.L61:
+	addi	a4,a4,1
+	sb	s6,0(s4)
+	andi	a4,a4,3
+	srli	s6,s6,8
+	addi	s0,s0,-1
+	addi	s4,s4,1
+	addi	s3,s3,-1
+	j	.L55
+	.size	mac_rx_isr, .-mac_rx_isr
+	.align	2
+	.globl	mac_poll
+	.type	mac_poll, @function
+mac_poll:
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	sw	ra,12(sp)
+	sw	s1,4(sp)
+	call	sys_now
+	lui	a5,%hi(ts_etharp)
+	lw	a3,%lo(ts_etharp)(a5)
+	mv	s0,a0
+	lui	a4,%hi(ts_ipreass)
+	bgeu	a3,a0,.L79
+	lw	a3,%lo(ts_ipreass)(a4)
+	bltu	a3,a0,.L80
+.L79:
+	sw	s0,%lo(ts_ipreass)(a4)
+	sw	s0,%lo(ts_etharp)(a5)
+.L78:
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	lw	s1,4(sp)
+	addi	sp,sp,16
+	jr	ra
+.L80:
+	lui	s1,%hi(ts_dhcp_fine)
+	lw	a5,%lo(ts_dhcp_fine)(s1)
+	li	a4,499
+	sub	a5,a0,a5
+	bleu	a5,a4,.L82
+	call	dhcp_fine_tmr
+	sw	s0,%lo(ts_dhcp_fine)(s1)
+.L82:
+	lui	s1,%hi(ts_dhcp_coarse)
+	lw	a4,%lo(ts_dhcp_coarse)(s1)
+	li	a5,61440
+	addi	a5,a5,-1441
+	sub	a4,s0,a4
+	bleu	a4,a5,.L83
+	call	dhcp_coarse_tmr
+	sw	s0,%lo(ts_dhcp_coarse)(s1)
+.L83:
+	li	a5,-268042240
+	lw	a5,8(a5)
+	andi	a5,a5,4
+	beq	a5,zero,.L78
+	lui	a0,%hi(.LC9)
+	addi	a0,a0,%lo(.LC9)
+	call	printf
+	lw	s0,8(sp)
+	lw	ra,12(sp)
+	lw	s1,4(sp)
+	addi	sp,sp,16
+	tail	mac_rx_isr
+	.size	mac_poll, .-mac_poll
+	.align	2
+	.globl	mac_print_stats
+	.type	mac_print_stats, @function
+mac_print_stats:
+	lui	a0,%hi(.LANCHOR0+4)
+	addi	sp,sp,-16
+	addi	a0,a0,%lo(.LANCHOR0+4)
+	sw	ra,12(sp)
+	call	ip4addr_ntoa
+	lui	a2,%hi(lwip_stats)
+	addi	a2,a2,%lo(lwip_stats)
+	lw	a7,16(a2)
+	lw	a6,20(a2)
+	lw	a5,12(a2)
+	lw	a4,40(a2)
+	lw	a3,0(a2)
+	lw	ra,12(sp)
+	lw	a2,4(a2)
+	mv	a1,a0
+	lui	a0,%hi(.LC10)
+	addi	a0,a0,%lo(.LC10)
+	addi	sp,sp,16
+	tail	printf
+	.size	mac_print_stats, .-mac_print_stats
+	.globl	default_netif
+	.globl	ts_dhcp_coarse
+	.globl	ts_dhcp_fine
+	.globl	ts_ipreass
+	.globl	ts_tcp
+	.globl	ts_etharp
+	.bss
+	.align	2
+	.set	.LANCHOR0,. + 0
+	.type	default_netif, @object
+	.size	default_netif, 64
+default_netif:
+	.zero	64
+	.section	.rodata.str1.4,"aMS",@progbits,1
+	.align	2
+.LC0:
+	.string	"mac_init() iface is NULL !!!\r\n"
+	.zero	1
+.LC1:
+	.string	"eth0"
+	.zero	3
+.LC2:
+	.string	"mac_init() done\r\n"
+	.zero	2
+.LC3:
+	.string	"mac_lwip_init() netif_add failed!\r\n"
+.LC4:
+	.string	"mac_rx_isr() RX FIFO error, bytes_left = %d bytes (%d bits)\r\n"
+	.zero	2
+.LC5:
+	.string	"mac_rx_isr() pbuf_alloc(%d) error, bytes_left = %d, bits = %d, words = %d !!!\r\n"
+.LC6:
+	.string	"mac_rx_isr() RX FIFO cleared\r\n"
+	.zero	1
+.LC7:
+	.string	"mac_rx_isr() not enough space in pbuf!\r\n"
+	.zero	3
+.LC8:
+	.string	"mac_rx_isr() default_netif.input() error %d\r\n"
+	.zero	2
+.LC9:
+	.string	"mac_poll() stuck RX packet...\r\n"
+.LC10:
+	.string	"NETLINK: ip_addr = %s, rx = %d, tx = %d, err = %d, drop = %d, lenerr = %d, chkerr = %d\r\n"
+	.section	.sbss,"aw",@nobits
+	.align	2
+	.type	ts_dhcp_coarse, @object
+	.size	ts_dhcp_coarse, 4
+ts_dhcp_coarse:
+	.zero	4
+	.type	ts_dhcp_fine, @object
+	.size	ts_dhcp_fine, 4
+ts_dhcp_fine:
+	.zero	4
+	.type	ts_ipreass, @object
+	.size	ts_ipreass, 4
+ts_ipreass:
+	.zero	4
+	.type	ts_tcp, @object
+	.size	ts_tcp, 4
+ts_tcp:
+	.zero	4
+	.type	ts_etharp, @object
+	.size	ts_etharp, 4
+ts_etharp:
+	.zero	4
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"

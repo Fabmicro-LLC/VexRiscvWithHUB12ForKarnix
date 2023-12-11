@@ -1,0 +1,934 @@
+	.file	"etharp.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	2
+	.type	etharp_free_entry, @function
+etharp_free_entry:
+	addi	sp,sp,-32
+	sw	s1,20(sp)
+	slli	s1,a0,1
+	lui	a5,%hi(.LANCHOR0)
+	add	a4,s1,a0
+	sw	s2,16(sp)
+	slli	a4,a4,3
+	addi	s2,a5,%lo(.LANCHOR0)
+	sw	s0,24(sp)
+	sw	s3,12(sp)
+	sw	ra,28(sp)
+	add	s2,s2,a4
+	mv	s3,a0
+	lw	a0,0(s2)
+	addi	s0,a5,%lo(.LANCHOR0)
+	beq	a0,zero,.L2
+	call	pbuf_free
+	sw	zero,0(s2)
+.L2:
+	add	a0,s1,s3
+	slli	a0,a0,3
+	add	a0,s0,a0
+	lui	a1,%hi(ethzero)
+	sb	zero,20(a0)
+	sh	zero,18(a0)
+	sw	zero,8(a0)
+	sw	zero,4(a0)
+	li	a2,6
+	addi	a1,a1,%lo(ethzero)
+	addi	a0,a0,12
+	call	memcpy
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	lw	s2,16(sp)
+	lw	s3,12(sp)
+	addi	sp,sp,32
+	jr	ra
+	.size	etharp_free_entry, .-etharp_free_entry
+	.align	2
+	.type	etharp_find_entry, @function
+etharp_find_entry:
+	addi	sp,sp,-32
+	sw	s0,24(sp)
+	lui	s0,%hi(.LANCHOR0)
+	sw	s1,20(sp)
+	addi	a3,s0,%lo(.LANCHOR0)
+	sw	ra,28(sp)
+	sw	s2,16(sp)
+	sw	s3,12(sp)
+	li	t0,0
+	li	t6,0
+	li	t5,0
+	li	t1,10
+	li	a5,0
+	li	a4,10
+	li	a7,10
+	li	s1,10
+	addi	s0,s0,%lo(.LANCHOR0)
+	li	t3,10
+	li	t2,1
+.L15:
+	lbu	t4,20(a3)
+	bne	a4,t3,.L8
+	beq	t4,zero,.L19
+.L10:
+	beq	a0,zero,.L11
+	lw	s2,0(a0)
+	lw	a6,4(a3)
+	bne	s2,a6,.L11
+	beq	a2,zero,.L12
+	lw	a6,8(a3)
+	beq	a6,a2,.L12
+.L11:
+	lhu	a6,18(a3)
+	bne	t4,t2,.L13
+	lw	t4,0(a3)
+	beq	t4,zero,.L14
+	bltu	a6,t5,.L9
+	mv	t5,a6
+	mv	t1,a5
+	j	.L9
+.L8:
+	bne	t4,zero,.L10
+.L9:
+	addi	a5,a5,1
+	slli	a6,a5,16
+	srli	a6,a6,16
+	slli	a5,a6,16
+	addi	a3,a3,24
+	srai	a5,a5,16
+	bne	a6,t3,.L15
+	li	a3,1
+	li	a5,-1
+	bne	a1,a3,.L12
+	mv	s3,a2
+	mv	s2,a0
+	bne	a4,t3,.L16
+	bne	a7,a4,.L21
+	bne	s1,a7,.L17
+	beq	t1,s1,.L12
+	mv	s1,t1
+.L17:
+	mv	a0,s1
+	call	etharp_free_entry
+	mv	a4,s1
+.L16:
+	slli	a5,a4,1
+	beq	s2,zero,.L18
+	lw	a2,0(s2)
+	add	a3,a5,a4
+	slli	a3,a3,3
+	add	a3,s0,a3
+	sw	a2,4(a3)
+.L18:
+	add	a5,a5,a4
+	slli	a5,a5,3
+	add	a5,s0,a5
+	sh	zero,18(a5)
+	sw	s3,8(a5)
+	mv	a5,a4
+.L12:
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	lw	s2,16(sp)
+	lw	s3,12(sp)
+	mv	a0,a5
+	addi	sp,sp,32
+	jr	ra
+.L14:
+	bltu	a6,t6,.L9
+	mv	t6,a6
+	mv	s1,a5
+	j	.L9
+.L13:
+	bltu	a6,t0,.L9
+	mv	t0,a6
+	mv	a7,a5
+	j	.L9
+.L19:
+	mv	a4,a5
+	j	.L9
+.L21:
+	mv	s1,a7
+	j	.L17
+	.size	etharp_find_entry, .-etharp_find_entry
+	.align	2
+	.type	etharp_raw, @function
+etharp_raw:
+	addi	sp,sp,-64
+	sw	s3,44(sp)
+	sw	s4,40(sp)
+	sw	s5,36(sp)
+	mv	s3,a0
+	mv	s4,a1
+	mv	s5,a2
+	li	a1,28
+	li	a2,640
+	li	a0,16
+	sw	s1,52(sp)
+	sw	s6,32(sp)
+	sw	s7,28(sp)
+	sw	s8,24(sp)
+	sw	s9,20(sp)
+	sw	a7,12(sp)
+	sw	ra,60(sp)
+	sw	s0,56(sp)
+	sw	s2,48(sp)
+	mv	s9,a3
+	mv	s7,a4
+	mv	s8,a5
+	mv	s6,a6
+	lui	s1,%hi(lwip_stats)
+	call	pbuf_alloc
+	addi	s1,s1,%lo(lwip_stats)
+	lw	a7,12(sp)
+	bne	a0,zero,.L38
+	lw	a5,72(s1)
+	li	a0,-1
+	addi	a5,a5,1
+	sw	a5,72(s1)
+.L37:
+	lw	ra,60(sp)
+	lw	s0,56(sp)
+	lw	s1,52(sp)
+	lw	s2,48(sp)
+	lw	s3,44(sp)
+	lw	s4,40(sp)
+	lw	s5,36(sp)
+	lw	s6,32(sp)
+	lw	s7,28(sp)
+	lw	s8,24(sp)
+	lw	s9,20(sp)
+	addi	sp,sp,64
+	jr	ra
+.L38:
+	lw	s0,4(a0)
+	mv	s2,a0
+	mv	a0,a7
+	call	lwip_htons
+	sb	a0,6(s0)
+	srli	a0,a0,8
+	sb	a0,7(s0)
+	li	a2,6
+	mv	a1,s9
+	addi	a0,s0,8
+	call	memcpy
+	li	a2,6
+	mv	a1,s8
+	addi	a0,s0,18
+	call	memcpy
+	li	a2,4
+	mv	a1,s7
+	addi	a0,s0,14
+	call	memcpy
+	li	a2,4
+	mv	a1,s6
+	addi	a0,s0,24
+	call	memcpy
+	li	a5,1
+	sb	a5,1(s0)
+	li	a5,8
+	sb	a5,2(s0)
+	li	a5,6
+	sb	a5,4(s0)
+	li	a4,4096
+	li	a5,4
+	sb	a5,5(s0)
+	addi	a4,a4,-2042
+	mv	a3,s5
+	mv	a2,s4
+	mv	a1,s2
+	sb	zero,0(s0)
+	sb	zero,3(s0)
+	mv	a0,s3
+	call	ethernet_output
+	lw	a5,48(s1)
+	mv	a0,s2
+	addi	a5,a5,1
+	sw	a5,48(s1)
+	call	pbuf_free
+	li	a0,0
+	j	.L37
+	.size	etharp_raw, .-etharp_raw
+	.align	2
+	.globl	etharp_cleanup_netif
+	.type	etharp_cleanup_netif, @function
+etharp_cleanup_netif:
+	addi	sp,sp,-32
+	sw	s0,24(sp)
+	lui	s0,%hi(.LANCHOR0)
+	sw	s1,20(sp)
+	sw	s2,16(sp)
+	sw	s3,12(sp)
+	sw	ra,28(sp)
+	mv	s3,a0
+	addi	s0,s0,%lo(.LANCHOR0)
+	li	s1,0
+	li	s2,10
+.L43:
+	lbu	a5,20(s0)
+	beq	a5,zero,.L42
+	lw	a5,8(s0)
+	bne	a5,s3,.L42
+	mv	a0,s1
+	call	etharp_free_entry
+.L42:
+	addi	s1,s1,1
+	addi	s0,s0,24
+	bne	s1,s2,.L43
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	lw	s2,16(sp)
+	lw	s3,12(sp)
+	addi	sp,sp,32
+	jr	ra
+	.size	etharp_cleanup_netif, .-etharp_cleanup_netif
+	.align	2
+	.globl	etharp_find_addr
+	.type	etharp_find_addr, @function
+etharp_find_addr:
+	addi	sp,sp,-32
+	mv	a5,a1
+	sw	s0,24(sp)
+	li	a1,2
+	mv	s0,a2
+	mv	a2,a0
+	mv	a0,a5
+	sw	ra,28(sp)
+	sw	a3,12(sp)
+	call	etharp_find_entry
+	blt	a0,zero,.L52
+	slli	a5,a0,1
+	lui	a4,%hi(.LANCHOR0)
+	add	a5,a5,a0
+	addi	a4,a4,%lo(.LANCHOR0)
+	slli	a5,a5,3
+	add	a2,a4,a5
+	lbu	a1,20(a2)
+	li	a2,1
+	bleu	a1,a2,.L52
+	addi	a2,a5,12
+	lw	a3,12(sp)
+	add	a2,a4,a2
+	addi	a5,a5,4
+	sw	a2,0(s0)
+	add	a5,a4,a5
+	sw	a5,0(a3)
+.L49:
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	addi	sp,sp,32
+	jr	ra
+.L52:
+	li	a0,-1
+	j	.L49
+	.size	etharp_find_addr, .-etharp_find_addr
+	.align	2
+	.globl	etharp_get_entry
+	.type	etharp_get_entry, @function
+etharp_get_entry:
+	li	a5,9
+	bgtu	a0,a5,.L56
+	slli	a5,a0,1
+	add	a5,a5,a0
+	lui	a4,%hi(.LANCHOR0)
+	addi	a4,a4,%lo(.LANCHOR0)
+	slli	a5,a5,3
+	add	a6,a4,a5
+	lbu	t1,20(a6)
+	li	a7,1
+	li	a0,0
+	bleu	t1,a7,.L54
+	addi	a0,a5,4
+	add	a0,a4,a0
+	sw	a0,0(a1)
+	lw	a1,8(a6)
+	addi	a5,a5,12
+	add	a5,a4,a5
+	sw	a1,0(a2)
+	sw	a5,0(a3)
+	li	a0,1
+	ret
+.L56:
+	li	a0,0
+.L54:
+	ret
+	.size	etharp_get_entry, .-etharp_get_entry
+	.align	2
+	.globl	etharp_input
+	.type	etharp_input, @function
+etharp_input:
+	beq	a1,zero,.L84
+	addi	sp,sp,-64
+	sw	s0,56(sp)
+	sw	s2,48(sp)
+	sw	s3,44(sp)
+	sw	ra,60(sp)
+	sw	s1,52(sp)
+	sw	s4,40(sp)
+	sw	s5,36(sp)
+	sw	s6,32(sp)
+	sw	s7,28(sp)
+	lw	s1,4(a0)
+	lui	s2,%hi(lwip_stats)
+	mv	s0,a1
+	lbu	a5,1(s1)
+	lbu	a4,0(s1)
+	mv	s3,a0
+	slli	a5,a5,8
+	or	a5,a5,a4
+	li	a4,256
+	addi	s2,s2,%lo(lwip_stats)
+	bne	a5,a4,.L60
+	lbu	a4,4(s1)
+	li	a5,6
+	bne	a4,a5,.L60
+	lbu	a4,5(s1)
+	li	a5,4
+	bne	a4,a5,.L60
+	lbu	a5,3(s1)
+	lbu	a4,2(s1)
+	slli	a5,a5,8
+	or	a5,a5,a4
+	li	a4,8
+	beq	a5,a4,.L61
+.L60:
+	lw	a5,80(s2)
+	addi	a5,a5,1
+	sw	a5,80(s2)
+	lw	a5,60(s2)
+	addi	a5,a5,1
+	sw	a5,60(s2)
+.L69:
+	mv	a0,s3
+	call	pbuf_free
+	lw	ra,60(sp)
+	lw	s0,56(sp)
+	lw	s1,52(sp)
+	lw	s2,48(sp)
+	lw	s3,44(sp)
+	lw	s4,40(sp)
+	lw	s5,36(sp)
+	lw	s6,32(sp)
+	lw	s7,28(sp)
+	addi	sp,sp,64
+	jr	ra
+.L61:
+	lw	a5,52(s2)
+	li	a2,4
+	addi	a1,s1,14
+	addi	a5,a5,1
+	addi	a0,sp,8
+	sw	a5,52(s2)
+	call	memcpy
+	li	a2,4
+	addi	a1,s1,24
+	addi	a0,sp,12
+	call	memcpy
+	lw	a5,4(s0)
+	addi	s4,s1,8
+	beq	a5,zero,.L71
+	lw	a4,12(sp)
+	beq	a5,a4,.L72
+.L71:
+	li	s5,0
+	li	s6,2
+.L62:
+	lw	a0,8(sp)
+	beq	a0,zero,.L64
+	mv	a1,s0
+	call	ip4_addr_isbroadcast_u32
+	bne	a0,zero,.L64
+	lw	a5,8(sp)
+	li	a4,224
+	andi	a5,a5,240
+	beq	a5,a4,.L64
+	mv	a2,s0
+	mv	a1,s6
+	addi	a0,sp,8
+	call	etharp_find_entry
+	blt	a0,zero,.L64
+	slli	a5,a0,1
+	add	a5,a5,a0
+	lui	a4,%hi(.LANCHOR0)
+	addi	a4,a4,%lo(.LANCHOR0)
+	slli	a5,a5,3
+	add	s6,a4,a5
+	li	a3,2
+	addi	a5,a5,12
+	sb	a3,20(s6)
+	sw	s0,8(s6)
+	li	a2,6
+	mv	a1,s4
+	add	a0,a4,a5
+	call	memcpy
+	lw	s7,0(s6)
+	sh	zero,18(s6)
+	beq	s7,zero,.L64
+	li	a4,4096
+	sw	zero,0(s6)
+	addi	a4,a4,-2048
+	mv	a3,s4
+	addi	a2,s0,46
+	mv	a1,s7
+	mv	a0,s0
+	call	ethernet_output
+	mv	a0,s7
+	call	pbuf_free
+.L64:
+	lbu	a5,7(s1)
+	lbu	a4,6(s1)
+	slli	a5,a5,8
+	or	a5,a5,a4
+	li	a4,256
+	beq	a5,a4,.L66
+	li	a4,512
+	beq	a5,a4,.L67
+	lw	a5,88(s2)
+	addi	a5,a5,1
+	sw	a5,88(s2)
+	j	.L69
+.L72:
+	li	s5,1
+	li	s6,1
+	j	.L62
+.L66:
+	beq	s5,zero,.L69
+	addi	a3,s0,46
+	li	a7,2
+	addi	a6,sp,8
+	mv	a5,s4
+	addi	a4,s0,4
+	mv	a2,s4
+	mv	a1,a3
+	mv	a0,s0
+	call	etharp_raw
+	j	.L69
+.L67:
+	addi	a1,sp,8
+	mv	a0,s0
+	call	dhcp_arp_reply
+	j	.L69
+.L84:
+	ret
+	.size	etharp_input, .-etharp_input
+	.align	2
+	.globl	etharp_request
+	.type	etharp_request, @function
+etharp_request:
+	addi	a3,a0,46
+	lui	a5,%hi(ethzero)
+	lui	a2,%hi(ethbroadcast)
+	mv	a6,a1
+	li	a7,1
+	addi	a5,a5,%lo(ethzero)
+	addi	a4,a0,4
+	addi	a2,a2,%lo(ethbroadcast)
+	mv	a1,a3
+	tail	etharp_raw
+	.size	etharp_request, .-etharp_request
+	.align	2
+	.globl	etharp_tmr
+	.type	etharp_tmr, @function
+etharp_tmr:
+	addi	sp,sp,-48
+	sw	s0,40(sp)
+	lui	s0,%hi(.LANCHOR0)
+	sw	s1,36(sp)
+	sw	s2,32(sp)
+	sw	s3,28(sp)
+	sw	s4,24(sp)
+	sw	s5,20(sp)
+	sw	s6,16(sp)
+	sw	s7,12(sp)
+	sw	ra,44(sp)
+	addi	s0,s0,%lo(.LANCHOR0)
+	li	s1,0
+	li	s4,299
+	li	s5,1
+	li	s6,3
+	li	s2,4
+	li	s7,2
+	li	s3,10
+.L96:
+	lbu	a4,20(s0)
+	beq	a4,zero,.L90
+	lhu	a5,18(s0)
+	addi	a5,a5,1
+	slli	a5,a5,16
+	srli	a5,a5,16
+	sh	a5,18(s0)
+	bgtu	a5,s4,.L91
+	bne	a4,s5,.L92
+	bleu	a5,s2,.L93
+.L91:
+	mv	a0,s1
+	call	etharp_free_entry
+.L90:
+	addi	s1,s1,1
+	addi	s0,s0,24
+	bne	s1,s3,.L96
+	lw	ra,44(sp)
+	lw	s0,40(sp)
+	lw	s1,36(sp)
+	lw	s2,32(sp)
+	lw	s3,28(sp)
+	lw	s4,24(sp)
+	lw	s5,20(sp)
+	lw	s6,16(sp)
+	lw	s7,12(sp)
+	addi	sp,sp,48
+	jr	ra
+.L92:
+	bne	a4,s6,.L94
+	sb	s2,20(s0)
+	j	.L90
+.L94:
+	bne	a4,s2,.L90
+	sb	s7,20(s0)
+	j	.L90
+.L93:
+	lw	a0,8(s0)
+	addi	a1,s0,4
+	call	etharp_request
+	j	.L90
+	.size	etharp_tmr, .-etharp_tmr
+	.align	2
+	.type	etharp_output_to_arp_index, @function
+etharp_output_to_arp_index:
+	addi	sp,sp,-32
+	sw	s4,8(sp)
+	mv	s4,a1
+	slli	a1,a2,1
+	add	a2,a1,a2
+	lui	a1,%hi(.LANCHOR0)
+	slli	a2,a2,3
+	addi	a1,a1,%lo(.LANCHOR0)
+	sw	s0,24(sp)
+	sw	s1,20(sp)
+	sw	s2,16(sp)
+	sw	s3,12(sp)
+	sw	ra,28(sp)
+	add	s1,a1,a2
+	lbu	a4,20(s1)
+	addi	s0,a2,12
+	li	a5,2
+	mv	s2,a0
+	add	s0,a1,s0
+	addi	s3,a0,46
+	bne	a4,a5,.L101
+	lhu	a5,18(s1)
+	li	a4,284
+	bleu	a5,a4,.L102
+	addi	a2,a2,4
+	add	a1,a1,a2
+	call	etharp_request
+.L107:
+	bne	a0,zero,.L101
+	li	a5,3
+	sb	a5,20(s1)
+.L101:
+	mv	a3,s0
+	lw	s0,24(sp)
+	lw	ra,28(sp)
+	lw	s1,20(sp)
+	mv	a2,s3
+	mv	a1,s4
+	lw	s3,12(sp)
+	lw	s4,8(sp)
+	mv	a0,s2
+	lw	s2,16(sp)
+	li	a4,4096
+	addi	a4,a4,-2048
+	addi	sp,sp,32
+	tail	ethernet_output
+.L102:
+	li	a4,269
+	bleu	a5,a4,.L101
+	addi	a2,a2,4
+	lui	a5,%hi(ethzero)
+	add	a6,a1,a2
+	li	a7,1
+	addi	a5,a5,%lo(ethzero)
+	addi	a4,a0,4
+	mv	a3,s3
+	mv	a2,s0
+	mv	a1,s3
+	call	etharp_raw
+	j	.L107
+	.size	etharp_output_to_arp_index, .-etharp_output_to_arp_index
+	.align	2
+	.globl	etharp_query
+	.type	etharp_query, @function
+etharp_query:
+	addi	sp,sp,-32
+	sw	s5,4(sp)
+	mv	s5,a1
+	sw	s1,20(sp)
+	mv	a1,a0
+	mv	s1,a0
+	lw	a0,0(s5)
+	sw	s3,12(sp)
+	sw	ra,28(sp)
+	sw	s0,24(sp)
+	sw	s2,16(sp)
+	sw	s4,8(sp)
+	mv	s3,a2
+	call	ip4_addr_isbroadcast_u32
+	bne	a0,zero,.L125
+	lw	a5,0(s5)
+	li	a4,224
+	andi	a3,a5,240
+	beq	a3,a4,.L125
+	beq	a5,zero,.L125
+	mv	a2,s1
+	li	a1,1
+	mv	a0,s5
+	call	etharp_find_entry
+	bge	a0,zero,.L110
+	beq	s3,zero,.L108
+	lui	a5,%hi(lwip_stats)
+	addi	a5,a5,%lo(lwip_stats)
+	lw	a4,72(a5)
+	addi	a4,a4,1
+	sw	a4,72(a5)
+.L108:
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	lw	s2,16(sp)
+	lw	s3,12(sp)
+	lw	s4,8(sp)
+	lw	s5,4(sp)
+	addi	sp,sp,32
+	jr	ra
+.L110:
+	andi	s0,a0,0xff
+	slli	s4,s0,1
+	lui	s2,%hi(.LANCHOR0)
+	add	a4,s4,s0
+	addi	a5,s2,%lo(.LANCHOR0)
+	slli	a4,a4,3
+	add	a5,a5,a4
+	lbu	a4,20(a5)
+	addi	s2,s2,%lo(.LANCHOR0)
+	beq	a4,zero,.L112
+	li	a0,-1
+	bne	s3,zero,.L114
+.L113:
+	mv	a1,s5
+	mv	a0,s1
+	call	etharp_request
+	beq	s3,zero,.L108
+.L114:
+	add	a5,s4,s0
+	slli	a5,a5,3
+	add	a5,s2,a5
+	lbu	a4,20(a5)
+	li	a5,1
+	bleu	a4,a5,.L115
+	beq	s1,zero,.L116
+	lw	a5,60(s1)
+	beq	a5,zero,.L116
+	sb	s0,0(a5)
+.L116:
+	add	a3,s4,s0
+	slli	a3,a3,3
+	lw	s0,24(sp)
+	addi	a3,a3,12
+	lw	ra,28(sp)
+	lw	s4,8(sp)
+	lw	s5,4(sp)
+	add	a3,s2,a3
+	addi	a2,s1,46
+	lw	s2,16(sp)
+	mv	a1,s3
+	mv	a0,s1
+	lw	s3,12(sp)
+	lw	s1,20(sp)
+	li	a4,4096
+	addi	a4,a4,-2048
+	addi	sp,sp,32
+	tail	ethernet_output
+.L112:
+	li	a4,1
+	sb	a4,20(a5)
+	sw	s1,8(a5)
+	j	.L113
+.L115:
+	bne	a4,a5,.L108
+	mv	a5,s3
+.L118:
+	lbu	a4,12(a5)
+	andi	a4,a4,64
+	bne	a4,zero,.L117
+	lw	a5,0(a5)
+	bne	a5,zero,.L118
+	mv	a0,s3
+	call	pbuf_ref
+.L121:
+	add	a5,s4,s0
+	slli	a5,a5,3
+	add	a5,s2,a5
+	lw	a0,0(a5)
+	beq	a0,zero,.L120
+	call	pbuf_free
+.L120:
+	add	s0,s4,s0
+	slli	s0,s0,3
+	add	s0,s2,s0
+	sw	s3,0(s0)
+	li	a0,0
+	j	.L108
+.L125:
+	li	a0,-16
+	j	.L108
+.L117:
+	mv	a2,s3
+	li	a1,640
+	li	a0,16
+	call	pbuf_clone
+	mv	s3,a0
+	bne	a0,zero,.L121
+	lui	a5,%hi(lwip_stats)
+	addi	a5,a5,%lo(lwip_stats)
+	lw	a4,72(a5)
+	li	a0,-1
+	addi	a4,a4,1
+	sw	a4,72(a5)
+	j	.L108
+	.size	etharp_query, .-etharp_query
+	.align	2
+	.globl	etharp_output
+	.type	etharp_output, @function
+etharp_output:
+	addi	sp,sp,-32
+	sw	s0,24(sp)
+	sw	s1,20(sp)
+	sw	s2,16(sp)
+	sw	ra,28(sp)
+	mv	s0,a0
+	mv	s2,a1
+	mv	a1,a0
+	lw	a0,0(a2)
+	mv	s1,a2
+	call	ip4_addr_isbroadcast_u32
+	bne	a0,zero,.L157
+	lw	a5,0(s1)
+	li	a4,224
+	andi	a2,a5,240
+	bne	a2,a4,.L150
+	li	a5,1
+	sh	a5,8(sp)
+	li	a5,94
+	sb	a5,10(sp)
+	lbu	a5,1(s1)
+	addi	a3,sp,8
+	andi	a5,a5,127
+	sb	a5,11(sp)
+	lbu	a5,2(s1)
+	sb	a5,12(sp)
+	lbu	a5,3(s1)
+	sb	a5,13(sp)
+.L149:
+	li	a4,4096
+	addi	a4,a4,-2048
+	addi	a2,s0,46
+	mv	a1,s2
+	mv	a0,s0
+	call	ethernet_output
+	j	.L148
+.L150:
+	lw	a4,4(s0)
+	lw	a2,8(s0)
+	mv	a3,a0
+	xor	a4,a5,a4
+	and	a4,a4,a2
+	beq	a4,zero,.L151
+	slli	a5,a5,16
+	li	a4,65536
+	srli	a5,a5,16
+	addi	a4,a4,-343
+	beq	a5,a4,.L151
+	lw	a5,12(s0)
+	li	a0,-4
+	beq	a5,zero,.L148
+	addi	s1,s0,12
+.L151:
+	lw	a1,60(s0)
+	lui	a5,%hi(.LANCHOR0)
+	addi	a5,a5,%lo(.LANCHOR0)
+	beq	a1,zero,.L153
+	lbu	a2,0(a1)
+	li	a4,9
+	bgtu	a2,a4,.L153
+	slli	a4,a2,1
+	add	a4,a4,a2
+	slli	a4,a4,3
+	add	a4,a5,a4
+	lbu	a6,20(a4)
+	li	a0,1
+	bleu	a6,a0,.L153
+	lw	a0,8(a4)
+	bne	a0,s0,.L153
+	lw	a0,0(s1)
+	lw	a4,4(a4)
+	bne	a0,a4,.L153
+	lui	a5,%hi(lwip_stats)
+	addi	a5,a5,%lo(lwip_stats)
+	lw	a4,92(a5)
+	addi	a4,a4,1
+	sw	a4,92(a5)
+.L170:
+	mv	a1,s2
+	mv	a0,s0
+	call	etharp_output_to_arp_index
+.L148:
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	lw	s2,16(sp)
+	addi	sp,sp,32
+	jr	ra
+.L153:
+	li	a2,1
+	li	a4,10
+.L156:
+	lbu	a0,20(a5)
+	bleu	a0,a2,.L154
+	lw	a0,8(a5)
+	bne	a0,s0,.L154
+	lw	a6,0(s1)
+	lw	a0,4(a5)
+	bne	a6,a0,.L154
+	beq	a1,zero,.L155
+	sb	a3,0(a1)
+.L155:
+	mv	a2,a3
+	j	.L170
+.L154:
+	addi	a3,a3,1
+	andi	a3,a3,0xff
+	addi	a5,a5,24
+	bne	a3,a4,.L156
+	mv	a2,s2
+	mv	a1,s1
+	mv	a0,s0
+	call	etharp_query
+	j	.L148
+.L157:
+	lui	a3,%hi(ethbroadcast)
+	addi	a3,a3,%lo(ethbroadcast)
+	j	.L149
+	.size	etharp_output, .-etharp_output
+	.bss
+	.align	2
+	.set	.LANCHOR0,. + 0
+	.type	arp_table, @object
+	.size	arp_table, 240
+arp_table:
+	.zero	240
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"

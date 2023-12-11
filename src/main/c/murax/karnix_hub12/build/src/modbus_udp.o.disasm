@@ -1,0 +1,247 @@
+	.file	"modbus_udp.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	2
+	.globl	modbus_udp_init
+	.type	modbus_udp_init, @function
+modbus_udp_init:
+	addi	sp,sp,-16
+	li	a0,46
+	sw	s1,4(sp)
+	sw	ra,12(sp)
+	sw	s0,8(sp)
+	lui	s1,%hi(modbus_udp_pcb)
+	call	udp_new_ip_type
+	sw	a0,%lo(modbus_udp_pcb)(s1)
+	bne	a0,zero,.L2
+	lui	a0,%hi(.LC0)
+	addi	a0,a0,%lo(.LC0)
+	call	printf
+	li	s0,-1
+.L1:
+	mv	a0,s0
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	lw	s1,4(sp)
+	addi	sp,sp,16
+	jr	ra
+.L2:
+	lui	a1,%hi(ip_addr_any)
+	li	a2,2001
+	addi	a1,a1,%lo(ip_addr_any)
+	call	udp_bind
+	mv	s0,a0
+	beq	a0,zero,.L4
+	lui	a0,%hi(.LC1)
+	addi	a0,a0,%lo(.LC1)
+	call	printf
+	lw	a0,%lo(modbus_udp_pcb)(s1)
+	call	udp_remove
+	j	.L1
+.L4:
+	lw	a0,%lo(modbus_udp_pcb)(s1)
+	lui	a1,%hi(modbus_udp_recv)
+	li	a2,0
+	addi	a1,a1,%lo(modbus_udp_recv)
+	call	udp_recv
+	lui	a0,%hi(.LC2)
+	addi	a0,a0,%lo(.LC2)
+	call	printf
+	j	.L1
+	.size	modbus_udp_init, .-modbus_udp_init
+	.align	2
+	.globl	modbus_udp_send
+	.type	modbus_udp_send, @function
+modbus_udp_send:
+	addi	sp,sp,-48
+	sw	s4,24(sp)
+	addi	s4,a3,1
+	sw	s2,32(sp)
+	mv	s2,a1
+	slli	a1,s4,16
+	sw	s3,28(sp)
+	sw	s5,20(sp)
+	mv	s3,a0
+	mv	s5,a2
+	srli	a1,a1,16
+	li	a2,640
+	li	a0,56
+	sw	s1,36(sp)
+	sw	ra,44(sp)
+	sw	s0,40(sp)
+	mv	s1,a3
+	call	pbuf_alloc
+	bne	a0,zero,.L7
+	li	a4,-268435456
+	lw	a5,4(a4)
+	lui	a0,%hi(.LC3)
+	addi	a0,a0,%lo(.LC3)
+	andi	a5,a5,-3
+	sw	a5,4(a4)
+	lw	s0,40(sp)
+	lw	ra,44(sp)
+	lw	s1,36(sp)
+	lw	s2,32(sp)
+	lw	s3,28(sp)
+	lw	s4,24(sp)
+	lw	s5,20(sp)
+	addi	sp,sp,48
+	tail	printf
+.L7:
+	lw	a5,4(a0)
+	mv	s0,a0
+	beq	a5,zero,.L8
+	lhu	a4,10(a0)
+	bgeu	a4,s4,.L9
+.L8:
+	li	a4,-268435456
+	lw	a5,4(a4)
+	lui	a0,%hi(.LC4)
+	addi	a0,a0,%lo(.LC4)
+	andi	a5,a5,-3
+	sw	a5,4(a4)
+	lhu	a2,10(s0)
+	lw	a1,4(s0)
+	lw	s0,40(sp)
+	lw	ra,44(sp)
+	lw	s1,36(sp)
+	lw	s2,32(sp)
+	lw	s3,28(sp)
+	lw	s4,24(sp)
+	lw	s5,20(sp)
+	addi	sp,sp,48
+	tail	printf
+.L9:
+	mv	a2,s1
+	mv	a1,s5
+	mv	a0,a5
+	call	memcpy
+	add	a5,a0,s1
+	sb	zero,0(a5)
+	lui	a5,%hi(modbus_udp_pcb)
+	lw	a0,%lo(modbus_udp_pcb)(a5)
+	mv	a1,s0
+	mv	a3,s2
+	mv	a2,s3
+	call	udp_sendto
+	mv	a1,a0
+	beq	a0,zero,.L10
+	li	a4,-268435456
+	lw	a5,4(a4)
+	lui	a0,%hi(.LC5)
+	addi	a0,a0,%lo(.LC5)
+	andi	a5,a5,-3
+	sw	a5,4(a4)
+	call	printf
+.L11:
+	mv	a0,s0
+	lw	s0,40(sp)
+	lw	ra,44(sp)
+	lw	s1,36(sp)
+	lw	s2,32(sp)
+	lw	s3,28(sp)
+	lw	s4,24(sp)
+	lw	s5,20(sp)
+	addi	sp,sp,48
+	tail	pbuf_free
+.L10:
+	lhu	a1,10(s0)
+	mv	a0,s3
+	sw	a1,12(sp)
+	call	ip4addr_ntoa
+	lw	a1,12(sp)
+	mv	a2,a0
+	lui	a0,%hi(.LC6)
+	mv	a3,s2
+	addi	a0,a0,%lo(.LC6)
+	call	printf
+	j	.L11
+	.size	modbus_udp_send, .-modbus_udp_send
+	.align	2
+	.globl	modbus_udp_recv
+	.type	modbus_udp_recv, @function
+modbus_udp_recv:
+	addi	sp,sp,-160
+	sw	ra,156(sp)
+	sw	s1,148(sp)
+	sw	s2,144(sp)
+	sw	s3,140(sp)
+	sw	s0,152(sp)
+	sw	s4,136(sp)
+	lhu	s0,10(a2)
+	mv	a0,a3
+	mv	s3,a4
+	mv	s1,a2
+	lw	s4,4(a2)
+	mv	s2,a3
+	call	ip4addr_ntoa
+	mv	a1,a0
+	lui	a0,%hi(.LC7)
+	mv	a3,s0
+	mv	a2,s3
+	addi	a0,a0,%lo(.LC7)
+	call	printf
+	mv	a1,s0
+	mv	a2,sp
+	mv	a0,s4
+	call	modbus_recv
+	mv	s0,a0
+	mv	a0,s1
+	call	pbuf_free
+	beq	s0,zero,.L16
+	lui	a0,%hi(.LC8)
+	mv	a1,s0
+	addi	a0,a0,%lo(.LC8)
+	call	printf
+	mv	a3,s0
+	mv	a2,sp
+	mv	a1,s3
+	mv	a0,s2
+	call	modbus_udp_send
+.L16:
+	lw	ra,156(sp)
+	lw	s0,152(sp)
+	lw	s1,148(sp)
+	lw	s2,144(sp)
+	lw	s3,140(sp)
+	lw	s4,136(sp)
+	addi	sp,sp,160
+	jr	ra
+	.size	modbus_udp_recv, .-modbus_udp_recv
+	.globl	modbus_udp_pcb
+	.section	.rodata.str1.4,"aMS",@progbits,1
+	.align	2
+.LC0:
+	.string	"modbus_udp_init() failed to udp_new_ip_type()\r\n"
+.LC1:
+	.string	"modbus_udp_init() failed to udp_bind()\r\n"
+	.zero	3
+.LC2:
+	.string	"modbus_udp_init() done\r\n"
+	.zero	3
+.LC3:
+	.string	"modbus_udp_send() error while in pbuf_alloc()\r\n"
+.LC4:
+	.string	"modbus_udp_send() bogus p->payload = %p, p->len = %d\r\n"
+	.zero	1
+.LC5:
+	.string	"modbus_udp_send() error while in udp_sendto() = %d\r\n"
+	.zero	3
+.LC6:
+	.string	"modbus_udp_send() sent %d bytes to %s:%d\r\n"
+	.zero	1
+.LC7:
+	.string	"modbus_udp_recv() from %s:%d, size = %d\r\n"
+	.zero	2
+.LC8:
+	.string	"modbus_udp_recv() responding with %d bytes\r\n"
+	.section	.sbss,"aw",@nobits
+	.align	2
+	.type	modbus_udp_pcb, @object
+	.size	modbus_udp_pcb, 4
+modbus_udp_pcb:
+	.zero	4
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"

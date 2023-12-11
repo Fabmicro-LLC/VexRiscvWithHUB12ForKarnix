@@ -1,0 +1,256 @@
+	.file	"utils.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	2
+	.globl	__malloc_lock
+	.type	__malloc_lock, @function
+__malloc_lock:
+	ret
+	.size	__malloc_lock, .-__malloc_lock
+	.align	2
+	.globl	__malloc_unlock
+	.type	__malloc_unlock, @function
+__malloc_unlock:
+	ret
+	.size	__malloc_unlock, .-__malloc_unlock
+	.align	2
+	.globl	init_sbrk
+	.type	init_sbrk, @function
+init_sbrk:
+	lui	a5,%hi(_heap_start)
+	lui	a4,%hi(sbrk_heap_end)
+	addi	a5,a5,%lo(_heap_start)
+	sw	a5,%lo(sbrk_heap_end)(a4)
+	ret
+	.size	init_sbrk, .-init_sbrk
+	.align	2
+	.globl	delay
+	.type	delay, @function
+delay:
+	li	a5,0
+.L5:
+	bne	a5,a0,.L6
+	ret
+.L6:
+ #APP
+# 63 "src/utils.c" 1
+	add a2,a2,0
+# 0 "" 2
+ #NO_APP
+	addi	a5,a5,1
+	j	.L5
+	.size	delay, .-delay
+	.align	2
+	.globl	delay_us
+	.type	delay_us, @function
+delay_us:
+	li	a5,-267714560
+	lw	a6,0(a5)
+	lw	a7,4(a5)
+	li	a2,-267714560
+.L8:
+	lw	t1,0(a2)
+	lw	t2,4(a2)
+	sub	a3,t1,a6
+	sgtu	a4,a3,t1
+	sub	a5,t2,a7
+	bne	a5,a4,.L7
+	bgtu	a0,a3,.L8
+.L7:
+	ret
+	.size	delay_us, .-delay_us
+	.align	2
+	.globl	print_uart0
+	.type	print_uart0, @function
+print_uart0:
+	li	a3,-268369920
+.L12:
+	lbu	a4,0(a0)
+	bne	a4,zero,.L13
+	ret
+.L13:
+	lw	a5,4(a3)
+	srli	a5,a5,16
+	andi	a5,a5,255
+	beq	a5,zero,.L13
+	sw	a4,0(a3)
+	addi	a0,a0,1
+	j	.L12
+	.size	print_uart0, .-print_uart0
+	.align	2
+	.globl	_sbrk
+	.type	_sbrk, @function
+_sbrk:
+	lui	a2,%hi(sbrk_heap_end)
+	lw	a5,%lo(sbrk_heap_end)(a2)
+	bne	a5,zero,.L18
+	lui	a5,%hi(_heap_start)
+	addi	a5,a5,%lo(_heap_start)
+	sw	a5,%lo(sbrk_heap_end)(a2)
+.L18:
+	lw	a3,%lo(sbrk_heap_end)(a2)
+	lui	a4,%hi(_heap_end)
+	addi	a1,a4,%lo(_heap_end)
+	add	a5,a3,a0
+	bleu	a5,a1,.L19
+	addi	sp,sp,-144
+	lui	a2,%hi(.LC0)
+	mv	a5,a0
+	addi	a4,a4,%lo(_heap_end)
+	addi	a2,a2,%lo(.LC0)
+	li	a1,128
+	mv	a0,sp
+	sw	ra,140(sp)
+	call	snprintf
+	mv	a0,sp
+	call	print_uart0
+	lw	ra,140(sp)
+	li	a3,-1
+	mv	a0,a3
+	addi	sp,sp,144
+	jr	ra
+.L19:
+	sw	a5,%lo(sbrk_heap_end)(a2)
+	mv	a0,a3
+	ret
+	.size	_sbrk, .-_sbrk
+	.align	2
+	.globl	print_uart1
+	.type	print_uart1, @function
+print_uart1:
+	li	a3,-268365824
+.L26:
+	lbu	a4,0(a0)
+	bne	a4,zero,.L27
+	ret
+.L27:
+	lw	a5,4(a3)
+	srli	a5,a5,16
+	andi	a5,a5,255
+	beq	a5,zero,.L27
+	sw	a4,0(a3)
+	addi	a0,a0,1
+	j	.L26
+	.size	print_uart1, .-print_uart1
+	.align	2
+	.globl	_write
+	.type	_write, @function
+_write:
+	add	a3,a1,a2
+	li	a4,-268369920
+.L32:
+	bne	a1,a3,.L34
+	mv	a0,a2
+	ret
+.L34:
+	addi	a1,a1,1
+	lbu	a0,-1(a1)
+.L33:
+	lw	a5,4(a4)
+	srli	a5,a5,16
+	andi	a5,a5,255
+	beq	a5,zero,.L33
+	sw	a0,0(a4)
+	j	.L32
+	.size	_write, .-_write
+	.align	2
+	.globl	_read
+	.type	_read, @function
+_read:
+	li	a0,1
+	ret
+	.size	_read, .-_read
+	.align	2
+	.globl	_close
+	.type	_close, @function
+_close:
+	li	a0,-1
+	ret
+	.size	_close, .-_close
+	.align	2
+	.globl	_lseek
+	.type	_lseek, @function
+_lseek:
+	li	a0,0
+	ret
+	.size	_lseek, .-_lseek
+	.align	2
+	.globl	_isatty
+	.type	_isatty, @function
+_isatty:
+	li	a0,1
+	ret
+	.size	_isatty, .-_isatty
+	.align	2
+	.globl	_fstat
+	.type	_fstat, @function
+_fstat:
+	li	a5,8192
+	sw	a5,4(a1)
+	li	a0,0
+	ret
+	.size	_fstat, .-_fstat
+	.align	2
+	.globl	_kill
+	.type	_kill, @function
+_kill:
+	ret
+	.size	_kill, .-_kill
+	.align	2
+	.globl	_getpid
+	.type	_getpid, @function
+_getpid:
+	li	a0,-1
+	ret
+	.size	_getpid, .-_getpid
+	.align	2
+	.globl	hard_reboot
+	.type	hard_reboot, @function
+hard_reboot:
+	lui	a0,%hi(.LC1)
+	addi	sp,sp,-16
+	addi	a0,a0,%lo(.LC1)
+	sw	ra,12(sp)
+	call	print_uart0
+	li	a0,1000
+	call	delay_us
+	li	a5,-267780096
+	li	a4,1
+	sw	a4,8(a5)
+	lw	ra,12(sp)
+	addi	sp,sp,16
+	jr	ra
+	.size	hard_reboot, .-hard_reboot
+	.align	2
+	.globl	memcpy_rev
+	.type	memcpy_rev, @function
+memcpy_rev:
+	li	a5,0
+.L47:
+	bne	a2,a5,.L48
+	ret
+.L48:
+	sub	a4,a1,a5
+	lbu	a3,0(a4)
+	add	a4,a0,a5
+	addi	a5,a5,1
+	sb	a3,0(a4)
+	j	.L47
+	.size	memcpy_rev, .-memcpy_rev
+	.globl	sbrk_heap_end
+	.section	.rodata.str1.4,"aMS",@progbits,1
+	.align	2
+.LC0:
+	.string	"_sbrk() NO MEM, sbrk_heap_end = %p, _heap_end = %p, incr = %u\r\n"
+.LC1:
+	.string	"*** GOING HARD RESET ***\r\n"
+	.section	.sbss,"aw",@nobits
+	.align	2
+	.type	sbrk_heap_end, @object
+	.size	sbrk_heap_end, 4
+sbrk_heap_end:
+	.zero	4
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"

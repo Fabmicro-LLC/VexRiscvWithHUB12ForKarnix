@@ -1,0 +1,14 @@
+	.file	"ip.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.globl	ip_data
+	.bss
+	.align	2
+	.type	ip_data, @object
+	.size	ip_data, 24
+ip_data:
+	.zero	24
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"

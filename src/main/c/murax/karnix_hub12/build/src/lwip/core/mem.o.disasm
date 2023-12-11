@@ -1,0 +1,143 @@
+	.file	"mem.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	2
+	.globl	mem_overflow_check_raw
+	.type	mem_overflow_check_raw, @function
+mem_overflow_check_raw:
+	addi	sp,sp,-176
+	sw	s0,168(sp)
+	sw	s1,164(sp)
+	sw	s2,160(sp)
+	sw	s3,156(sp)
+	sw	s4,152(sp)
+	sw	s5,148(sp)
+	sw	s6,144(sp)
+	sw	s7,140(sp)
+	sw	ra,172(sp)
+	mv	s1,a0
+	mv	s5,a1
+	mv	s2,a2
+	mv	s3,a3
+	li	s0,0
+	li	s6,205
+	lui	s7,%hi(.LC0)
+	li	s4,16
+.L3:
+	add	a5,s5,s0
+	add	a5,s1,a5
+	lbu	a5,0(a5)
+	beq	a5,s6,.L2
+	mv	a4,s3
+	mv	a3,s2
+	addi	a2,s7,%lo(.LC0)
+	li	a1,128
+	mv	a0,sp
+	call	snprintf
+.L2:
+	addi	s0,s0,1
+	bne	s0,s4,.L3
+	addi	s0,s1,-16
+	li	s4,205
+	lui	s5,%hi(.LC1)
+.L5:
+	lbu	a5,0(s0)
+	beq	a5,s4,.L4
+	mv	a4,s3
+	mv	a3,s2
+	addi	a2,s5,%lo(.LC1)
+	li	a1,128
+	mv	a0,sp
+	call	snprintf
+.L4:
+	addi	s0,s0,1
+	bne	s1,s0,.L5
+	lw	ra,172(sp)
+	lw	s0,168(sp)
+	lw	s1,164(sp)
+	lw	s2,160(sp)
+	lw	s3,156(sp)
+	lw	s4,152(sp)
+	lw	s5,148(sp)
+	lw	s6,144(sp)
+	lw	s7,140(sp)
+	addi	sp,sp,176
+	jr	ra
+	.size	mem_overflow_check_raw, .-mem_overflow_check_raw
+	.align	2
+	.globl	mem_overflow_init_raw
+	.type	mem_overflow_init_raw, @function
+mem_overflow_init_raw:
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	sw	s1,4(sp)
+	mv	s0,a0
+	mv	s1,a1
+	li	a2,16
+	li	a1,205
+	addi	a0,a0,-16
+	sw	ra,12(sp)
+	call	memset
+	add	a0,s0,s1
+	lw	s0,8(sp)
+	lw	ra,12(sp)
+	lw	s1,4(sp)
+	li	a2,16
+	li	a1,205
+	addi	sp,sp,16
+	tail	memset
+	.size	mem_overflow_init_raw, .-mem_overflow_init_raw
+	.align	2
+	.globl	mem_init
+	.type	mem_init, @function
+mem_init:
+	ret
+	.size	mem_init, .-mem_init
+	.align	2
+	.globl	mem_trim
+	.type	mem_trim, @function
+mem_trim:
+	ret
+	.size	mem_trim, .-mem_trim
+	.align	2
+	.globl	lwip_malloc
+	.type	lwip_malloc, @function
+lwip_malloc:
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	sw	ra,12(sp)
+	call	malloc
+	mv	s0,a0
+	bne	a0,zero,.L13
+	call	sys_arch_protect
+	call	sys_arch_unprotect
+.L13:
+	mv	a0,s0
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	addi	sp,sp,16
+	jr	ra
+	.size	lwip_malloc, .-lwip_malloc
+	.align	2
+	.globl	lwip_free
+	.type	lwip_free, @function
+lwip_free:
+	tail	free
+	.size	lwip_free, .-lwip_free
+	.align	2
+	.globl	lwip_calloc
+	.type	lwip_calloc, @function
+lwip_calloc:
+	tail	calloc
+	.size	lwip_calloc, .-lwip_calloc
+	.section	.rodata.str1.4,"aMS",@progbits,1
+	.align	2
+.LC0:
+	.string	"detected mem overflow in %s%s"
+	.zero	2
+.LC1:
+	.string	"detected mem underflow in %s%s"
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"

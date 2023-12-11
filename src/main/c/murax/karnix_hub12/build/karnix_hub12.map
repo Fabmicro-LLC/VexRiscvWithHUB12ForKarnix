@@ -1,0 +1,1616 @@
+Archive member included to satisfy reference by file (symbol)
+
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-atoi.o)
+                              build/./src/lwip/core/netif.o (atoi)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-calloc.o)
+                              build/./src/lwip/core/mem.o (calloc)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-ctype_.o)
+                              build/./src/lwip/core/ipv4/ip4_addr.o (_ctype_)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fflush.o)
+                              build/src/mac.o (fflush)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fflush.o) (__sinit)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fwalk.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o) (_fwalk)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-impure.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fflush.o) (_global_impure_ptr)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-malloc.o)
+                              build/./src/lwip/core/mem.o (malloc)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memcmp.o)
+                              build/./src/lwip/netif/ethernet.o (memcmp)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memcpy.o)
+                              build/src/main.o (memcpy)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memmove-stub.o)
+                              build/./src/lwip/core/def.o (memmove)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memset.o)
+                              build/src/main.o (memset)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-callocr.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-calloc.o) (_calloc_r)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-freer.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fflush.o) (_free_r)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-mallocr.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o) (_malloc_r)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-printf.o)
+                              build/src/main.o (printf)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-sbrkr.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-mallocr.o) (_sbrk_r)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-snprintf.o)
+                              build/src/modbus_rtu.o (snprintf)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-sprintf.o)
+                              build/src/main.o (sprintf)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-stdio.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o) (__sread)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strlen.o)
+                              build/./src/lwip/core/def.o (strlen)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strncmp.o)
+                              build/./src/lwip/core/def.o (strncmp)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strtol.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-atoi.o) (_strtol_r)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-writer.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-stdio.o) (_write_r)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-closer.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-stdio.o) (_close_r)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-lseekr.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-stdio.o) (_lseek_r)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-svfprintf.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-snprintf.o) (_svfprintf_r)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf_i.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-svfprintf.o) (_printf_i)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-printf.o) (_vfprintf_r)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-readr.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-stdio.o) (_read_r)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-reent.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-sbrkr.o) (errno)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-wbuf.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf.o) (__swbuf_r)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-wsetup.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf.o) (__swsetup_r)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fvwrite.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf.o) (__sfvwrite_r)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-makebuf.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-wsetup.o) (__smakebuf_r)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memchr.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-svfprintf.o) (memchr)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-reallocr.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-svfprintf.o) (_realloc_r)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fstatr.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-makebuf.o) (_fstat_r)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-isattyr.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-makebuf.o) (_isatty_r)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-msizer.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-reallocr.o) (_malloc_usable_size_r)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_bswapsi2.o)
+                              build/src/hub.o (__bswapsi2)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_udivdi3.o)
+                              build/src/mac.o (__udivdi3)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(muldi3.o)
+                              build/src/hub.o (__mulsi3)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(div.o)
+                              build/src/modbus_rtu.o (__divsi3)
+/opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_clz.o)
+                              /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_udivdi3.o) (__clz_tab)
+
+Allocating common symbols
+Common symbol       size              file
+
+errno               0x4               /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-reent.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+RAM              0x0000000080000000 0x0000000000012000 xrw
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD build/src/crc16.o
+LOAD build/src/font_6x8.o
+LOAD build/src/font_12x16.o
+LOAD build/src/main.o
+LOAD build/src/modbus_rtu.o
+LOAD build/src/config.o
+LOAD build/src/eeprom.o
+LOAD build/src/modbus.o
+LOAD build/src/mac.o
+LOAD build/src/hub.o
+LOAD build/src/modbus_udp.o
+LOAD build/src/i2c.o
+LOAD build/src/utils.o
+LOAD build/src/crt.o
+LOAD build/./src/lwip/core/init.o
+LOAD build/./src/lwip/core/def.o
+LOAD build/./src/lwip/core/dns.o
+LOAD build/./src/lwip/core/inet_chksum.o
+LOAD build/./src/lwip/core/ip.o
+LOAD build/./src/lwip/core/mem.o
+LOAD build/./src/lwip/core/memp.o
+LOAD build/./src/lwip/core/netif.o
+LOAD build/./src/lwip/core/pbuf.o
+LOAD build/./src/lwip/core/raw.o
+LOAD build/./src/lwip/core/stats.o
+LOAD build/./src/lwip/core/sys.o
+LOAD build/./src/lwip/core/altcp.o
+LOAD build/./src/lwip/core/altcp_alloc.o
+LOAD build/./src/lwip/core/altcp_tcp.o
+LOAD build/./src/lwip/core/tcp.o
+LOAD build/./src/lwip/core/tcp_in.o
+LOAD build/./src/lwip/core/tcp_out.o
+LOAD build/./src/lwip/core/timeouts.o
+LOAD build/./src/lwip/core/udp.o
+LOAD build/./src/lwip/core/ipv4/autoip.o
+LOAD build/./src/lwip/core/ipv4/dhcp.o
+LOAD build/./src/lwip/core/ipv4/etharp.o
+LOAD build/./src/lwip/core/ipv4/icmp.o
+LOAD build/./src/lwip/core/ipv4/igmp.o
+LOAD build/./src/lwip/core/ipv4/ip4_frag.o
+LOAD build/./src/lwip/core/ipv4/ip4.o
+LOAD build/./src/lwip/core/ipv4/ip4_addr.o
+LOAD build/./src/lwip/netif/ethernet.o
+LOAD /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libnosys.a
+LOAD /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a
+LOAD /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a
+                0x0000000000000800                _stack_size = DEFINED (_stack_size)?_stack_size:0x800
+                0x0000000000000000                _heap_size = DEFINED (_heap_size)?_heap_size:0x0
+
+._vector        0x0000000080000000      0x134
+ *crt.o(.start_jump)
+ .start_jump    0x0000000080000000       0x10 build/src/crt.o
+                0x0000000080000000                crtStart
+ *crt.o(.text)
+ *fill*         0x0000000080000010       0x10 
+ .text          0x0000000080000020      0x114 build/src/crt.o
+                0x0000000080000020                trap_entry
+
+.data           0x0000000080000134     0x2ec6
+ *(.rdata)
+ *(.rodata .rodata.*)
+ .rodata        0x0000000080000134      0x600 build/src/font_6x8.o
+                0x0000000080000134                font_6x8
+ .rodata        0x0000000080000734     0x1800 build/src/font_12x16.o
+                0x0000000080000734                font_12x16
+ .rodata.str1.4
+                0x0000000080001f34      0x261 build/src/main.o
+                                        0x265 (size before relaxing)
+ *fill*         0x0000000080002195        0x3 
+ .rodata.str1.4
+                0x0000000080002198       0xf7 build/src/modbus_rtu.o
+ *fill*         0x000000008000228f        0x1 
+ .rodata.str1.4
+                0x0000000080002290      0x14f build/src/config.o
+ *fill*         0x00000000800023df        0x1 
+ .rodata.str1.4
+                0x00000000800023e0      0x1d4 build/src/eeprom.o
+ .rodata        0x00000000800025b4       0x44 build/src/modbus.o
+ .rodata.str1.4
+                0x00000000800025f8      0x15b build/src/modbus.o
+ *fill*         0x0000000080002753        0x1 
+ .rodata.str1.4
+                0x0000000080002754      0x1e5 build/src/mac.o
+ *fill*         0x0000000080002939        0x3 
+ .rodata.str1.4
+                0x000000008000293c      0x19d build/src/modbus_udp.o
+ *fill*         0x0000000080002ad9        0x3 
+ .rodata.str1.4
+                0x0000000080002adc       0x5b build/src/utils.o
+ *fill*         0x0000000080002b37        0x1 
+ .rodata.str1.4
+                0x0000000080002b38       0x3f build/./src/lwip/core/mem.o
+ *fill*         0x0000000080002b77        0x1 
+ .rodata        0x0000000080002b78       0x18 build/./src/lwip/core/memp.o
+                0x0000000080002b78                memp_pools
+ .rodata.str1.4
+                0x0000000080002b90       0x4c build/./src/lwip/core/memp.o
+ .rodata.str1.4
+                0x0000000080002bdc       0x15 build/./src/lwip/core/pbuf.o
+ *fill*         0x0000000080002bf1        0x3 
+ .rodata.str1.4
+                0x0000000080002bf4       0x14 build/./src/lwip/core/raw.o
+ .rodata        0x0000000080002c08       0x18 build/./src/lwip/core/timeouts.o
+                0x0000000080002c08                lwip_cyclic_timers
+ .rodata.str1.4
+                0x0000000080002c20       0x19 build/./src/lwip/core/timeouts.o
+ *fill*         0x0000000080002c39        0x3 
+ .rodata.str1.4
+                0x0000000080002c3c       0x14 build/./src/lwip/core/udp.o
+ .rodata.str1.4
+                0x0000000080002c50       0x1e build/./src/lwip/core/ipv4/ip4_frag.o
+ *fill*         0x0000000080002c6e        0x2 
+ .rodata._ctype_
+                0x0000000080002c70      0x101 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-ctype_.o)
+                0x0000000080002c70                _ctype_
+ *fill*         0x0000000080002d71        0x3 
+ .rodata.__sf_fake_stderr
+                0x0000000080002d74       0x20 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+                0x0000000080002d74                __sf_fake_stderr
+ .rodata.__sf_fake_stdin
+                0x0000000080002d94       0x20 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+                0x0000000080002d94                __sf_fake_stdin
+ .rodata.__sf_fake_stdout
+                0x0000000080002db4       0x20 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+                0x0000000080002db4                __sf_fake_stdout
+ .rodata._svfprintf_r.str1.4
+                0x0000000080002dd4       0x13 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-svfprintf.o)
+ *fill*         0x0000000080002de7        0x1 
+ .rodata._printf_i.str1.4
+                0x0000000080002de8       0x28 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf_i.o)
+                                         0x25 (size before relaxing)
+ .rodata._vfprintf_r.str1.4
+                0x0000000080002e10       0x13 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf.o)
+ .rodata        0x0000000080002e10      0x100 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_clz.o)
+                0x0000000080002e10                __clz_tab
+ *(.gnu.linkonce.r.*)
+ *(.data .data.*)
+ .data          0x0000000080002f10        0x0 build/src/crc16.o
+ .data          0x0000000080002f10        0x0 build/src/font_6x8.o
+ .data          0x0000000080002f10        0x0 build/src/font_12x16.o
+ .data          0x0000000080002f10        0x0 build/src/main.o
+ .data          0x0000000080002f10        0x0 build/src/modbus_rtu.o
+ .data          0x0000000080002f10       0x20 build/src/config.o
+                0x0000000080002f10                default_config
+ .data          0x0000000080002f30        0x0 build/src/eeprom.o
+ .data          0x0000000080002f30        0x0 build/src/modbus.o
+ .data          0x0000000080002f30        0x0 build/src/mac.o
+ .data          0x0000000080002f30        0xa build/src/hub.o
+                0x0000000080002f30                hub_configs
+ .data          0x0000000080002f3a        0x0 build/src/modbus_udp.o
+ .data          0x0000000080002f3a        0x0 build/src/i2c.o
+ .data          0x0000000080002f3a        0x0 build/src/utils.o
+ .data          0x0000000080002f3a        0x0 build/src/crt.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/init.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/def.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/dns.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/inet_chksum.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/ip.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/mem.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/memp.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/netif.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/pbuf.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/raw.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/stats.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/sys.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/altcp.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/altcp_alloc.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/altcp_tcp.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/tcp.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/tcp_in.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/tcp_out.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/timeouts.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/udp.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/ipv4/autoip.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/ipv4/dhcp.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/ipv4/etharp.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/ipv4/icmp.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/ipv4/igmp.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/ipv4/ip4_frag.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/ipv4/ip4.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/core/ipv4/ip4_addr.o
+ .data          0x0000000080002f3a        0x0 build/./src/lwip/netif/ethernet.o
+ .data          0x0000000080002f3a        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-atoi.o)
+ .data          0x0000000080002f3a        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-calloc.o)
+ .data          0x0000000080002f3a        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-ctype_.o)
+ .data          0x0000000080002f3a        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fflush.o)
+ .data          0x0000000080002f3a        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+ .data          0x0000000080002f3a        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fwalk.o)
+ .data          0x0000000080002f3a        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-impure.o)
+ *fill*         0x0000000080002f3a        0x2 
+ .data.impure_data
+                0x0000000080002f3c       0x60 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-impure.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-malloc.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memcmp.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memcpy.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memmove-stub.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memset.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-callocr.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-freer.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-mallocr.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-printf.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-sbrkr.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-snprintf.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-sprintf.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-stdio.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strlen.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strncmp.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strtol.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-writer.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-closer.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-lseekr.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-svfprintf.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf_i.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-readr.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-reent.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-wbuf.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-wsetup.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fvwrite.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-makebuf.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memchr.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-reallocr.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fstatr.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-isattyr.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-msizer.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_bswapsi2.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_udivdi3.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(muldi3.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(div.o)
+ .data          0x0000000080002f9c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_clz.o)
+ *(.gnu.linkonce.d.*)
+                0x0000000080002fa0                . = ALIGN (0x8)
+ *fill*         0x0000000080002f9c        0x4 
+                0x00000000800037a0                PROVIDE (__global_pointer$ = (. + 0x800))
+ *(.sdata .sdata.*)
+ .sdata         0x0000000080002fa0        0x4 build/src/modbus.o
+                0x0000000080002fa0                reg_hub_color
+ .sdata         0x0000000080002fa4        0x2 build/./src/lwip/core/udp.o
+ *fill*         0x0000000080002fa6        0x2 
+ .sdata         0x0000000080002fa8        0x4 build/./src/lwip/core/ipv4/dhcp.o
+ .sdata._impure_ptr
+                0x0000000080002fac        0x4 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-impure.o)
+                0x0000000080002fac                _impure_ptr
+ *(.gnu.linkonce.s.*)
+                0x0000000080002fb0                . = ALIGN (0x8)
+ *(.srodata.cst16)
+ *(.srodata.cst8)
+ *(.srodata.cst4)
+ *(.srodata.cst2)
+ *(.srodata .srodata.*)
+ .srodata       0x0000000080002fb0       0x30 build/./src/lwip/core/memp.o
+                0x0000000080002fb0                memp_PBUF_POOL
+                0x0000000080002fb8                memp_PBUF
+                0x0000000080002fc0                memp_SYS_TIMEOUT
+                0x0000000080002fc8                memp_FRAG_PBUF
+                0x0000000080002fd0                memp_UDP_PCB
+                0x0000000080002fd8                memp_RAW_PCB
+ .srodata       0x0000000080002fe0        0x4 build/./src/lwip/core/timeouts.o
+                0x0000000080002fe0                lwip_num_cyclic_timers
+ .srodata       0x0000000080002fe4        0x8 build/./src/lwip/core/ipv4/ip4_addr.o
+                0x0000000080002fe4                ip_addr_broadcast
+                0x0000000080002fe8                ip_addr_any
+ .srodata       0x0000000080002fec        0xe build/./src/lwip/netif/ethernet.o
+                0x0000000080002fec                ethzero
+                0x0000000080002ff4                ethbroadcast
+
+.bss            0x0000000080003000      0x3d8
+                0x0000000080003000                . = ALIGN (0x4)
+                0x0000000080003000                _bss_start = .
+ *(.sbss*)
+ .sbss          0x0000000080003000       0x30 build/src/main.o
+                0x0000000080003000                t2
+                0x0000000080003008                t1
+                0x0000000080003010                deadbeef
+                0x0000000080003014                events_modbus_rtu_poll
+                0x0000000080003018                events_mac_poll
+                0x000000008000301c                uart_config_reset_counter
+                0x0000000080003020                reg_config_write
+                0x0000000080003024                reg_scratch
+                0x0000000080003028                reg_sys_counter
+                0x000000008000302c                reg_irq_counter
+ .sbss          0x0000000080003030        0xc build/src/modbus_rtu.o
+                0x0000000080003030                modbus_rtu_rx_timestamp
+                0x0000000080003038                modbus_rtu_rx_len
+ .sbss          0x000000008000303c       0x14 build/src/mac.o
+                0x000000008000303c                ts_dhcp_coarse
+                0x0000000080003040                ts_dhcp_fine
+                0x0000000080003044                ts_ipreass
+                0x0000000080003048                ts_tcp
+                0x000000008000304c                ts_etharp
+ .sbss          0x0000000080003050        0xc build/src/hub.o
+                0x0000000080003050                hub_frame_height
+                0x0000000080003054                hub_frame_width
+                0x0000000080003058                hub_frame_size
+ .sbss          0x000000008000305c        0x4 build/src/modbus_udp.o
+                0x000000008000305c                modbus_udp_pcb
+ .sbss          0x0000000080003060        0x4 build/src/utils.o
+                0x0000000080003060                sbrk_heap_end
+ .sbss          0x0000000080003064        0xc build/./src/lwip/core/netif.o
+                0x0000000080003068                netif_default
+                0x000000008000306c                netif_list
+ .sbss          0x0000000080003070        0x4 build/./src/lwip/core/raw.o
+ .sbss          0x0000000080003074        0x8 build/./src/lwip/core/timeouts.o
+ .sbss          0x000000008000307c        0x4 build/./src/lwip/core/udp.o
+                0x000000008000307c                udp_pcbs
+ .sbss          0x0000000080003080       0x10 build/./src/lwip/core/ipv4/dhcp.o
+                0x0000000080003088                dhcp_rx_options_given
+ .sbss          0x0000000080003090        0x2 build/./src/lwip/core/ipv4/ip4.o
+ *fill*         0x0000000080003092        0x2 
+ .sbss.__malloc_free_list
+                0x0000000080003094        0x4 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-mallocr.o)
+                0x0000000080003094                __malloc_free_list
+ .sbss.__malloc_sbrk_start
+                0x0000000080003098        0x4 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-mallocr.o)
+                0x0000000080003098                __malloc_sbrk_start
+ *(.gnu.linkonce.sb.*)
+ *(.bss .bss.*)
+ .bss           0x000000008000309c        0x0 build/src/crc16.o
+ .bss           0x000000008000309c        0x0 build/src/font_6x8.o
+ .bss           0x000000008000309c        0x0 build/src/font_12x16.o
+ .bss           0x000000008000309c        0x0 build/src/main.o
+ .bss           0x000000008000309c       0x80 build/src/modbus_rtu.o
+                0x000000008000309c                modbus_rtu_rx_buf
+ .bss           0x000000008000311c       0x20 build/src/config.o
+                0x000000008000311c                active_config
+ .bss           0x000000008000313c        0x0 build/src/eeprom.o
+ .bss           0x000000008000313c        0x0 build/src/modbus.o
+ .bss           0x000000008000313c       0x40 build/src/mac.o
+                0x000000008000313c                default_netif
+ .bss           0x000000008000317c        0x0 build/src/hub.o
+ .bss           0x000000008000317c        0x0 build/src/modbus_udp.o
+ .bss           0x000000008000317c        0x0 build/src/i2c.o
+ .bss           0x000000008000317c        0x0 build/src/utils.o
+ .bss           0x000000008000317c        0x0 build/src/crt.o
+ .bss           0x000000008000317c        0x0 build/./src/lwip/core/init.o
+ .bss           0x000000008000317c        0x0 build/./src/lwip/core/def.o
+ .bss           0x000000008000317c        0x0 build/./src/lwip/core/dns.o
+ .bss           0x000000008000317c        0x0 build/./src/lwip/core/inet_chksum.o
+ .bss           0x000000008000317c       0x18 build/./src/lwip/core/ip.o
+                0x000000008000317c                ip_data
+ .bss           0x0000000080003194        0x0 build/./src/lwip/core/mem.o
+ .bss           0x0000000080003194        0x0 build/./src/lwip/core/memp.o
+ .bss           0x0000000080003194        0x0 build/./src/lwip/core/netif.o
+ .bss           0x0000000080003194        0x0 build/./src/lwip/core/pbuf.o
+ .bss           0x0000000080003194        0x0 build/./src/lwip/core/raw.o
+ .bss           0x0000000080003194      0x120 build/./src/lwip/core/stats.o
+                0x0000000080003194                lwip_stats
+ .bss           0x00000000800032b4        0x0 build/./src/lwip/core/sys.o
+ .bss           0x00000000800032b4        0x0 build/./src/lwip/core/altcp.o
+ .bss           0x00000000800032b4        0x0 build/./src/lwip/core/altcp_alloc.o
+ .bss           0x00000000800032b4        0x0 build/./src/lwip/core/altcp_tcp.o
+ .bss           0x00000000800032b4        0x0 build/./src/lwip/core/tcp.o
+ .bss           0x00000000800032b4        0x0 build/./src/lwip/core/tcp_in.o
+ .bss           0x00000000800032b4        0x0 build/./src/lwip/core/tcp_out.o
+ .bss           0x00000000800032b4        0x0 build/./src/lwip/core/timeouts.o
+ .bss           0x00000000800032b4        0x0 build/./src/lwip/core/udp.o
+ .bss           0x00000000800032b4        0x0 build/./src/lwip/core/ipv4/autoip.o
+ .bss           0x00000000800032b4       0x20 build/./src/lwip/core/ipv4/dhcp.o
+                0x00000000800032b4                dhcp_rx_options_val
+ .bss           0x00000000800032d4       0xf0 build/./src/lwip/core/ipv4/etharp.o
+ .bss           0x00000000800033c4        0x0 build/./src/lwip/core/ipv4/icmp.o
+ .bss           0x00000000800033c4        0x0 build/./src/lwip/core/ipv4/igmp.o
+ .bss           0x00000000800033c4        0x0 build/./src/lwip/core/ipv4/ip4_frag.o
+ .bss           0x00000000800033c4        0x0 build/./src/lwip/core/ipv4/ip4.o
+ .bss           0x00000000800033c4       0x10 build/./src/lwip/core/ipv4/ip4_addr.o
+ .bss           0x00000000800033d4        0x0 build/./src/lwip/netif/ethernet.o
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-atoi.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-calloc.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-ctype_.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fflush.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fwalk.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-impure.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-malloc.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memcmp.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memcpy.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memmove-stub.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memset.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-callocr.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-freer.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-mallocr.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-printf.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-sbrkr.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-snprintf.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-sprintf.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-stdio.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strlen.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strncmp.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strtol.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-writer.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-closer.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-lseekr.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-svfprintf.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf_i.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-readr.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-reent.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-wbuf.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-wsetup.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fvwrite.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-makebuf.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memchr.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-reallocr.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fstatr.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-isattyr.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-msizer.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_bswapsi2.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_udivdi3.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(muldi3.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(div.o)
+ .bss           0x00000000800033d4        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_clz.o)
+ *(.gnu.linkonce.b.*)
+ *(COMMON)
+ COMMON         0x00000000800033d4        0x4 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-reent.o)
+                0x00000000800033d4                errno
+                0x00000000800033d8                . = ALIGN (0x4)
+                0x00000000800033d8                _bss_end = .
+
+.rodata
+ *(.rdata)
+ *(.rodata .rodata.*)
+ *(.gnu.linkonce.r.*)
+
+.sdata2._global_impure_ptr
+                0x00000000800033d8        0x4
+ .sdata2._global_impure_ptr
+                0x00000000800033d8        0x4 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-impure.o)
+                0x00000000800033d8                _global_impure_ptr
+
+.eh_frame       0x00000000800033dc       0x60
+ .eh_frame      0x00000000800033dc       0x60 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_udivdi3.o)
+
+.noinit         0x000000008000343c        0x0
+                0x000000008000343c                . = ALIGN (0x4)
+ *(.noinit .noinit.*)
+                0x000000008000343c                . = ALIGN (0x4)
+
+.memory         0x000000008000343c     0x9d8c
+ *(.text)
+ .text          0x000000008000343c       0x98 build/src/crc16.o
+                0x000000008000343c                crc16
+                0x0000000080003494                add_crc
+ .text          0x00000000800034d4        0x0 build/src/font_6x8.o
+ .text          0x00000000800034d4        0x0 build/src/font_12x16.o
+ .text          0x00000000800034d4      0x32c build/src/main.o
+                0x00000000800034d4                println
+                0x00000000800034f4                to_hex_nibble
+                0x0000000080003510                to_hex
+                0x000000008000357c                process_and_wait
+                0x0000000080003614                timerInterrupt
+                0x0000000080003618                externalInterrupt
+                0x0000000080003788                crash
+                0x00000000800037c8                irqCallback
+ .text          0x0000000080003800      0x250 build/src/modbus_rtu.o
+                0x0000000080003800                modbus_rtu_init
+                0x0000000080003884                modbus_rtu_poll
+                0x0000000080003968                modbus_rtu_isr
+ .text          0x0000000080003a50      0x1e8 build/src/config.o
+                0x0000000080003a50                config_load
+                0x0000000080003b28                config_save
+ .text          0x0000000080003c38      0x5a4 build/src/eeprom.o
+                0x0000000080003c38                eeprom_write_page
+                0x0000000080003e08                eeprom_poll
+                0x0000000080003e8c                eeprom_read_page
+                0x00000000800040b8                eeprom_probe
+ .text          0x00000000800041dc      0x8e4 build/src/modbus.o
+                0x00000000800041dc                modbus_error
+                0x000000008000424c                modbus_store_reg
+                0x0000000080004624                modbus_recv
+ .text          0x0000000080004ac0      0x664 build/src/mac.o
+                0x0000000080004ac0                mac_init
+                0x0000000080004b74                mac_tx_packet
+                0x0000000080004c90                sys_now
+                0x0000000080004cbc                sys_arch_protect
+                0x0000000080004cc0                sys_arch_unprotect
+                0x0000000080004cc4                mac_lwip_init
+                0x0000000080004d68                mac_rx_isr
+                0x0000000080005038                mac_poll
+                0x00000000800050e0                mac_print_stats
+ .text          0x0000000080005124      0x510 build/src/hub.o
+                0x0000000080005124                hub_init
+                0x0000000080005274                hub_print_char
+                0x0000000080005550                hub_print
+ .text          0x0000000080005634      0x2d0 build/src/modbus_udp.o
+                0x0000000080005634                modbus_udp_init
+                0x00000000800056cc                modbus_udp_send
+                0x0000000080005850                modbus_udp_recv
+ .text          0x0000000080005904       0x64 build/src/i2c.o
+                0x0000000080005904                i2c_init
+                0x0000000080005910                i2c_wait_for_busy
+                0x000000008000593c                i2c_wait_for_release
+ .text          0x0000000080005968      0x1f4 build/src/utils.o
+                0x0000000080005968                __malloc_lock
+                0x000000008000596c                __malloc_unlock
+                0x0000000080005970                init_sbrk
+                0x0000000080005980                delay
+                0x0000000080005998                delay_us
+                0x00000000800059c8                print_uart0
+                0x00000000800059f4                _sbrk
+                0x0000000080005a68                print_uart1
+                0x0000000080005a94                _write
+                0x0000000080005ac8                _read
+                0x0000000080005ad0                _close
+                0x0000000080005ad8                _lseek
+                0x0000000080005ae0                _isatty
+                0x0000000080005ae8                _fstat
+                0x0000000080005af8                _kill
+                0x0000000080005afc                _getpid
+                0x0000000080005b04                hard_reboot
+                0x0000000080005b38                memcpy_rev
+ .text          0x0000000080005b5c       0x28 build/./src/lwip/core/init.o
+                0x0000000080005b5c                lwip_init
+ .text          0x0000000080005b84      0x270 build/./src/lwip/core/def.o
+                0x0000000080005b84                lwip_htons
+                0x0000000080005b9c                lwip_htonl
+                0x0000000080005bd0                lwip_strnstr
+                0x0000000080005c60                lwip_stricmp
+                0x0000000080005ca4                lwip_strnicmp
+                0x0000000080005cf8                lwip_itoa
+ .text          0x0000000080005df4        0x0 build/./src/lwip/core/dns.o
+ .text          0x0000000080005df4      0x468 build/./src/lwip/core/inet_chksum.o
+                0x0000000080005df4                lwip_standard_chksum
+                0x0000000080005e94                inet_chksum_pseudo
+                0x0000000080005fe4                ip_chksum_pseudo
+                0x0000000080005fe8                inet_chksum_pseudo_partial
+                0x0000000080006174                ip_chksum_pseudo_partial
+                0x0000000080006178                inet_chksum
+                0x000000008000619c                inet_chksum_pbuf
+ .text          0x000000008000625c        0x0 build/./src/lwip/core/ip.o
+ .text          0x000000008000625c      0x164 build/./src/lwip/core/mem.o
+                0x000000008000625c                mem_overflow_check_raw
+                0x0000000080006334                mem_overflow_init_raw
+                0x000000008000637c                mem_init
+                0x0000000080006380                mem_trim
+                0x0000000080006384                lwip_malloc
+                0x00000000800063b8                lwip_free
+                0x00000000800063bc                lwip_calloc
+ .text          0x00000000800063c0      0x15c build/./src/lwip/core/memp.o
+                0x00000000800064a8                memp_init_pool
+                0x00000000800064ac                memp_init
+                0x00000000800064b0                memp_malloc_pool_fn
+                0x00000000800064bc                memp_malloc_fn
+                0x00000000800064e4                memp_free_pool
+                0x00000000800064f4                memp_free
+ .text          0x000000008000651c      0x674 build/./src/lwip/core/netif.o
+                0x00000000800065ec                netif_init
+                0x00000000800065f0                netif_input
+                0x0000000080006604                netif_set_ipaddr
+                0x0000000080006630                netif_set_netmask
+                0x0000000080006650                netif_set_gw
+                0x0000000080006670                netif_set_addr
+                0x0000000080006720                netif_add
+                0x000000008000683c                netif_add_noaddr
+                0x0000000080006858                netif_set_default
+                0x0000000080006860                netif_set_up
+                0x00000000800068c0                netif_set_down
+                0x0000000080006924                netif_remove
+                0x00000000800069c4                netif_set_status_callback
+                0x00000000800069d0                netif_set_link_up
+                0x0000000080006a38                netif_set_link_down
+                0x0000000080006a60                netif_set_link_callback
+                0x0000000080006a6c                netif_get_by_index
+                0x0000000080006a9c                netif_index_to_name
+                0x0000000080006af4                netif_find
+                0x0000000080006b60                netif_name_to_index
+ .text          0x0000000080006b90      0xe0c build/./src/lwip/core/pbuf.o
+                0x0000000080006c4c                pbuf_alloc_reference
+                0x0000000080006cbc                pbuf_alloced_custom
+                0x0000000080006d10                pbuf_add_header
+                0x0000000080006d18                pbuf_add_header_force
+                0x0000000080006d20                pbuf_remove_header
+                0x0000000080006d80                pbuf_header
+                0x0000000080006d94                pbuf_header_force
+                0x0000000080006da8                pbuf_free
+                0x0000000080006e7c                pbuf_alloc
+                0x000000008000704c                pbuf_realloc
+                0x00000000800070fc                pbuf_free_header
+                0x000000008000716c                pbuf_clen
+                0x0000000080007190                pbuf_ref
+                0x00000000800071c8                pbuf_cat
+                0x0000000080007200                pbuf_chain
+                0x0000000080007228                pbuf_dechain
+                0x000000008000727c                pbuf_copy
+                0x000000008000738c                pbuf_copy_partial
+                0x0000000080007464                pbuf_get_contiguous
+                0x00000000800074e4                pbuf_skip
+                0x00000000800074e8                pbuf_take
+                0x0000000080007588                pbuf_take_at
+                0x0000000080007640                pbuf_clone
+                0x0000000080007688                pbuf_coalesce
+                0x00000000800076e4                pbuf_try_get_at
+                0x0000000080007728                pbuf_get_at
+                0x000000008000774c                pbuf_put_at
+                0x0000000080007790                pbuf_memcmp
+                0x000000008000786c                pbuf_memfind
+                0x0000000080007908                pbuf_strstr
+ .text          0x000000008000799c      0x508 build/./src/lwip/core/raw.o
+                0x000000008000799c                raw_input
+                0x0000000080007adc                raw_bind
+                0x0000000080007afc                raw_bind_netif
+                0x0000000080007b18                raw_connect
+                0x0000000080007b48                raw_disconnect
+                0x0000000080007b60                raw_recv
+                0x0000000080007b6c                raw_sendto_if_src
+                0x0000000080007cfc                raw_sendto
+                0x0000000080007dac                raw_send
+                0x0000000080007db4                raw_remove
+                0x0000000080007df0                raw_new
+                0x0000000080007e5c                raw_new_ip_type
+                0x0000000080007e64                raw_netif_ip_addr_changed
+ .text          0x0000000080007ea4        0x4 build/./src/lwip/core/stats.o
+                0x0000000080007ea4                stats_init
+ .text          0x0000000080007ea8        0x0 build/./src/lwip/core/sys.o
+ .text          0x0000000080007ea8        0x0 build/./src/lwip/core/altcp.o
+ .text          0x0000000080007ea8        0x0 build/./src/lwip/core/altcp_alloc.o
+ .text          0x0000000080007ea8        0x0 build/./src/lwip/core/altcp_tcp.o
+ .text          0x0000000080007ea8        0x0 build/./src/lwip/core/tcp.o
+ .text          0x0000000080007ea8        0x0 build/./src/lwip/core/tcp_in.o
+ .text          0x0000000080007ea8        0x0 build/./src/lwip/core/tcp_out.o
+ .text          0x0000000080007ea8      0x2e4 build/./src/lwip/core/timeouts.o
+                0x0000000080007f98                sys_timeout
+                0x0000000080007fd0                sys_timeouts_init
+                0x0000000080008030                sys_untimeout
+                0x0000000080008080                sys_check_timeouts
+                0x0000000080008104                sys_restart_timeouts
+                0x000000008000814c                sys_timeouts_sleeptime
+ .text          0x000000008000818c      0x8ac build/./src/lwip/core/udp.o
+                0x000000008000818c                udp_init
+                0x0000000080008190                udp_input
+                0x0000000080008464                udp_bind
+                0x0000000080008554                udp_sendto_if_src
+                0x0000000080008748                udp_sendto_if
+                0x0000000080008794                udp_sendto
+                0x000000008000884c                udp_send
+                0x0000000080008868                udp_bind_netif
+                0x0000000080008884                udp_connect
+                0x0000000080008930                udp_disconnect
+                0x0000000080008950                udp_recv
+                0x0000000080008960                udp_remove
+                0x00000000800089a4                udp_new
+                0x00000000800089f4                udp_new_ip_type
+                0x00000000800089f8                udp_netif_ip_addr_changed
+ .text          0x0000000080008a38        0x0 build/./src/lwip/core/ipv4/autoip.o
+ .text          0x0000000080008a38     0x1d24 build/./src/lwip/core/ipv4/dhcp.o
+                0x0000000080009c58                dhcp_set_struct
+                0x0000000080009c90                dhcp_cleanup
+                0x0000000080009cc8                dhcp_inform
+                0x0000000080009dc0                dhcp_network_changed
+                0x0000000080009dfc                dhcp_arp_reply
+                0x0000000080009f34                dhcp_renew
+                0x000000008000a0f0                dhcp_supplied_address
+                0x000000008000a128                dhcp_release_and_stop
+                0x000000008000a284                dhcp_start
+                0x000000008000a368                dhcp_coarse_tmr
+                0x000000008000a62c                dhcp_fine_tmr
+                0x000000008000a73c                dhcp_release
+                0x000000008000a758                dhcp_stop
+ .text          0x000000008000a75c      0xc34 build/./src/lwip/core/ipv4/etharp.o
+                0x000000008000aabc                etharp_cleanup_netif
+                0x000000008000ab24                etharp_find_addr
+                0x000000008000aba4                etharp_get_entry
+                0x000000008000ac00                etharp_input
+                0x000000008000ae34                etharp_request
+                0x000000008000ae54                etharp_tmr
+                0x000000008000b008                etharp_query
+                0x000000008000b1ec                etharp_output
+ .text          0x000000008000b390      0x44c build/./src/lwip/core/ipv4/icmp.o
+                0x000000008000b390                icmp_input
+                0x000000008000b6b4                icmp_dest_unreach
+ .text          0x000000008000b7dc        0x0 build/./src/lwip/core/ipv4/igmp.o
+ .text          0x000000008000b7dc      0x360 build/./src/lwip/core/ipv4/ip4_frag.o
+                0x000000008000b814                ip4_frag
+ .text          0x000000008000bb3c      0x818 build/./src/lwip/core/ipv4/ip4.o
+                0x000000008000bb90                ip4_route
+                0x000000008000bc30                ip4_input
+                0x000000008000bfe4                ip4_output_if_src
+                0x000000008000c228                ip4_output_if
+                0x000000008000c240                ip4_output
+                0x000000008000c2c0                ip4_output_hinted
+ .text          0x000000008000c354      0x47c build/./src/lwip/core/ipv4/ip4_addr.o
+                0x000000008000c354                ip4_addr_isbroadcast_u32
+                0x000000008000c3a8                ip4_addr_netmask_valid
+                0x000000008000c3fc                ip4addr_aton
+                0x000000008000c64c                ipaddr_addr
+                0x000000008000c678                ip4addr_ntoa_r
+                0x000000008000c7c4                ip4addr_ntoa
+ .text          0x000000008000c7d0      0x23c build/./src/lwip/netif/ethernet.o
+                0x000000008000c7d0                ethernet_input
+                0x000000008000c930                ethernet_output
+ .text          0x000000008000ca0c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-atoi.o)
+ .text          0x000000008000ca0c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-calloc.o)
+ .text          0x000000008000ca0c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-ctype_.o)
+ .text          0x000000008000ca0c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fflush.o)
+ .text          0x000000008000ca0c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+ .text          0x000000008000ca0c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fwalk.o)
+ .text          0x000000008000ca0c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-impure.o)
+ .text          0x000000008000ca0c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-malloc.o)
+ .text          0x000000008000ca0c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memcmp.o)
+ .text          0x000000008000ca0c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memcpy.o)
+ .text          0x000000008000ca0c        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memmove-stub.o)
+ .text          0x000000008000ca0c       0xdc /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memset.o)
+                0x000000008000ca0c                memset
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-callocr.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-freer.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-mallocr.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-printf.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-sbrkr.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-snprintf.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-sprintf.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-stdio.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strlen.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strncmp.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strtol.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-writer.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-closer.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-lseekr.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-svfprintf.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf_i.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-readr.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-reent.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-wbuf.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-wsetup.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fvwrite.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-makebuf.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memchr.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-reallocr.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fstatr.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-isattyr.o)
+ .text          0x000000008000cae8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-msizer.o)
+ .text          0x000000008000cae8       0x34 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_bswapsi2.o)
+                0x000000008000cae8                __bswapsi2
+ .text          0x000000008000cb1c      0x5d4 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_udivdi3.o)
+                0x000000008000cb1c                __udivdi3
+ .text          0x000000008000d0f0       0x24 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(muldi3.o)
+                0x000000008000d0f0                __mulsi3
+ .text          0x000000008000d114       0xb4 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(div.o)
+                0x000000008000d114                __divsi3
+                0x000000008000d11c                __udivsi3
+                0x000000008000d164                __umodsi3
+                0x000000008000d198                __modsi3
+ .text          0x000000008000d1c8        0x0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_clz.o)
+                0x000000008000d1c8                end = .
+
+.text.startup   0x000000008000d1c8      0x4f4
+ .text.startup  0x000000008000d1c8      0x4f4 build/src/main.o
+                0x000000008000d1c8                main
+
+.text.atoi      0x000000008000d6bc        0xc
+ .text.atoi     0x000000008000d6bc        0xc /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-atoi.o)
+                0x000000008000d6bc                atoi
+
+.text._atoi_r   0x000000008000d6c8        0xc
+ .text._atoi_r  0x000000008000d6c8        0xc /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-atoi.o)
+                0x000000008000d6c8                _atoi_r
+
+.text.calloc    0x000000008000d6d4       0x14
+ .text.calloc   0x000000008000d6d4       0x14 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-calloc.o)
+                0x000000008000d6d4                calloc
+
+.text.__sflush_r
+                0x000000008000d6e8      0x1ec
+ .text.__sflush_r
+                0x000000008000d6e8      0x1ec /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fflush.o)
+                0x000000008000d6e8                __sflush_r
+
+.text._fflush_r
+                0x000000008000d8d4       0xa0
+ .text._fflush_r
+                0x000000008000d8d4       0xa0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fflush.o)
+                0x000000008000d8d4                _fflush_r
+
+.text.fflush    0x000000008000d974       0x28
+ .text.fflush   0x000000008000d974       0x28 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fflush.o)
+                0x000000008000d974                fflush
+
+.text.__fp_lock
+                0x000000008000d99c        0x8
+ .text.__fp_lock
+                0x000000008000d99c        0x8 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+
+.text.std       0x000000008000d9a4       0x88
+ .text.std      0x000000008000d9a4       0x88 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+
+.text._cleanup_r
+                0x000000008000da2c        0xc
+ .text._cleanup_r
+                0x000000008000da2c        0xc /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+                0x000000008000da2c                _cleanup_r
+
+.text.__fp_unlock
+                0x000000008000da38        0x8
+ .text.__fp_unlock
+                0x000000008000da38        0x8 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+
+.text.__sfmoreglue
+                0x000000008000da40       0x78
+ .text.__sfmoreglue
+                0x000000008000da40       0x78 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+                0x000000008000da40                __sfmoreglue
+
+.text._cleanup  0x000000008000dab8        0xc
+ .text._cleanup
+                0x000000008000dab8        0xc /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+                0x000000008000dab8                _cleanup
+
+.text.__sinit   0x000000008000dac4       0xb0
+ .text.__sinit  0x000000008000dac4       0xb0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+                0x000000008000dac4                __sinit
+
+.text.__sfp     0x000000008000db74       0xec
+ .text.__sfp    0x000000008000db74       0xec /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+                0x000000008000db74                __sfp
+
+.text.__sfp_lock_acquire
+                0x000000008000dc60        0x4
+ .text.__sfp_lock_acquire
+                0x000000008000dc60        0x4 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+                0x000000008000dc60                __sfp_lock_acquire
+
+.text.__sfp_lock_release
+                0x000000008000dc64        0x4
+ .text.__sfp_lock_release
+                0x000000008000dc64        0x4 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+                0x000000008000dc64                __sfp_lock_release
+
+.text.__sinit_lock_acquire
+                0x000000008000dc68        0x4
+ .text.__sinit_lock_acquire
+                0x000000008000dc68        0x4 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+                0x000000008000dc68                __sinit_lock_acquire
+
+.text.__sinit_lock_release
+                0x000000008000dc6c        0x4
+ .text.__sinit_lock_release
+                0x000000008000dc6c        0x4 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+                0x000000008000dc6c                __sinit_lock_release
+
+.text.__fp_lock_all
+                0x000000008000dc70       0x14
+ .text.__fp_lock_all
+                0x000000008000dc70       0x14 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+                0x000000008000dc70                __fp_lock_all
+
+.text.__fp_unlock_all
+                0x000000008000dc84       0x14
+ .text.__fp_unlock_all
+                0x000000008000dc84       0x14 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+                0x000000008000dc84                __fp_unlock_all
+
+.text._fwalk    0x000000008000dc98       0xa0
+ .text._fwalk   0x000000008000dc98       0xa0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fwalk.o)
+                0x000000008000dc98                _fwalk
+
+.text._fwalk_reent
+                0x000000008000dd38       0xb4
+ .text._fwalk_reent
+                0x000000008000dd38       0xb4 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fwalk.o)
+                0x000000008000dd38                _fwalk_reent
+
+.text.malloc    0x000000008000ddec       0x10
+ .text.malloc   0x000000008000ddec       0x10 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-malloc.o)
+                0x000000008000ddec                malloc
+
+.text.free      0x000000008000ddfc       0x10
+ .text.free     0x000000008000ddfc       0x10 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-malloc.o)
+                0x000000008000ddfc                free
+
+.text.memcmp    0x000000008000de0c       0x30
+ .text.memcmp   0x000000008000de0c       0x30 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memcmp.o)
+                0x000000008000de0c                memcmp
+
+.text.memcpy    0x000000008000de3c       0xd8
+ .text.memcpy   0x000000008000de3c       0xd8 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memcpy.o)
+                0x000000008000de3c                memcpy
+
+.text.memmove   0x000000008000df14       0x5c
+ .text.memmove  0x000000008000df14       0x5c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memmove-stub.o)
+                0x000000008000df14                memmove
+
+.text._calloc_r
+                0x000000008000df70       0x54
+ .text._calloc_r
+                0x000000008000df70       0x54 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-callocr.o)
+                0x000000008000df70                _calloc_r
+
+.text._free_r   0x000000008000dfc4      0x104
+ .text._free_r  0x000000008000dfc4      0x104 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-freer.o)
+                0x000000008000dfc4                _free_r
+
+.text._malloc_r
+                0x000000008000e0c8      0x14c
+ .text._malloc_r
+                0x000000008000e0c8      0x14c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-mallocr.o)
+                0x000000008000e0c8                _malloc_r
+
+.text._printf_r
+                0x000000008000e214       0x68
+ .text._printf_r
+                0x000000008000e214       0x68 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-printf.o)
+                0x000000008000e214                _printf_r
+                0x000000008000e214                _iprintf_r
+
+.text.printf    0x000000008000e27c       0x78
+ .text.printf   0x000000008000e27c       0x78 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-printf.o)
+                0x000000008000e27c                printf
+                0x000000008000e27c                iprintf
+
+.text._sbrk_r   0x000000008000e2f4       0x44
+ .text._sbrk_r  0x000000008000e2f4       0x44 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-sbrkr.o)
+                0x000000008000e2f4                _sbrk_r
+
+.text._snprintf_r
+                0x000000008000e338       0xb0
+ .text._snprintf_r
+                0x000000008000e338       0xb0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-snprintf.o)
+                0x000000008000e338                _sniprintf_r
+                0x000000008000e338                _snprintf_r
+
+.text.snprintf  0x000000008000e3e8       0xb8
+ .text.snprintf
+                0x000000008000e3e8       0xb8 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-snprintf.o)
+                0x000000008000e3e8                snprintf
+                0x000000008000e3e8                sniprintf
+
+.text._sprintf_r
+                0x000000008000e4a0       0x64
+ .text._sprintf_r
+                0x000000008000e4a0       0x64 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-sprintf.o)
+                0x000000008000e4a0                _siprintf_r
+                0x000000008000e4a0                _sprintf_r
+
+.text.sprintf   0x000000008000e504       0x74
+ .text.sprintf  0x000000008000e504       0x74 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-sprintf.o)
+                0x000000008000e504                sprintf
+                0x000000008000e504                siprintf
+
+.text.__sread   0x000000008000e578       0x50
+ .text.__sread  0x000000008000e578       0x50 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-stdio.o)
+                0x000000008000e578                __sread
+
+.text.__seofread
+                0x000000008000e5c8        0x8
+ .text.__seofread
+                0x000000008000e5c8        0x8 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-stdio.o)
+                0x000000008000e5c8                __seofread
+
+.text.__swrite  0x000000008000e5d0       0x84
+ .text.__swrite
+                0x000000008000e5d0       0x84 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-stdio.o)
+                0x000000008000e5d0                __swrite
+
+.text.__sseek   0x000000008000e654       0x58
+ .text.__sseek  0x000000008000e654       0x58 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-stdio.o)
+                0x000000008000e654                __sseek
+
+.text.__sclose  0x000000008000e6ac        0x8
+ .text.__sclose
+                0x000000008000e6ac        0x8 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-stdio.o)
+                0x000000008000e6ac                __sclose
+
+.text.strlen    0x000000008000e6b4       0x1c
+ .text.strlen   0x000000008000e6b4       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strlen.o)
+                0x000000008000e6b4                strlen
+
+.text.strncmp   0x000000008000e6d0       0x3c
+ .text.strncmp  0x000000008000e6d0       0x3c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strncmp.o)
+                0x000000008000e6d0                strncmp
+
+.text._strtol_l.isra.0
+                0x000000008000e70c      0x20c
+ .text._strtol_l.isra.0
+                0x000000008000e70c      0x20c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strtol.o)
+
+.text._strtol_r
+                0x000000008000e918        0x4
+ .text._strtol_r
+                0x000000008000e918        0x4 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strtol.o)
+                0x000000008000e918                _strtol_r
+
+.text.strtol_l  0x000000008000e91c       0x18
+ .text.strtol_l
+                0x000000008000e91c       0x18 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strtol.o)
+                0x000000008000e91c                strtol_l
+
+.text.strtol    0x000000008000e934       0x18
+ .text.strtol   0x000000008000e934       0x18 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strtol.o)
+                0x000000008000e934                strtol
+
+.text._write_r  0x000000008000e94c       0x4c
+ .text._write_r
+                0x000000008000e94c       0x4c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-writer.o)
+                0x000000008000e94c                _write_r
+
+.text._close_r  0x000000008000e998       0x44
+ .text._close_r
+                0x000000008000e998       0x44 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-closer.o)
+                0x000000008000e998                _close_r
+
+.text._lseek_r  0x000000008000e9dc       0x4c
+ .text._lseek_r
+                0x000000008000e9dc       0x4c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-lseekr.o)
+                0x000000008000e9dc                _lseek_r
+
+.text.__ssputs_r
+                0x000000008000ea28      0x16c
+ .text.__ssputs_r
+                0x000000008000ea28      0x16c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-svfprintf.o)
+                0x000000008000ea28                __ssputs_r
+
+.text.__ssprint_r
+                0x000000008000eb94      0x1bc
+ .text.__ssprint_r
+                0x000000008000eb94      0x1bc /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-svfprintf.o)
+                0x000000008000eb94                __ssprint_r
+
+.text._svfprintf_r
+                0x000000008000ed50      0x3a8
+ .text._svfprintf_r
+                0x000000008000ed50      0x3a8 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-svfprintf.o)
+                0x000000008000ed50                _svfprintf_r
+                0x000000008000ed50                _svfiprintf_r
+
+.text._printf_common
+                0x000000008000f0f8      0x1b0
+ .text._printf_common
+                0x000000008000f0f8      0x1b0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf_i.o)
+                0x000000008000f0f8                _printf_common
+
+.text._printf_i
+                0x000000008000f2a8      0x3dc
+ .text._printf_i
+                0x000000008000f2a8      0x3dc /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf_i.o)
+                0x000000008000f2a8                _printf_i
+
+.text.__sfputc_r
+                0x000000008000f684       0x3c
+ .text.__sfputc_r
+                0x000000008000f684       0x3c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf.o)
+
+.text.__sfputs_r
+                0x000000008000f6c0       0x74
+ .text.__sfputs_r
+                0x000000008000f6c0       0x74 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf.o)
+                0x000000008000f6c0                __sfputs_r
+
+.text.__sprint_r
+                0x000000008000f734       0x40
+ .text.__sprint_r
+                0x000000008000f734       0x40 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf.o)
+                0x000000008000f734                __sprint_r
+
+.text._vfprintf_r
+                0x000000008000f774      0x3d4
+ .text._vfprintf_r
+                0x000000008000f774      0x3d4 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf.o)
+                0x000000008000f774                _vfiprintf_r
+                0x000000008000f774                _vfprintf_r
+
+.text.vfprintf  0x000000008000fb48       0x18
+ .text.vfprintf
+                0x000000008000fb48       0x18 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf.o)
+                0x000000008000fb48                vfiprintf
+                0x000000008000fb48                vfprintf
+
+.text._read_r   0x000000008000fb60       0x4c
+ .text._read_r  0x000000008000fb60       0x4c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-readr.o)
+                0x000000008000fb60                _read_r
+
+.text.cleanup_glue
+                0x000000008000fbac       0x40
+ .text.cleanup_glue
+                0x000000008000fbac       0x40 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-reent.o)
+                0x000000008000fbac                cleanup_glue
+
+.text._reclaim_reent
+                0x000000008000fbec      0x16c
+ .text._reclaim_reent
+                0x000000008000fbec      0x16c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-reent.o)
+                0x000000008000fbec                _reclaim_reent
+
+.text.__swbuf_r
+                0x000000008000fd58      0x138
+ .text.__swbuf_r
+                0x000000008000fd58      0x138 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-wbuf.o)
+                0x000000008000fd58                __swbuf_r
+
+.text.__swbuf   0x000000008000fe90       0x14
+ .text.__swbuf  0x000000008000fe90       0x14 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-wbuf.o)
+                0x000000008000fe90                __swbuf
+
+.text.__swsetup_r
+                0x000000008000fea4      0x17c
+ .text.__swsetup_r
+                0x000000008000fea4      0x17c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-wsetup.o)
+                0x000000008000fea4                __swsetup_r
+
+.text.__sfvwrite_r
+                0x0000000080010020      0x460
+ .text.__sfvwrite_r
+                0x0000000080010020      0x460 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fvwrite.o)
+                0x0000000080010020                __sfvwrite_r
+
+.text.__swhatbuf_r
+                0x0000000080010480       0x8c
+ .text.__swhatbuf_r
+                0x0000000080010480       0x8c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-makebuf.o)
+                0x0000000080010480                __swhatbuf_r
+
+.text.__smakebuf_r
+                0x000000008001050c       0xf0
+ .text.__smakebuf_r
+                0x000000008001050c       0xf0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-makebuf.o)
+                0x000000008001050c                __smakebuf_r
+
+.text.memchr    0x00000000800105fc       0x24
+ .text.memchr   0x00000000800105fc       0x24 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memchr.o)
+                0x00000000800105fc                memchr
+
+.text._realloc_r
+                0x0000000080010620       0x98
+ .text._realloc_r
+                0x0000000080010620       0x98 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-reallocr.o)
+                0x0000000080010620                _realloc_r
+
+.text._fstat_r  0x00000000800106b8       0x48
+ .text._fstat_r
+                0x00000000800106b8       0x48 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fstatr.o)
+                0x00000000800106b8                _fstat_r
+
+.text._isatty_r
+                0x0000000080010700       0x44
+ .text._isatty_r
+                0x0000000080010700       0x44 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-isattyr.o)
+                0x0000000080010700                _isatty_r
+
+.text._malloc_usable_size_r
+                0x0000000080010744       0x1c
+ .text._malloc_usable_size_r
+                0x0000000080010744       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-msizer.o)
+                0x0000000080010744                _malloc_usable_size_r
+
+.rela.dyn       0x0000000080010760        0x0
+ .rela.text     0x0000000080010760        0x0 build/src/crc16.o
+ .rela.text._sbrk_r
+                0x0000000080010760        0x0 build/src/crc16.o
+ .rela.text._write_r
+                0x0000000080010760        0x0 build/src/crc16.o
+ .rela.text._close_r
+                0x0000000080010760        0x0 build/src/crc16.o
+ .rela.text._lseek_r
+                0x0000000080010760        0x0 build/src/crc16.o
+ .rela.text._svfprintf_r
+                0x0000000080010760        0x0 build/src/crc16.o
+ .rela.text._vfprintf_r
+                0x0000000080010760        0x0 build/src/crc16.o
+ .rela.text._read_r
+                0x0000000080010760        0x0 build/src/crc16.o
+ .rela.text._fstat_r
+                0x0000000080010760        0x0 build/src/crc16.o
+ .rela.text._isatty_r
+                0x0000000080010760        0x0 build/src/crc16.o
+
+.ctors          0x0000000080010760        0x0
+                0x0000000080010760                . = ALIGN (0x4)
+                0x0000000080010760                _ctors_start = .
+ *(.init_array*)
+ *(SORT_BY_NAME(.ctors.*))
+ *(.ctors)
+                0x0000000080010760                . = ALIGN (0x4)
+                0x0000000080010760                _ctors_end = .
+                [!provide]                        PROVIDE (END_OF_SW_IMAGE = .)
+
+._stack         0x0000000080010760      0x800
+                0x0000000080010760                . = ALIGN (0x10)
+ *fill*         0x0000000080010760        0x0 
+                [!provide]                        PROVIDE (_stack_end = .)
+                0x0000000080010f60                . = (. + _stack_size)
+ *fill*         0x0000000080010760      0x800 
+                0x0000000080010f60                . = ALIGN (0x10)
+                0x0000000080010f60                PROVIDE (_stack_start = .)
+
+._user_heap     0x0000000080010f60        0x0
+                0x0000000080010f60                . = ALIGN (0x8)
+                [!provide]                        PROVIDE (end = .)
+                [!provide]                        PROVIDE (_end = .)
+                0x0000000080010f60                PROVIDE (_heap_start = .)
+                0x0000000080010f60                . = (. + _heap_size)
+                0x0000000080012000                PROVIDE (_heap_end = ALIGN ((ORIGIN (RAM) + LENGTH (RAM)), 0x8))
+OUTPUT(build/karnix_hub12.elf elf32-littleriscv)
+
+.comment        0x0000000000000000       0x28
+ .comment       0x0000000000000000       0x28 build/src/crc16.o
+                                         0x29 (size before relaxing)
+ .comment       0x0000000000000028       0x29 build/src/font_6x8.o
+ .comment       0x0000000000000028       0x29 build/src/font_12x16.o
+ .comment       0x0000000000000028       0x29 build/src/main.o
+ .comment       0x0000000000000028       0x29 build/src/modbus_rtu.o
+ .comment       0x0000000000000028       0x29 build/src/config.o
+ .comment       0x0000000000000028       0x29 build/src/eeprom.o
+ .comment       0x0000000000000028       0x29 build/src/modbus.o
+ .comment       0x0000000000000028       0x29 build/src/mac.o
+ .comment       0x0000000000000028       0x29 build/src/hub.o
+ .comment       0x0000000000000028       0x29 build/src/modbus_udp.o
+ .comment       0x0000000000000028       0x29 build/src/i2c.o
+ .comment       0x0000000000000028       0x29 build/src/utils.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/init.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/def.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/dns.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/inet_chksum.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/ip.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/mem.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/memp.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/netif.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/pbuf.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/raw.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/stats.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/sys.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/altcp.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/altcp_alloc.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/altcp_tcp.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/tcp.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/tcp_in.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/tcp_out.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/timeouts.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/udp.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/ipv4/autoip.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/ipv4/dhcp.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/ipv4/etharp.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/ipv4/icmp.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/ipv4/igmp.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/ipv4/ip4_frag.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/ipv4/ip4.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/core/ipv4/ip4_addr.o
+ .comment       0x0000000000000028       0x29 build/./src/lwip/netif/ethernet.o
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-atoi.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-calloc.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-ctype_.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fflush.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fwalk.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-impure.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-malloc.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memcmp.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memcpy.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memmove-stub.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-callocr.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-freer.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-mallocr.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-printf.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-sbrkr.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-snprintf.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-sprintf.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-stdio.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strlen.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strncmp.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strtol.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-writer.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-closer.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-lseekr.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-svfprintf.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf_i.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-readr.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-reent.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-wbuf.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-wsetup.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fvwrite.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-makebuf.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memchr.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-reallocr.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fstatr.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-isattyr.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-msizer.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_bswapsi2.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_udivdi3.o)
+ .comment       0x0000000000000028       0x29 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_clz.o)
+
+.riscv.attributes
+                0x0000000000000000       0x1c
+ .riscv.attributes
+                0x0000000000000000       0x1c build/src/crc16.o
+ .riscv.attributes
+                0x000000000000001c       0x1c build/src/font_6x8.o
+ .riscv.attributes
+                0x0000000000000038       0x1c build/src/font_12x16.o
+ .riscv.attributes
+                0x0000000000000054       0x1c build/src/main.o
+ .riscv.attributes
+                0x0000000000000070       0x1c build/src/modbus_rtu.o
+ .riscv.attributes
+                0x000000000000008c       0x1c build/src/config.o
+ .riscv.attributes
+                0x00000000000000a8       0x1c build/src/eeprom.o
+ .riscv.attributes
+                0x00000000000000c4       0x1c build/src/modbus.o
+ .riscv.attributes
+                0x00000000000000e0       0x1c build/src/mac.o
+ .riscv.attributes
+                0x00000000000000fc       0x1c build/src/hub.o
+ .riscv.attributes
+                0x0000000000000118       0x1c build/src/modbus_udp.o
+ .riscv.attributes
+                0x0000000000000134       0x1c build/src/i2c.o
+ .riscv.attributes
+                0x0000000000000150       0x1c build/src/utils.o
+ .riscv.attributes
+                0x000000000000016c       0x1a build/src/crt.o
+ .riscv.attributes
+                0x0000000000000186       0x1c build/./src/lwip/core/init.o
+ .riscv.attributes
+                0x00000000000001a2       0x1c build/./src/lwip/core/def.o
+ .riscv.attributes
+                0x00000000000001be       0x1c build/./src/lwip/core/dns.o
+ .riscv.attributes
+                0x00000000000001da       0x1c build/./src/lwip/core/inet_chksum.o
+ .riscv.attributes
+                0x00000000000001f6       0x1c build/./src/lwip/core/ip.o
+ .riscv.attributes
+                0x0000000000000212       0x1c build/./src/lwip/core/mem.o
+ .riscv.attributes
+                0x000000000000022e       0x1c build/./src/lwip/core/memp.o
+ .riscv.attributes
+                0x000000000000024a       0x1c build/./src/lwip/core/netif.o
+ .riscv.attributes
+                0x0000000000000266       0x1c build/./src/lwip/core/pbuf.o
+ .riscv.attributes
+                0x0000000000000282       0x1c build/./src/lwip/core/raw.o
+ .riscv.attributes
+                0x000000000000029e       0x1c build/./src/lwip/core/stats.o
+ .riscv.attributes
+                0x00000000000002ba       0x1c build/./src/lwip/core/sys.o
+ .riscv.attributes
+                0x00000000000002d6       0x1c build/./src/lwip/core/altcp.o
+ .riscv.attributes
+                0x00000000000002f2       0x1c build/./src/lwip/core/altcp_alloc.o
+ .riscv.attributes
+                0x000000000000030e       0x1c build/./src/lwip/core/altcp_tcp.o
+ .riscv.attributes
+                0x000000000000032a       0x1c build/./src/lwip/core/tcp.o
+ .riscv.attributes
+                0x0000000000000346       0x1c build/./src/lwip/core/tcp_in.o
+ .riscv.attributes
+                0x0000000000000362       0x1c build/./src/lwip/core/tcp_out.o
+ .riscv.attributes
+                0x000000000000037e       0x1c build/./src/lwip/core/timeouts.o
+ .riscv.attributes
+                0x000000000000039a       0x1c build/./src/lwip/core/udp.o
+ .riscv.attributes
+                0x00000000000003b6       0x1c build/./src/lwip/core/ipv4/autoip.o
+ .riscv.attributes
+                0x00000000000003d2       0x1c build/./src/lwip/core/ipv4/dhcp.o
+ .riscv.attributes
+                0x00000000000003ee       0x1c build/./src/lwip/core/ipv4/etharp.o
+ .riscv.attributes
+                0x000000000000040a       0x1c build/./src/lwip/core/ipv4/icmp.o
+ .riscv.attributes
+                0x0000000000000426       0x1c build/./src/lwip/core/ipv4/igmp.o
+ .riscv.attributes
+                0x0000000000000442       0x1c build/./src/lwip/core/ipv4/ip4_frag.o
+ .riscv.attributes
+                0x000000000000045e       0x1c build/./src/lwip/core/ipv4/ip4.o
+ .riscv.attributes
+                0x000000000000047a       0x1c build/./src/lwip/core/ipv4/ip4_addr.o
+ .riscv.attributes
+                0x0000000000000496       0x1c build/./src/lwip/netif/ethernet.o
+ .riscv.attributes
+                0x00000000000004b2       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-atoi.o)
+ .riscv.attributes
+                0x00000000000004ce       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-calloc.o)
+ .riscv.attributes
+                0x00000000000004ea       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-ctype_.o)
+ .riscv.attributes
+                0x0000000000000506       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fflush.o)
+ .riscv.attributes
+                0x0000000000000522       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-findfp.o)
+ .riscv.attributes
+                0x000000000000053e       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fwalk.o)
+ .riscv.attributes
+                0x000000000000055a       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-impure.o)
+ .riscv.attributes
+                0x0000000000000576       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-malloc.o)
+ .riscv.attributes
+                0x0000000000000592       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memcmp.o)
+ .riscv.attributes
+                0x00000000000005ae       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memcpy.o)
+ .riscv.attributes
+                0x00000000000005ca       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memmove-stub.o)
+ .riscv.attributes
+                0x00000000000005e6       0x1a /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memset.o)
+ .riscv.attributes
+                0x0000000000000600       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-callocr.o)
+ .riscv.attributes
+                0x000000000000061c       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-freer.o)
+ .riscv.attributes
+                0x0000000000000638       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-mallocr.o)
+ .riscv.attributes
+                0x0000000000000654       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-printf.o)
+ .riscv.attributes
+                0x0000000000000670       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-sbrkr.o)
+ .riscv.attributes
+                0x000000000000068c       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-snprintf.o)
+ .riscv.attributes
+                0x00000000000006a8       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-sprintf.o)
+ .riscv.attributes
+                0x00000000000006c4       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-stdio.o)
+ .riscv.attributes
+                0x00000000000006e0       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strlen.o)
+ .riscv.attributes
+                0x00000000000006fc       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strncmp.o)
+ .riscv.attributes
+                0x0000000000000718       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-strtol.o)
+ .riscv.attributes
+                0x0000000000000734       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-writer.o)
+ .riscv.attributes
+                0x0000000000000750       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-closer.o)
+ .riscv.attributes
+                0x000000000000076c       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-lseekr.o)
+ .riscv.attributes
+                0x0000000000000788       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-svfprintf.o)
+ .riscv.attributes
+                0x00000000000007a4       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf_i.o)
+ .riscv.attributes
+                0x00000000000007c0       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-vfprintf.o)
+ .riscv.attributes
+                0x00000000000007dc       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-readr.o)
+ .riscv.attributes
+                0x00000000000007f8       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-reent.o)
+ .riscv.attributes
+                0x0000000000000814       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-wbuf.o)
+ .riscv.attributes
+                0x0000000000000830       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-wsetup.o)
+ .riscv.attributes
+                0x000000000000084c       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fvwrite.o)
+ .riscv.attributes
+                0x0000000000000868       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-makebuf.o)
+ .riscv.attributes
+                0x0000000000000884       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-memchr.o)
+ .riscv.attributes
+                0x00000000000008a0       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-reallocr.o)
+ .riscv.attributes
+                0x00000000000008bc       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-fstatr.o)
+ .riscv.attributes
+                0x00000000000008d8       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-isattyr.o)
+ .riscv.attributes
+                0x00000000000008f4       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/lib/rv32i/ilp32/libc_nano.a(lib_a-nano-msizer.o)
+ .riscv.attributes
+                0x0000000000000910       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_bswapsi2.o)
+ .riscv.attributes
+                0x000000000000092c       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_udivdi3.o)
+ .riscv.attributes
+                0x0000000000000948       0x1a /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(muldi3.o)
+ .riscv.attributes
+                0x0000000000000962       0x1a /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(div.o)
+ .riscv.attributes
+                0x000000000000097c       0x1c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_clz.o)
+
+.debug_info     0x0000000000000000     0x2a89
+ .debug_info    0x0000000000000000      0xb96 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_bswapsi2.o)
+ .debug_info    0x0000000000000b96     0x133d /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_udivdi3.o)
+ .debug_info    0x0000000000001ed3       0x26 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(muldi3.o)
+ .debug_info    0x0000000000001ef9       0x26 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(div.o)
+ .debug_info    0x0000000000001f1f      0xb6a /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_clz.o)
+
+.debug_abbrev   0x0000000000000000      0x6fa
+ .debug_abbrev  0x0000000000000000      0x20a /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_bswapsi2.o)
+ .debug_abbrev  0x000000000000020a      0x2e0 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_udivdi3.o)
+ .debug_abbrev  0x00000000000004ea       0x14 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(muldi3.o)
+ .debug_abbrev  0x00000000000004fe       0x14 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(div.o)
+ .debug_abbrev  0x0000000000000512      0x1e8 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_clz.o)
+
+.debug_loc      0x0000000000000000      0xbb5
+ .debug_loc     0x0000000000000000       0x21 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_bswapsi2.o)
+ .debug_loc     0x0000000000000021      0xb94 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_udivdi3.o)
+
+.debug_aranges  0x0000000000000000       0x98
+ .debug_aranges
+                0x0000000000000000       0x20 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_bswapsi2.o)
+ .debug_aranges
+                0x0000000000000020       0x20 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_udivdi3.o)
+ .debug_aranges
+                0x0000000000000040       0x20 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(muldi3.o)
+ .debug_aranges
+                0x0000000000000060       0x20 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(div.o)
+ .debug_aranges
+                0x0000000000000080       0x18 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_clz.o)
+
+.debug_line     0x0000000000000000     0x12c4
+ .debug_line    0x0000000000000000      0x378 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_bswapsi2.o)
+ .debug_line    0x0000000000000378      0xa2e /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_udivdi3.o)
+ .debug_line    0x0000000000000da6       0x96 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(muldi3.o)
+ .debug_line    0x0000000000000e3c      0x16c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(div.o)
+ .debug_line    0x0000000000000fa8      0x31c /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_clz.o)
+
+.debug_str      0x0000000000000000      0x92e
+ .debug_str     0x0000000000000000      0x771 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_bswapsi2.o)
+                                        0x7ea (size before relaxing)
+ .debug_str     0x0000000000000771      0x148 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_udivdi3.o)
+                                        0x89d (size before relaxing)
+ .debug_str     0x00000000000008b9       0x42 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(muldi3.o)
+                                         0xdc (size before relaxing)
+ .debug_str     0x00000000000008fb       0x33 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(div.o)
+                                         0xd9 (size before relaxing)
+ .debug_str     0x000000000000092e      0x7d8 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_clz.o)
+
+.debug_frame    0x0000000000000000       0x20
+ .debug_frame   0x0000000000000000       0x20 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_bswapsi2.o)
+
+.debug_ranges   0x0000000000000000      0x110
+ .debug_ranges  0x0000000000000000      0x110 /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/rv32i/ilp32/libgcc.a(_udivdi3.o)

@@ -1,0 +1,461 @@
+	.file	"eeprom.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	2
+	.globl	eeprom_write_page
+	.type	eeprom_write_page, @function
+eeprom_write_page:
+	addi	sp,sp,-32
+	sw	s0,24(sp)
+	sw	s1,20(sp)
+	sw	s2,16(sp)
+	sw	s4,8(sp)
+	sw	s5,4(sp)
+	sw	ra,28(sp)
+	sw	s3,12(sp)
+	sw	s6,0(sp)
+	li	a5,21
+	slli	a1,a1,1
+	sw	a5,12(a0)
+	li	s2,98304
+	sw	a1,0(a0)
+	addi	a1,s2,1696
+	mv	s0,a0
+	mv	s1,a2
+	mv	s4,a3
+	mv	s5,a4
+	call	i2c_wait_for_busy
+	bne	a0,zero,.L2
+	sw	zero,12(s0)
+	li	a2,1
+.L21:
+	lui	a0,%hi(.LC0)
+	mv	a1,s0
+	addi	a0,a0,%lo(.LC0)
+.L19:
+	call	printf
+	li	s1,-1
+.L1:
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	mv	a0,s1
+	lw	s2,16(sp)
+	lw	s1,20(sp)
+	lw	s3,12(sp)
+	lw	s4,8(sp)
+	lw	s5,4(sp)
+	lw	s6,0(sp)
+	addi	sp,sp,32
+	jr	ra
+.L2:
+	addi	a1,s2,1696
+	mv	a0,s0
+	call	i2c_wait_for_release
+	bne	a0,zero,.L4
+	sw	zero,12(s0)
+	li	a2,2
+	j	.L21
+.L4:
+	lw	a5,12(s0)
+	andi	a5,a5,64
+	beq	a5,zero,.L5
+	sw	zero,12(s0)
+	li	a2,1
+.L20:
+	lui	a0,%hi(.LC1)
+	mv	a1,s0
+	addi	a0,a0,%lo(.LC1)
+	j	.L19
+.L5:
+	li	a0,2
+	call	delay_us
+	li	a5,17
+	sw	a5,12(s0)
+	sw	s1,0(s0)
+	addi	a1,s2,1696
+	mv	a0,s0
+	call	i2c_wait_for_busy
+	bne	a0,zero,.L6
+	sw	zero,12(s0)
+	li	a2,3
+	j	.L21
+.L6:
+	addi	a1,s2,1696
+	mv	a0,s0
+	call	i2c_wait_for_release
+	bne	a0,zero,.L7
+	sw	zero,12(s0)
+	li	a2,4
+	j	.L21
+.L7:
+	lw	a5,12(s0)
+	li	s3,0
+	andi	a5,a5,64
+	bne	a5,zero,.L17
+	mv	s1,s4
+	addi	s6,s4,-1
+	addi	s2,s2,1696
+.L8:
+	ble	s4,s3,.L1
+	li	a0,2
+	call	delay_us
+	li	a5,17
+	bne	s6,s3,.L9
+	li	a5,25
+.L9:
+	add	a4,s5,s3
+	lbu	a4,0(a4)
+	sw	a5,12(s0)
+	mv	a1,s2
+	sw	a4,0(s0)
+	mv	a0,s0
+	call	i2c_wait_for_busy
+	bne	a0,zero,.L10
+	sw	zero,12(s0)
+	li	a2,5
+	j	.L21
+.L17:
+	sw	zero,12(s0)
+	li	a2,2
+	j	.L20
+.L10:
+	mv	a1,s2
+	mv	a0,s0
+	call	i2c_wait_for_release
+	bne	a0,zero,.L11
+	sw	zero,12(s0)
+	li	a2,6
+	j	.L21
+.L11:
+	lw	a5,12(s0)
+	andi	a5,a5,64
+	beq	a5,zero,.L12
+	sw	zero,12(s0)
+	li	a2,3
+	j	.L20
+.L12:
+	addi	s3,s3,1
+	j	.L8
+	.size	eeprom_write_page, .-eeprom_write_page
+	.align	2
+	.globl	eeprom_poll
+	.type	eeprom_poll, @function
+eeprom_poll:
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	sw	s1,4(sp)
+	sw	ra,12(sp)
+	li	a5,29
+	slli	a1,a1,1
+	sw	a5,12(a0)
+	li	s1,98304
+	sw	a1,0(a0)
+	addi	a1,s1,1696
+	mv	s0,a0
+	call	i2c_wait_for_busy
+	li	a2,1
+	beq	a0,zero,.L27
+	addi	a1,s1,1696
+	mv	a0,s0
+	call	i2c_wait_for_release
+	bne	a0,zero,.L25
+	li	a2,2
+.L27:
+	lui	a0,%hi(.LC2)
+	mv	a1,s0
+	addi	a0,a0,%lo(.LC2)
+	call	printf
+	li	a0,-1
+.L22:
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	lw	s1,4(sp)
+	addi	sp,sp,16
+	jr	ra
+.L25:
+	lw	a0,12(s0)
+	srli	a0,a0,6
+	andi	a0,a0,1
+	j	.L22
+	.size	eeprom_poll, .-eeprom_poll
+	.align	2
+	.globl	eeprom_read_page
+	.type	eeprom_read_page, @function
+eeprom_read_page:
+	addi	sp,sp,-48
+	sw	s0,40(sp)
+	sw	s1,36(sp)
+	sw	s2,32(sp)
+	sw	s3,28(sp)
+	sw	s4,24(sp)
+	sw	s5,20(sp)
+	sw	s6,16(sp)
+	sw	ra,44(sp)
+	sw	s7,12(sp)
+	li	s3,21
+	slli	s1,a1,1
+	sw	s3,12(a0)
+	li	s2,98304
+	sw	s1,0(a0)
+	addi	a1,s2,1696
+	mv	s0,a0
+	mv	s6,a2
+	mv	s4,a3
+	mv	s5,a4
+	call	i2c_wait_for_busy
+	bne	a0,zero,.L29
+	sw	zero,12(s0)
+	li	a2,1
+.L48:
+	lui	a0,%hi(.LC3)
+	mv	a1,s0
+	addi	a0,a0,%lo(.LC3)
+	j	.L49
+.L29:
+	addi	a1,s2,1696
+	mv	a0,s0
+	call	i2c_wait_for_release
+	bne	a0,zero,.L31
+	sw	zero,12(s0)
+	li	a2,2
+	j	.L48
+.L31:
+	lw	a5,12(s0)
+	andi	a5,a5,64
+	beq	a5,zero,.L32
+	sw	zero,12(s0)
+	li	a2,1
+.L50:
+	lui	a0,%hi(.LC4)
+	mv	a1,s0
+	addi	a0,a0,%lo(.LC4)
+.L49:
+	call	printf
+	li	s1,-1
+.L28:
+	lw	ra,44(sp)
+	lw	s0,40(sp)
+	mv	a0,s1
+	lw	s2,32(sp)
+	lw	s1,36(sp)
+	lw	s3,28(sp)
+	lw	s4,24(sp)
+	lw	s5,20(sp)
+	lw	s6,16(sp)
+	lw	s7,12(sp)
+	addi	sp,sp,48
+	jr	ra
+.L32:
+	li	a0,2
+	call	delay_us
+	li	a5,25
+	sw	a5,12(s0)
+	sw	s6,0(s0)
+	addi	a1,s2,1696
+	mv	a0,s0
+	call	i2c_wait_for_busy
+	bne	a0,zero,.L33
+	sw	zero,12(s0)
+	li	a2,3
+	j	.L48
+.L33:
+	addi	a1,s2,1696
+	mv	a0,s0
+	call	i2c_wait_for_release
+	bne	a0,zero,.L34
+	sw	zero,12(s0)
+	li	a2,4
+	j	.L48
+.L34:
+	lw	a5,12(s0)
+	andi	a5,a5,64
+	beq	a5,zero,.L35
+	sw	zero,12(s0)
+	li	a2,2
+	j	.L50
+.L35:
+	li	a0,2
+	call	delay_us
+	ori	s1,s1,1
+	sw	s3,12(s0)
+	sw	s1,0(s0)
+	addi	a1,s2,1696
+	mv	a0,s0
+	call	i2c_wait_for_busy
+	bne	a0,zero,.L36
+	sw	zero,12(s0)
+	li	a2,5
+	j	.L48
+.L36:
+	addi	a1,s2,1696
+	mv	a0,s0
+	call	i2c_wait_for_release
+	bne	a0,zero,.L37
+	sw	zero,12(s0)
+	li	a2,6
+	j	.L48
+.L37:
+	lw	a5,12(s0)
+	li	s3,0
+	andi	a5,a5,64
+	bne	a5,zero,.L46
+	mv	s1,s4
+	addi	s6,s4,-1
+	li	s7,255
+	addi	s2,s2,1696
+.L38:
+	ble	s4,s3,.L28
+	li	a0,2
+	call	delay_us
+	li	a5,33
+	bne	s6,s3,.L39
+	li	a5,9
+.L39:
+	sw	a5,12(s0)
+	sw	s7,0(s0)
+	mv	a1,s2
+	mv	a0,s0
+	call	i2c_wait_for_busy
+	bne	a0,zero,.L40
+	sw	zero,12(s0)
+	li	a2,7
+	j	.L48
+.L46:
+	sw	zero,12(s0)
+	li	a2,3
+	j	.L50
+.L40:
+	mv	a1,s2
+	mv	a0,s0
+	call	i2c_wait_for_release
+	bne	a0,zero,.L41
+	sw	zero,12(s0)
+	li	a2,8
+	j	.L48
+.L41:
+	lw	a4,4(s0)
+	add	a5,s5,s3
+	addi	s3,s3,1
+	sb	a4,0(a5)
+	j	.L38
+	.size	eeprom_read_page, .-eeprom_read_page
+	.align	2
+	.globl	eeprom_probe
+	.type	eeprom_probe, @function
+eeprom_probe:
+	addi	sp,sp,-32
+	sw	s1,20(sp)
+	mv	s1,a0
+	lui	a0,%hi(.LC5)
+	li	a1,80
+	addi	a0,a0,%lo(.LC5)
+	sw	ra,28(sp)
+	sw	s2,16(sp)
+	sw	s0,24(sp)
+	call	printf
+	li	a5,-559038464
+	addi	a5,a5,-273
+	addi	a4,sp,12
+	li	a3,4
+	li	a2,124
+	li	a1,80
+	mv	a0,s1
+	sw	a5,12(sp)
+	call	eeprom_write_page
+	li	a5,4
+	li	s2,10
+	beq	a0,a5,.L52
+	lui	a0,%hi(.LC6)
+	li	a1,80
+	addi	a0,a0,%lo(.LC6)
+.L67:
+	call	printf
+	j	.L66
+.L52:
+	li	a1,80
+	mv	a0,s1
+	call	eeprom_poll
+	mv	s0,a0
+	beq	a0,zero,.L54
+	li	a0,1000
+	addi	s2,s2,-1
+	call	delay_us
+	bne	s2,zero,.L52
+	lui	a0,%hi(.LC10)
+	li	a1,80
+	addi	a0,a0,%lo(.LC10)
+	j	.L67
+.L63:
+	lw	a2,12(sp)
+	li	a5,-559038464
+	addi	a5,a5,-273
+	li	a1,80
+	beq	a2,a5,.L56
+	lui	a0,%hi(.LC8)
+	addi	a0,a0,%lo(.LC8)
+	call	printf
+.L66:
+	li	s0,-1
+	j	.L51
+.L56:
+	lui	a0,%hi(.LC9)
+	addi	a0,a0,%lo(.LC9)
+	call	printf
+.L51:
+	mv	a0,s0
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	lw	s2,16(sp)
+	addi	sp,sp,32
+	jr	ra
+.L54:
+	addi	a4,sp,12
+	li	a3,4
+	li	a2,124
+	li	a1,80
+	mv	a0,s1
+	sw	zero,12(sp)
+	call	eeprom_read_page
+	li	a5,4
+	beq	a0,a5,.L63
+	lui	a0,%hi(.LC7)
+	li	a1,80
+	addi	a0,a0,%lo(.LC7)
+	j	.L67
+	.size	eeprom_probe, .-eeprom_probe
+	.section	.rodata.str1.4,"aMS",@progbits,1
+	.align	2
+.LC0:
+	.string	"eeprom_write_page(%p) data xmit timeout #%d\r\n"
+	.zero	2
+.LC1:
+	.string	"eeprom_write_page(%p) data xmit no-ack #%d\r\n"
+	.zero	3
+.LC2:
+	.string	"eeprom_poll(%p) data xmit timeout #%d\r\n"
+.LC3:
+	.string	"eeprom_read_page(%p) data xmit timeout #%d\r\n"
+	.zero	3
+.LC4:
+	.string	"eeprom_read_page(%p) data xmit no-ack #%d\r\n"
+.LC5:
+	.string	"eeprom_probe(%p) begin\r\n"
+	.zero	3
+.LC6:
+	.string	"eeprom_probe(%p) failed while test-write\r\n"
+	.zero	1
+.LC7:
+	.string	"eeprom_probe(%p) failed while test-read\r\n"
+	.zero	2
+.LC8:
+	.string	"eeprom_probe(%p) failed read-write mismatch: %p\r\n"
+	.zero	2
+.LC9:
+	.string	"eeprom_probe(%p) done\r\n"
+.LC10:
+	.string	"eeprom_probe(%p) failed to recover from write\r\n"
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"

@@ -1,0 +1,1164 @@
+	.file	"pbuf.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	2
+	.type	pbuf_skip_const, @function
+pbuf_skip_const:
+.L2:
+	beq	a0,zero,.L3
+	lhu	a5,10(a0)
+	bleu	a5,a1,.L4
+.L3:
+	beq	a2,zero,.L1
+	sh	a1,0(a2)
+.L1:
+	ret
+.L4:
+	sub	a1,a1,a5
+	slli	a1,a1,16
+	srli	a1,a1,16
+	lw	a0,0(a0)
+	j	.L2
+	.size	pbuf_skip_const, .-pbuf_skip_const
+	.align	2
+	.type	pbuf_add_header_impl, @function
+pbuf_add_header_impl:
+	mv	a5,a0
+	beq	a0,zero,.L16
+	li	a4,65536
+	li	a0,1
+	bgeu	a1,a4,.L13
+	li	a0,0
+	beq	a1,zero,.L13
+	lhu	a4,8(a5)
+	slli	a3,a1,16
+	srli	a3,a3,16
+	add	a4,a3,a4
+	slli	a4,a4,16
+	srli	a4,a4,16
+	li	a0,1
+	bgtu	a3,a4,.L13
+	lb	a0,12(a5)
+	bge	a0,zero,.L14
+	lw	a2,4(a5)
+	li	a0,1
+	sub	a1,a2,a1
+	addi	a2,a5,16
+	bgeu	a1,a2,.L15
+	ret
+.L14:
+	li	a0,1
+	beq	a2,zero,.L13
+	lw	a2,4(a5)
+	sub	a1,a2,a1
+.L15:
+	lhu	a2,10(a5)
+	sw	a1,4(a5)
+	sh	a4,8(a5)
+	add	a3,a3,a2
+	sh	a3,10(a5)
+	li	a0,0
+	ret
+.L16:
+	li	a0,1
+.L13:
+	ret
+	.size	pbuf_add_header_impl, .-pbuf_add_header_impl
+	.align	2
+	.globl	pbuf_alloc_reference
+	.type	pbuf_alloc_reference, @function
+pbuf_alloc_reference:
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	mv	s0,a1
+	lui	a1,%hi(.LC0)
+	sw	s1,4(sp)
+	sw	s2,0(sp)
+	mv	s1,a2
+	mv	s2,a0
+	li	a2,332
+	addi	a1,a1,%lo(.LC0)
+	li	a0,4
+	sw	ra,12(sp)
+	call	memp_malloc_fn
+	beq	a0,zero,.L22
+	li	a5,1
+	sw	zero,0(a0)
+	sw	s2,4(a0)
+	sh	s0,8(a0)
+	sh	s0,10(a0)
+	sb	s1,12(a0)
+	sb	zero,13(a0)
+	sh	a5,14(a0)
+.L22:
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	lw	s1,4(sp)
+	lw	s2,0(sp)
+	addi	sp,sp,16
+	jr	ra
+	.size	pbuf_alloc_reference, .-pbuf_alloc_reference
+	.align	2
+	.globl	pbuf_alloced_custom
+	.type	pbuf_alloced_custom, @function
+pbuf_alloced_custom:
+	slli	a0,a0,16
+	srli	a0,a0,16
+	addi	a0,a0,3
+	andi	a0,a0,-4
+	add	a6,a1,a0
+	bgtu	a6,a5,.L31
+	beq	a4,zero,.L30
+	add	a4,a4,a0
+.L30:
+	li	a5,2
+	sb	a5,13(a3)
+	li	a5,1
+	mv	a0,a3
+	sw	zero,0(a3)
+	sw	a4,4(a3)
+	sh	a1,8(a3)
+	sh	a1,10(a3)
+	sb	a2,12(a3)
+	sh	a5,14(a3)
+	ret
+.L31:
+	li	a0,0
+	ret
+	.size	pbuf_alloced_custom, .-pbuf_alloced_custom
+	.align	2
+	.globl	pbuf_add_header
+	.type	pbuf_add_header, @function
+pbuf_add_header:
+	li	a2,0
+	tail	pbuf_add_header_impl
+	.size	pbuf_add_header, .-pbuf_add_header
+	.align	2
+	.globl	pbuf_add_header_force
+	.type	pbuf_add_header_force, @function
+pbuf_add_header_force:
+	li	a2,1
+	tail	pbuf_add_header_impl
+	.size	pbuf_add_header_force, .-pbuf_add_header_force
+	.align	2
+	.globl	pbuf_remove_header
+	.type	pbuf_remove_header, @function
+pbuf_remove_header:
+	mv	a5,a0
+	beq	a0,zero,.L39
+	li	a4,65536
+	li	a0,1
+	bgeu	a1,a4,.L38
+	li	a0,0
+	beq	a1,zero,.L38
+	lhu	a4,10(a5)
+	slli	a3,a1,16
+	srli	a3,a3,16
+	li	a0,1
+	bgtu	a3,a4,.L38
+	sub	a4,a4,a3
+	lw	a2,4(a5)
+	sh	a4,10(a5)
+	lhu	a4,8(a5)
+	add	a1,a2,a1
+	sw	a1,4(a5)
+	sub	a4,a4,a3
+	sh	a4,8(a5)
+	li	a0,0
+	ret
+.L39:
+	li	a0,1
+.L38:
+	ret
+	.size	pbuf_remove_header, .-pbuf_remove_header
+	.align	2
+	.globl	pbuf_header
+	.type	pbuf_header, @function
+pbuf_header:
+	bge	a1,zero,.L44
+	neg	a1,a1
+	tail	pbuf_remove_header
+.L44:
+	li	a2,0
+	tail	pbuf_add_header_impl
+	.size	pbuf_header, .-pbuf_header
+	.align	2
+	.globl	pbuf_header_force
+	.type	pbuf_header_force, @function
+pbuf_header_force:
+	bge	a1,zero,.L46
+	neg	a1,a1
+	tail	pbuf_remove_header
+.L46:
+	li	a2,1
+	tail	pbuf_add_header_impl
+	.size	pbuf_header_force, .-pbuf_header_force
+	.align	2
+	.globl	pbuf_free
+	.type	pbuf_free, @function
+pbuf_free:
+	addi	sp,sp,-48
+	sw	s0,40(sp)
+	sw	ra,44(sp)
+	sw	s1,36(sp)
+	sw	s2,32(sp)
+	sw	s3,28(sp)
+	li	s0,0
+	beq	a0,zero,.L48
+	mv	a1,a0
+	li	s0,0
+	li	s2,2
+	li	s3,1
+.L53:
+	sw	a1,12(sp)
+	call	sys_arch_protect
+	lw	a1,12(sp)
+	lbu	s1,14(a1)
+	addi	s1,s1,-1
+	andi	s1,s1,0xff
+	sb	s1,14(a1)
+	call	sys_arch_unprotect
+	bne	s1,zero,.L48
+	lw	a1,12(sp)
+	lbu	a5,13(a1)
+	lw	s1,0(a1)
+	andi	a5,a5,2
+	beq	a5,zero,.L49
+	lw	a5,16(a1)
+	mv	a0,a1
+	jalr	a5
+.L50:
+	addi	s0,s0,1
+	andi	s0,s0,0xff
+	mv	a1,s1
+	bne	s1,zero,.L53
+.L48:
+	mv	a0,s0
+	lw	ra,44(sp)
+	lw	s0,40(sp)
+	lw	s1,36(sp)
+	lw	s2,32(sp)
+	lw	s3,28(sp)
+	addi	sp,sp,48
+	jr	ra
+.L49:
+	lbu	a5,12(a1)
+	li	a0,5
+	andi	a5,a5,15
+	beq	a5,s2,.L57
+	bne	a5,s3,.L52
+	li	a0,4
+.L57:
+	call	memp_free
+	j	.L50
+.L52:
+	bne	a5,zero,.L50
+	mv	a0,a1
+	call	lwip_free
+	j	.L50
+	.size	pbuf_free, .-pbuf_free
+	.align	2
+	.globl	pbuf_alloc
+	.type	pbuf_alloc, @function
+pbuf_alloc:
+	addi	sp,sp,-32
+	sw	s2,16(sp)
+	sw	ra,28(sp)
+	sw	s0,24(sp)
+	sw	s1,20(sp)
+	sw	s3,12(sp)
+	sw	s4,8(sp)
+	sw	s5,4(sp)
+	sw	s6,0(sp)
+	li	a5,65
+	mv	s2,a1
+	beq	a2,a5,.L59
+	bgtu	a2,a5,.L60
+	li	a5,1
+	beq	a2,a5,.L59
+.L77:
+	li	s1,0
+.L58:
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	mv	a0,s1
+	lw	s2,16(sp)
+	lw	s1,20(sp)
+	lw	s3,12(sp)
+	lw	s4,8(sp)
+	lw	s5,4(sp)
+	lw	s6,0(sp)
+	addi	sp,sp,32
+	jr	ra
+.L60:
+	slli	s0,a0,16
+	li	a5,386
+	srli	s0,s0,16
+	beq	a2,a5,.L69
+	li	a5,640
+	bne	a2,a5,.L77
+	addi	s0,s0,3
+	addi	a5,a1,3
+	andi	s0,s0,-4
+	andi	a5,a5,-4
+	add	s0,s0,a5
+	slli	s0,s0,16
+	srli	s0,s0,16
+	mv	s3,a0
+	addi	a0,s0,16
+	bltu	s0,a5,.L77
+	bgtu	a5,a0,.L77
+	call	lwip_malloc
+	mv	s1,a0
+	beq	a0,zero,.L58
+	slli	s3,s3,16
+	srli	s3,s3,16
+	add	s3,a0,s3
+	addi	s3,s3,19
+	li	a5,65536
+	andi	s3,s3,-4
+	addi	a5,a5,128
+	sw	zero,0(a0)
+	sw	s3,4(a0)
+	sh	s2,8(a0)
+	sh	s2,10(a0)
+	sw	a5,12(a0)
+	j	.L58
+.L59:
+	lw	s0,24(sp)
+	lw	ra,28(sp)
+	lw	s1,20(sp)
+	lw	s3,12(sp)
+	lw	s4,8(sp)
+	lw	s5,4(sp)
+	lw	s6,0(sp)
+	mv	a1,s2
+	lw	s2,16(sp)
+	li	a0,0
+	addi	sp,sp,32
+	tail	pbuf_alloc_reference
+.L69:
+	li	s3,65536
+	li	s4,0
+	li	s1,0
+	lui	s5,%hi(.LC0)
+	li	s6,1516
+	addi	s3,s3,130
+.L62:
+	li	a2,243
+	addi	a1,s5,%lo(.LC0)
+	li	a0,5
+	call	memp_malloc_fn
+	bne	a0,zero,.L64
+	beq	s1,zero,.L77
+	mv	a0,s1
+	call	pbuf_free
+	j	.L77
+.L64:
+	addi	a5,s0,3
+	andi	a5,a5,-4
+	sub	a5,s6,a5
+	mv	a4,a5
+	slli	a5,a5,16
+	srli	a5,a5,16
+	bleu	a5,s2,.L66
+	mv	a4,s2
+.L66:
+	add	s0,a0,s0
+	addi	s0,s0,19
+	andi	s0,s0,-4
+	slli	a5,a4,16
+	sw	zero,0(a0)
+	sw	s0,4(a0)
+	sh	s2,8(a0)
+	sh	a4,10(a0)
+	sw	s3,12(a0)
+	srli	a5,a5,16
+	beq	s1,zero,.L70
+	sw	a0,0(s4)
+.L67:
+	sub	s2,s2,a5
+	slli	s2,s2,16
+	srli	s2,s2,16
+	li	s0,0
+	mv	s4,a0
+	bne	s2,zero,.L62
+	j	.L58
+.L70:
+	mv	s1,a0
+	j	.L67
+	.size	pbuf_alloc, .-pbuf_alloc
+	.align	2
+	.globl	pbuf_realloc
+	.type	pbuf_realloc, @function
+pbuf_realloc:
+	lhu	a5,8(a0)
+	bleu	a5,a1,.L88
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	sw	s1,4(sp)
+	sw	ra,12(sp)
+	mv	s0,a0
+	mv	s1,a1
+	sub	a5,a1,a5
+.L80:
+	lhu	a1,10(s0)
+	bltu	a1,s1,.L81
+	lbu	a5,12(s0)
+	andi	a5,a5,15
+	bne	a5,zero,.L82
+	beq	a1,s1,.L82
+	lbu	a5,13(s0)
+	andi	a5,a5,2
+	bne	a5,zero,.L82
+	lw	a1,4(s0)
+	mv	a0,s0
+	sub	a1,a1,s0
+	add	a1,a1,s1
+	call	mem_trim
+	mv	s0,a0
+.L82:
+	lw	a0,0(s0)
+	sh	s1,10(s0)
+	sh	s1,8(s0)
+	beq	a0,zero,.L83
+	call	pbuf_free
+.L83:
+	sw	zero,0(s0)
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	lw	s1,4(sp)
+	addi	sp,sp,16
+	jr	ra
+.L81:
+	lhu	a4,8(s0)
+	sub	s1,s1,a1
+	slli	s1,s1,16
+	add	a4,a5,a4
+	sh	a4,8(s0)
+	srli	s1,s1,16
+	lw	s0,0(s0)
+	j	.L80
+.L88:
+	ret
+	.size	pbuf_realloc, .-pbuf_realloc
+	.align	2
+	.globl	pbuf_free_header
+	.type	pbuf_free_header, @function
+pbuf_free_header:
+	addi	sp,sp,-32
+	sw	s0,24(sp)
+	sw	ra,28(sp)
+	sw	s1,20(sp)
+	mv	s0,a0
+.L92:
+	beq	a1,zero,.L91
+	beq	s0,zero,.L91
+	lhu	a5,10(s0)
+	bgtu	a5,a1,.L93
+	sub	a1,a1,a5
+	lw	s1,0(s0)
+	slli	a1,a1,16
+	srli	a1,a1,16
+	sw	zero,0(s0)
+	mv	a0,s0
+	sw	a1,12(sp)
+	call	pbuf_free
+	mv	s0,s1
+	lw	a1,12(sp)
+	j	.L92
+.L93:
+	mv	a0,s0
+	call	pbuf_remove_header
+.L91:
+	mv	a0,s0
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	addi	sp,sp,32
+	jr	ra
+	.size	pbuf_free_header, .-pbuf_free_header
+	.align	2
+	.globl	pbuf_clen
+	.type	pbuf_clen, @function
+pbuf_clen:
+	li	a5,0
+.L101:
+	bne	a0,zero,.L102
+	mv	a0,a5
+	ret
+.L102:
+	addi	a5,a5,1
+	slli	a5,a5,16
+	srli	a5,a5,16
+	lw	a0,0(a0)
+	j	.L101
+	.size	pbuf_clen, .-pbuf_clen
+	.align	2
+	.globl	pbuf_ref
+	.type	pbuf_ref, @function
+pbuf_ref:
+	beq	a0,zero,.L103
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	sw	ra,12(sp)
+	mv	s0,a0
+	call	sys_arch_protect
+	lbu	a5,14(s0)
+	addi	a5,a5,1
+	sb	a5,14(s0)
+	lw	s0,8(sp)
+	lw	ra,12(sp)
+	addi	sp,sp,16
+	tail	sys_arch_unprotect
+.L103:
+	ret
+	.size	pbuf_ref, .-pbuf_ref
+	.align	2
+	.globl	pbuf_cat
+	.type	pbuf_cat, @function
+pbuf_cat:
+	beq	a0,zero,.L108
+	bne	a1,zero,.L110
+	ret
+.L111:
+	mv	a0,a4
+.L110:
+	lhu	a5,8(a0)
+	lhu	a3,8(a1)
+	lw	a4,0(a0)
+	add	a5,a5,a3
+	slli	a5,a5,16
+	srli	a5,a5,16
+	sh	a5,8(a0)
+	bne	a4,zero,.L111
+	sw	a1,0(a0)
+.L108:
+	ret
+	.size	pbuf_cat, .-pbuf_cat
+	.align	2
+	.globl	pbuf_chain
+	.type	pbuf_chain, @function
+pbuf_chain:
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	sw	ra,12(sp)
+	mv	s0,a1
+	call	pbuf_cat
+	mv	a0,s0
+	lw	s0,8(sp)
+	lw	ra,12(sp)
+	addi	sp,sp,16
+	tail	pbuf_ref
+	.size	pbuf_chain, .-pbuf_chain
+	.align	2
+	.globl	pbuf_dechain
+	.type	pbuf_dechain, @function
+pbuf_dechain:
+	addi	sp,sp,-16
+	sw	ra,12(sp)
+	sw	s0,8(sp)
+	lw	s0,0(a0)
+	beq	s0,zero,.L121
+	lhu	a5,8(a0)
+	lhu	a4,10(a0)
+	sub	a5,a5,a4
+	sh	a5,8(s0)
+	lhu	a5,10(a0)
+	sw	zero,0(a0)
+	sh	a5,8(a0)
+	mv	a0,s0
+	call	pbuf_free
+	beq	a0,zero,.L120
+.L121:
+	li	s0,0
+.L120:
+	mv	a0,s0
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	addi	sp,sp,16
+	jr	ra
+	.size	pbuf_dechain, .-pbuf_dechain
+	.align	2
+	.globl	pbuf_copy
+	.type	pbuf_copy, @function
+pbuf_copy:
+	beq	a0,zero,.L155
+	addi	sp,sp,-32
+	sw	s0,24(sp)
+	sw	ra,28(sp)
+	sw	s1,20(sp)
+	sw	s2,16(sp)
+	sw	s3,12(sp)
+	sw	s4,8(sp)
+	mv	s0,a1
+	beq	a1,zero,.L131
+	lhu	a4,8(a0)
+	lhu	a5,8(a1)
+	mv	s1,a0
+	bltu	a4,a5,.L131
+	li	s4,0
+	li	s3,0
+.L138:
+	lhu	s2,10(s1)
+	lhu	a5,10(s0)
+	sub	s2,s2,s3
+	sub	a5,a5,s4
+	bleu	s2,a5,.L132
+	mv	s2,a5
+.L132:
+	lw	a0,4(s1)
+	lw	a1,4(s0)
+	mv	a2,s2
+	add	a0,a0,s3
+	add	a1,a1,s4
+	call	memcpy
+	lhu	a4,10(s0)
+	add	s4,s4,s2
+	add	s3,s3,s2
+	lhu	a5,10(s1)
+	bltu	s4,a4,.L133
+	lw	s0,0(s0)
+	li	s4,0
+.L133:
+	bne	s3,a5,.L134
+	lw	s1,0(s1)
+	bne	s1,zero,.L139
+	li	a0,0
+	beq	s0,zero,.L130
+.L131:
+	li	a0,-16
+.L130:
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	lw	s2,16(sp)
+	lw	s3,12(sp)
+	lw	s4,8(sp)
+	addi	sp,sp,32
+	jr	ra
+.L139:
+	li	s3,0
+.L134:
+	beq	s0,zero,.L136
+	lhu	a4,10(s0)
+	lhu	a5,8(s0)
+	bne	a4,a5,.L136
+	lw	a5,0(s0)
+	bne	a5,zero,.L142
+.L136:
+	lhu	a4,10(s1)
+	lhu	a5,8(s1)
+	bne	a4,a5,.L137
+	lw	a5,0(s1)
+	bne	a5,zero,.L142
+.L137:
+	bne	s0,zero,.L138
+	li	a0,0
+	j	.L130
+.L142:
+	li	a0,-6
+	j	.L130
+.L155:
+	li	a0,-16
+	ret
+	.size	pbuf_copy, .-pbuf_copy
+	.align	2
+	.globl	pbuf_copy_partial
+	.type	pbuf_copy_partial, @function
+pbuf_copy_partial:
+	addi	sp,sp,-32
+	sw	s0,24(sp)
+	sw	ra,28(sp)
+	sw	s1,20(sp)
+	sw	s2,16(sp)
+	sw	s3,12(sp)
+	sw	s4,8(sp)
+	li	s0,0
+	beq	a0,zero,.L159
+	mv	s4,a1
+	li	s0,0
+	beq	a1,zero,.L159
+	mv	s2,a0
+	mv	s1,a2
+.L160:
+	beq	s1,zero,.L159
+	bne	s2,zero,.L164
+.L159:
+	mv	a0,s0
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	lw	s2,16(sp)
+	lw	s3,12(sp)
+	lw	s4,8(sp)
+	addi	sp,sp,32
+	jr	ra
+.L164:
+	lhu	a1,10(s2)
+	beq	a3,zero,.L161
+	bltu	a3,a1,.L161
+	sub	a3,a3,a1
+	slli	a3,a3,16
+	srli	a3,a3,16
+.L162:
+	lw	s2,0(s2)
+	j	.L160
+.L161:
+	sub	a1,a1,a3
+	slli	a1,a1,16
+	srli	a1,a1,16
+	mv	s3,a1
+	bleu	a1,s1,.L163
+	mv	s3,s1
+.L163:
+	lw	a1,4(s2)
+	slli	s3,s3,16
+	srli	s3,s3,16
+	add	a1,a1,a3
+	add	a0,s4,s0
+	mv	a2,s3
+	add	s0,s0,s3
+	sub	s1,s1,s3
+	call	memcpy
+	slli	s0,s0,16
+	slli	s1,s1,16
+	srli	s0,s0,16
+	srli	s1,s1,16
+	li	a3,0
+	j	.L162
+	.size	pbuf_copy_partial, .-pbuf_copy_partial
+	.align	2
+	.globl	pbuf_get_contiguous
+	.type	pbuf_get_contiguous, @function
+pbuf_get_contiguous:
+	addi	sp,sp,-32
+	sw	ra,28(sp)
+	sw	s0,24(sp)
+	sw	s1,20(sp)
+	bne	a0,zero,.L175
+.L177:
+	li	s0,0
+.L176:
+	mv	a0,s0
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	addi	sp,sp,32
+	jr	ra
+.L175:
+	mv	s0,a1
+	beq	a1,zero,.L177
+	mv	s1,a3
+	bgtu	a3,a2,.L177
+	addi	a2,sp,14
+	mv	a1,a4
+	call	pbuf_skip_const
+	beq	a0,zero,.L177
+	lhu	a3,14(sp)
+	lhu	a2,10(a0)
+	add	a4,a3,s1
+	blt	a2,a4,.L178
+	lw	s0,4(a0)
+	add	s0,s0,a3
+	j	.L176
+.L178:
+	mv	a2,s1
+	mv	a1,s0
+	call	pbuf_copy_partial
+	beq	a0,s1,.L176
+	j	.L177
+	.size	pbuf_get_contiguous, .-pbuf_get_contiguous
+	.align	2
+	.globl	pbuf_skip
+	.type	pbuf_skip, @function
+pbuf_skip:
+	tail	pbuf_skip_const
+	.size	pbuf_skip, .-pbuf_skip
+	.align	2
+	.globl	pbuf_take
+	.type	pbuf_take, @function
+pbuf_take:
+	beq	a0,zero,.L192
+	addi	sp,sp,-32
+	sw	s1,20(sp)
+	sw	s4,8(sp)
+	sw	ra,28(sp)
+	sw	s0,24(sp)
+	sw	s2,16(sp)
+	sw	s3,12(sp)
+	mv	s1,a0
+	mv	s4,a1
+	li	a0,-16
+	beq	a1,zero,.L187
+	lhu	a5,8(s1)
+	mv	s0,a2
+	li	a0,-1
+	li	s3,0
+	bgeu	a5,a2,.L189
+.L187:
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	lw	s2,16(sp)
+	lw	s3,12(sp)
+	lw	s4,8(sp)
+	addi	sp,sp,32
+	jr	ra
+.L191:
+	lhu	s2,10(s1)
+	bleu	s2,s0,.L190
+	mv	s2,s0
+.L190:
+	lw	a0,4(s1)
+	add	a1,s4,s3
+	mv	a2,s2
+	call	memcpy
+	lw	s1,0(s1)
+	sub	s0,s0,s2
+	add	s3,s3,s2
+.L189:
+	bne	s0,zero,.L191
+	li	a0,0
+	j	.L187
+.L192:
+	li	a0,-16
+	ret
+	.size	pbuf_take, .-pbuf_take
+	.align	2
+	.globl	pbuf_take_at
+	.type	pbuf_take_at, @function
+pbuf_take_at:
+	addi	sp,sp,-48
+	sw	s0,40(sp)
+	sw	s3,28(sp)
+	mv	s0,a2
+	mv	s3,a1
+	addi	a2,sp,14
+	mv	a1,a3
+	sw	ra,44(sp)
+	sw	s1,36(sp)
+	sw	s2,32(sp)
+	call	pbuf_skip_const
+	beq	a0,zero,.L202
+	lhu	a4,14(sp)
+	lhu	a3,8(a0)
+	mv	s1,a0
+	add	a5,a4,s0
+	li	a0,-1
+	blt	a3,a5,.L199
+	lhu	a5,10(s1)
+	mv	s2,s0
+	sub	a5,a5,a4
+	ble	s0,a5,.L201
+	slli	s2,a5,16
+	srli	s2,s2,16
+.L201:
+	lw	a0,4(s1)
+	mv	a2,s2
+	mv	a1,s3
+	add	a0,a0,a4
+	call	memcpy
+	sub	a2,s0,s2
+	slli	a2,a2,16
+	srli	a2,a2,16
+	li	a0,0
+	beq	a2,zero,.L199
+	lw	a0,0(s1)
+	add	a1,s3,s2
+	call	pbuf_take
+.L199:
+	lw	ra,44(sp)
+	lw	s0,40(sp)
+	lw	s1,36(sp)
+	lw	s2,32(sp)
+	lw	s3,28(sp)
+	addi	sp,sp,48
+	jr	ra
+.L202:
+	li	a0,-1
+	j	.L199
+	.size	pbuf_take_at, .-pbuf_take_at
+	.align	2
+	.globl	pbuf_clone
+	.type	pbuf_clone, @function
+pbuf_clone:
+	addi	sp,sp,-16
+	sw	s1,4(sp)
+	mv	s1,a2
+	mv	a2,a1
+	lhu	a1,8(s1)
+	sw	s0,8(sp)
+	sw	ra,12(sp)
+	call	pbuf_alloc
+	mv	s0,a0
+	beq	a0,zero,.L208
+	mv	a1,s1
+	call	pbuf_copy
+.L208:
+	mv	a0,s0
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	lw	s1,4(sp)
+	addi	sp,sp,16
+	jr	ra
+	.size	pbuf_clone, .-pbuf_clone
+	.align	2
+	.globl	pbuf_coalesce
+	.type	pbuf_coalesce, @function
+pbuf_coalesce:
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	sw	ra,12(sp)
+	sw	s1,4(sp)
+	lw	a5,0(a0)
+	mv	s0,a0
+	bne	a5,zero,.L215
+.L217:
+	mv	s1,s0
+.L214:
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	mv	a0,s1
+	lw	s1,4(sp)
+	addi	sp,sp,16
+	jr	ra
+.L215:
+	mv	a0,a1
+	mv	a2,s0
+	li	a1,640
+	call	pbuf_clone
+	mv	s1,a0
+	beq	a0,zero,.L217
+	mv	a0,s0
+	call	pbuf_free
+	j	.L214
+	.size	pbuf_coalesce, .-pbuf_coalesce
+	.align	2
+	.globl	pbuf_try_get_at
+	.type	pbuf_try_get_at, @function
+pbuf_try_get_at:
+	addi	sp,sp,-32
+	addi	a2,sp,14
+	sw	ra,28(sp)
+	call	pbuf_skip_const
+	li	a5,-1
+	beq	a0,zero,.L222
+	lhu	a4,14(sp)
+	lhu	a3,10(a0)
+	li	a5,-1
+	bleu	a3,a4,.L222
+	lw	a5,4(a0)
+	add	a5,a5,a4
+	lbu	a5,0(a5)
+.L222:
+	lw	ra,28(sp)
+	mv	a0,a5
+	addi	sp,sp,32
+	jr	ra
+	.size	pbuf_try_get_at, .-pbuf_try_get_at
+	.align	2
+	.globl	pbuf_get_at
+	.type	pbuf_get_at, @function
+pbuf_get_at:
+	addi	sp,sp,-16
+	sw	ra,12(sp)
+	call	pbuf_try_get_at
+	bge	a0,zero,.L228
+	li	a0,0
+.L228:
+	lw	ra,12(sp)
+	andi	a0,a0,0xff
+	addi	sp,sp,16
+	jr	ra
+	.size	pbuf_get_at, .-pbuf_get_at
+	.align	2
+	.globl	pbuf_put_at
+	.type	pbuf_put_at, @function
+pbuf_put_at:
+	addi	sp,sp,-32
+	sw	s0,24(sp)
+	mv	s0,a2
+	addi	a2,sp,14
+	sw	ra,28(sp)
+	call	pbuf_skip_const
+	beq	a0,zero,.L230
+	lhu	a4,14(sp)
+	lhu	a5,10(a0)
+	bleu	a5,a4,.L230
+	lw	a5,4(a0)
+	add	a5,a5,a4
+	sb	s0,0(a5)
+.L230:
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	addi	sp,sp,32
+	jr	ra
+	.size	pbuf_put_at, .-pbuf_put_at
+	.align	2
+	.globl	pbuf_memcmp
+	.type	pbuf_memcmp, @function
+pbuf_memcmp:
+	lhu	a4,8(a0)
+	add	a5,a1,a3
+	bge	a4,a5,.L247
+	li	a0,65536
+	addi	a0,a0,-1
+	ret
+.L247:
+	addi	sp,sp,-48
+	sw	s0,40(sp)
+	sw	s1,36(sp)
+	sw	ra,44(sp)
+	sw	s2,32(sp)
+	sw	s3,28(sp)
+	mv	s1,a0
+	mv	s0,a1
+.L238:
+	lhu	a5,10(s1)
+	bgtu	a5,s0,.L241
+	lw	s1,0(s1)
+	sub	s0,s0,a5
+	slli	s0,s0,16
+	srli	s0,s0,16
+	bne	s1,zero,.L238
+.L241:
+	li	s3,0
+.L239:
+	slli	s2,s3,16
+	srli	s2,s2,16
+	bltu	s2,a3,.L243
+	li	a0,0
+	j	.L237
+.L243:
+	add	a1,s2,s0
+	slli	a1,a1,16
+	srli	a1,a1,16
+	mv	a0,s1
+	sw	a3,12(sp)
+	sw	a2,8(sp)
+	call	pbuf_get_at
+	lw	a2,8(sp)
+	addi	s3,s3,1
+	lw	a3,12(sp)
+	add	a5,a2,s3
+	lbu	a5,-1(a5)
+	beq	a5,a0,.L239
+	li	a5,65536
+	addi	a5,a5,-2
+	mv	a0,s2
+	bleu	s2,a5,.L242
+	li	a0,-2
+.L242:
+	addi	a0,a0,1
+	slli	a0,a0,16
+	srli	a0,a0,16
+.L237:
+	lw	ra,44(sp)
+	lw	s0,40(sp)
+	lw	s1,36(sp)
+	lw	s2,32(sp)
+	lw	s3,28(sp)
+	addi	sp,sp,48
+	jr	ra
+	.size	pbuf_memcmp, .-pbuf_memcmp
+	.align	2
+	.globl	pbuf_memfind
+	.type	pbuf_memfind, @function
+pbuf_memfind:
+	addi	sp,sp,-32
+	sw	ra,28(sp)
+	sw	s0,24(sp)
+	sw	s1,20(sp)
+	sw	s2,16(sp)
+	sw	s3,12(sp)
+	sw	s4,8(sp)
+	lhu	a5,8(a0)
+	add	a4,a2,a3
+	blt	a5,a4,.L255
+	sub	a5,a5,a2
+	slli	s1,a5,16
+	mv	s3,a0
+	mv	s4,a1
+	mv	s2,a2
+	mv	s0,a3
+	srli	s1,s1,16
+.L252:
+	bleu	s0,s1,.L254
+.L255:
+	li	s0,65536
+	addi	s0,s0,-1
+.L253:
+	mv	a0,s0
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	lw	s2,16(sp)
+	lw	s3,12(sp)
+	lw	s4,8(sp)
+	addi	sp,sp,32
+	jr	ra
+.L254:
+	mv	a3,s2
+	mv	a2,s4
+	mv	a1,s0
+	mv	a0,s3
+	call	pbuf_memcmp
+	beq	a0,zero,.L253
+	addi	s0,s0,1
+	slli	s0,s0,16
+	srli	s0,s0,16
+	j	.L252
+	.size	pbuf_memfind, .-pbuf_memfind
+	.align	2
+	.globl	pbuf_strstr
+	.type	pbuf_strstr, @function
+pbuf_strstr:
+	addi	sp,sp,-32
+	sw	s0,24(sp)
+	sw	s2,16(sp)
+	sw	ra,28(sp)
+	li	s2,65536
+	sw	s1,20(sp)
+	addi	s0,s2,-1
+	beq	a1,zero,.L265
+	lbu	a5,0(a1)
+	beq	a5,zero,.L265
+	lhu	a5,8(a0)
+	beq	a5,s0,.L262
+	mv	s1,a0
+	mv	a0,a1
+	sw	a1,12(sp)
+	addi	s2,s2,-2
+	call	strlen
+	bgtu	a0,s2,.L265
+	lw	s0,24(sp)
+	slli	a2,a0,16
+	lw	a1,12(sp)
+	lw	ra,28(sp)
+	lw	s2,16(sp)
+	mv	a0,s1
+	lw	s1,20(sp)
+	li	a3,0
+	srli	a2,a2,16
+	addi	sp,sp,32
+	tail	pbuf_memfind
+.L265:
+	mv	a5,s0
+.L262:
+	lw	ra,28(sp)
+	lw	s0,24(sp)
+	lw	s1,20(sp)
+	lw	s2,16(sp)
+	mv	a0,a5
+	addi	sp,sp,32
+	jr	ra
+	.size	pbuf_strstr, .-pbuf_strstr
+	.section	.rodata.str1.4,"aMS",@progbits,1
+	.align	2
+.LC0:
+	.string	"src/lwip/core/pbuf.c"
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"

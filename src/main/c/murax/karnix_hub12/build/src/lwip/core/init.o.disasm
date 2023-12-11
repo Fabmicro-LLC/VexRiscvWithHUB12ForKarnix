@@ -1,0 +1,22 @@
+	.file	"init.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	2
+	.globl	lwip_init
+	.type	lwip_init, @function
+lwip_init:
+	addi	sp,sp,-16
+	sw	ra,12(sp)
+	call	stats_init
+	call	mem_init
+	call	memp_init
+	call	netif_init
+	call	udp_init
+	lw	ra,12(sp)
+	addi	sp,sp,16
+	tail	sys_timeouts_init
+	.size	lwip_init, .-lwip_init
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"

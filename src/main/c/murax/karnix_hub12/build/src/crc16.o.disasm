@@ -1,0 +1,59 @@
+	.file	"crc16.c"
+	.option nopic
+	.attribute arch, "rv32i2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	2
+	.globl	crc16
+	.type	crc16, @function
+crc16:
+	li	a5,65536
+	li	a3,-24576
+	li	a4,0
+	addi	a5,a5,-1
+	addi	a3,a3,1
+.L2:
+	bgt	a1,a4,.L5
+	mv	a0,a5
+	ret
+.L5:
+	add	a2,a0,a4
+	lbu	a2,0(a2)
+	xor	a5,a5,a2
+	li	a2,8
+.L4:
+	andi	a6,a5,1
+	srli	a5,a5,1
+	beq	a6,zero,.L3
+	xor	a5,a5,a3
+	slli	a5,a5,16
+	srli	a5,a5,16
+.L3:
+	addi	a2,a2,-1
+	bne	a2,zero,.L4
+	addi	a4,a4,1
+	j	.L2
+	.size	crc16, .-crc16
+	.align	2
+	.globl	add_crc
+	.type	add_crc, @function
+add_crc:
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	sw	s1,4(sp)
+	sw	ra,12(sp)
+	mv	s0,a0
+	mv	s1,a1
+	call	crc16
+	add	a1,s0,s1
+	sb	a0,0(a1)
+	srli	a0,a0,8
+	sb	a0,1(a1)
+	lw	ra,12(sp)
+	lw	s0,8(sp)
+	lw	s1,4(sp)
+	addi	sp,sp,16
+	jr	ra
+	.size	add_crc, .-add_crc
+	.ident	"GCC: (SiFive GCC 8.3.0-2019.08.0) 8.3.0"
