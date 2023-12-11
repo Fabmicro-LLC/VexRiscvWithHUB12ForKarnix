@@ -2,7 +2,7 @@
 
 This repository contains synthesizable RISC-V CPU core, SoC and C program which all run on Karnix ASB-254 board and turn it into HUB-12 or HUB-75 adapter for controlling appropriate LED matrixes over Modbus/UDP protocol.
 
-The used RV32I core is [VexRiscrv](https://github.com/SpinalHDL/VexRiscv) together with Murax SoC] are written in [SpanalHDL](https://github.com/SpinalHDL/SpinalHDL) hardware description language, please check [SpinalHDL Documentation](https://spinalhdl.github.io/SpinalDoc-RTD/master/index.html) for more details.
+The used RV32I core is [VexRiscrv](https://github.com/SpinalHDL/VexRiscv) together with Murax SoC are written in [SpinalHDL](https://github.com/SpinalHDL/SpinalHDL) hardware description language, please check [SpinalHDL Documentation](https://spinalhdl.github.io/SpinalDoc-RTD/master/index.html) for more details.
 
 ## Dependencies
 
@@ -55,7 +55,7 @@ It will take a while. Upon first start it will fetch all required Scala librarie
 
 ```sh
 cd scripts/Murax/KarnixWithHUB12/
-make
+make compile
 ```
 
 It will compile C code first using GCC toolchain producing .HEX file which will then will be embedded into SoC as ROM.  The resulting bitstream file can be found in ```scripts/Murax/KarnixWithHUB12/bin/MuraxForKarnixWithHUB12TopLevel_25F.bit```, use [openFPGALoader](https://github.com/trabucayre/openFPGALoader) to flash it to NOR memory of the Karnix ASB-254 board:
