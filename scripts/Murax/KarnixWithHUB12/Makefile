@@ -21,11 +21,11 @@ sim:
 	(cd ../../..; sbt "runMain vexriscv.demo.MuraxForKarnixWithHUB12Verilog")
 
 
-../../../src/main/c/murax/karnix_hub12/build/karnix_hub12.bin:
+../../../src/main/c/murax/karnix_hub12/build/karnix_hub12.hexx:
 	(cd ../../../src/main/c/murax/karnix_hub12; $(MAKE))
 
 
-../../../MuraxForKarnixWithHUB12TopLevel.v*.bin: ../../../src/main/c/murax/karnix_hub12/build/karnix_hub12.v
+../../../MuraxForKarnixWithHUB12TopLevel.v*.bin: ../../../src/main/c/murax/karnix_hub12/build/karnix_hub12.hexx
 
 
 bin/MuraxForKarnixWithHUB12TopLevel.json : ${VERILOG} ../../../MuraxForKarnixWithHUB12TopLevel.v*.bin
