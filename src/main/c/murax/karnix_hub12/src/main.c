@@ -96,6 +96,43 @@ void process_and_wait(uint32_t us) {
 	}
 }
 
+// Test SRAM by writing shorts
+
+#define	SRAM_SIZE	(512*1024)
+#define SRAM_ADDR_BEGIN	0x90000000
+#define	SRAM_ADDR_END	(0x90000000 + SRAM_SIZE)
+
+void sram_test_write_shorts(void) {
+	volatile unsigned short *mem;
+	unsigned short fill;
+
+	fill = 0;
+	mem = (unsigned short*) SRAM_ADDR_BEGIN;
+
+	printf("Filling mem at: %p, size: %d bytes... ", mem, SRAM_SIZE);
+
+	while((unsigned int)mem < SRAM_ADDR_END) {
+		*mem++ = fill++;
+	}
+	printf("Done!\r\n");
+
+	fill = 0;
+	mem = (unsigned short*) SRAM_ADDR_BEGIN;
+
+	printf("Checking mem at: %p, size: %d bytes... ", mem, SRAM_SIZE);
+
+	while((unsigned int)mem < SRAM_ADDR_END) {
+		if(*mem != fill) {
+			printf("\r\nMem check failed at: %p, expected: %p, got: %p\r\n", mem, fill, *mem);
+		}
+		mem++;
+		fill++;
+	}
+
+	if((unsigned int)mem == SRAM_ADDR_END)
+		printf("Done!\r\n");
+
+}
 
 
 void main() {
@@ -149,10 +186,9 @@ void main() {
 
 	printf("\r\n"
 		"HUB-12/HUB-75 driver for Karnix ASB-254. Build %05d at date/time: " __DATE__ " " __TIME__ "\r\n"
-		"Copyright (C) 2023, Fabmicro, LLC., Tyumen, Russia.\r\n\r\n",
+		"Copyright (C) 2021-2023 Fabmicro, LLC., Tyumen, Russia.\r\n\r\n",
 		BUILD_NUMBER
 	);
-
 
 	GPIO->OUTPUT |= (1 << LED_R); // LED_R is ON - indicate we are not yet ready
 
@@ -292,18 +328,20 @@ void main() {
 
 		GPIO->OUTPUT |= (1 << LED_G); // LED_G is ON
 
-    		process_and_wait(500000); 
+    		process_and_wait(250000); 
 
 		GPIO->OUTPUT &= ~(1 << LED_G); // LED_G is OFF
 
-    		process_and_wait(500000); 
+    		process_and_wait(250000); 
 
 
 		{ // Critical section - printfs is not re-enterable
 			csr_clear(mstatus, MSTATUS_MIE); // Disable Machine interrupts
 	
-			printf("Karnix HUB12/75 adaptor: mode = HUB%d, frame_size = %d, irq_counter = %d, sys_counter = %d, scratch = %p\r\n", 
-				(HUB0->CONTROL & HUB_MASK_TYPE), hub_frame_size, reg_irq_counter, reg_sys_counter, reg_scratch);
+			printf("HUB12/75 adapter (build: %05d): mode = HUB%d, frame_size = %d, irq_counter = %d, sys_counter = %d, scratch = %p\r\n",
+				BUILD_NUMBER,	
+				(HUB0->CONTROL & HUB_MASK_TYPE),
+				hub_frame_size, reg_irq_counter, reg_sys_counter, reg_scratch);
 
 			plic_print_stats();
 
@@ -311,7 +349,8 @@ void main() {
 
 			csr_set(mstatus, MSTATUS_MIE); // Enable Machine interrupts
 		}
-
+	
+		sram_test_write_shorts();
 
 		reg_sys_counter++;
 
@@ -381,14 +420,15 @@ void externalInterrupt(void){
 }
 
 
+static char crash_str[16];
+
 void crash(int cause) {
 	
-	char str[16];
 
-	to_hex(str, cause);
+	to_hex(crash_str, cause);
 
 	print("\r\n*** TRAP: ");
-	print(str);
+	print(crash_str);
 	print("\r\n");
 
 }
@@ -406,7 +446,7 @@ void irqCallback() {
 		switch(cause) {
 			case CAUSE_MACHINE_TIMER: timerInterrupt(); break;
 			case CAUSE_MACHINE_EXTERNAL: externalInterrupt(); break;
-			default: crash(1); break;
+			default: crash(2); break;
 		}
 	} else {
 		crash(1);
