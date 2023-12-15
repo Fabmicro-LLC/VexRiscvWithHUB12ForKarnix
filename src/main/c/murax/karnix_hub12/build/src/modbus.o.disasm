@@ -427,7 +427,7 @@ modbus_recv:
 	lui	a3,%hi(.LC3)
 	lui	a1,%hi(.LC4)
 	addi	a3,a3,%lo(.LC3)
-	li	a2,8
+	li	a2,24
 	addi	a1,a1,%lo(.LC4)
 	addi	a0,s1,3
 	call	sprintf
@@ -705,7 +705,7 @@ modbus_recv:
 .LC2:
 	.string	"modbus_recv() func = %d, reg = %d\r\n"
 .LC3:
-	.string	"Dec 11 2023"
+	.string	"Dec 12 2023"
 .LC4:
 	.string	"Karnix: build: %05d, date: %s"
 	.zero	2

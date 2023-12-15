@@ -179,6 +179,73 @@ process_and_wait:
 	addi	sp,sp,32
 	jr	ra
 	.size	process_and_wait, .-process_and_wait
+	.align	2
+	.globl	sram_test_write_shorts
+	.type	sram_test_write_shorts, @function
+sram_test_write_shorts:
+	lui	a0,%hi(.LC1)
+	addi	sp,sp,-32
+	li	a1,-1879048192
+	li	a2,524288
+	addi	a0,a0,%lo(.LC1)
+	sw	ra,28(sp)
+	sw	s0,24(sp)
+	sw	s1,20(sp)
+	sw	s2,16(sp)
+	sw	s3,12(sp)
+	sw	s4,8(sp)
+	sw	s5,4(sp)
+	call	printf
+	li	a5,0
+	li	a1,-1879048192
+	li	a3,262144
+.L24:
+	slli	a4,a5,1
+	slli	a2,a5,16
+	add	a4,a4,a1
+	srli	a2,a2,16
+	sh	a2,0(a4)
+	addi	a5,a5,1
+	bne	a5,a3,.L24
+	lui	s1,%hi(.LC2)
+	addi	a0,s1,%lo(.LC2)
+	call	printf
+	lui	a0,%hi(.LC3)
+	li	a2,524288
+	li	a1,-1879048192
+	addi	a0,a0,%lo(.LC3)
+	li	s2,65536
+	call	printf
+	li	s0,0
+	li	s4,-1879048192
+	addi	s2,s2,-1
+	lui	s5,%hi(.LC4)
+	li	s3,262144
+.L26:
+	slli	a1,s0,1
+	add	a1,a1,s4
+	lhu	a5,0(a1)
+	slli	a4,s0,16
+	srli	a4,a4,16
+	beq	a4,a5,.L25
+	lhu	a3,0(a1)
+	and	a2,s0,s2
+	addi	a0,s5,%lo(.LC4)
+	call	printf
+.L25:
+	addi	s0,s0,1
+	bne	s0,s3,.L26
+	lw	s0,24(sp)
+	lw	ra,28(sp)
+	lw	s2,16(sp)
+	lw	s3,12(sp)
+	lw	s4,8(sp)
+	lw	s5,4(sp)
+	addi	a0,s1,%lo(.LC2)
+	lw	s1,20(sp)
+	addi	sp,sp,32
+	tail	printf
+	.size	sram_test_write_shorts, .-sram_test_write_shorts
 	.section	.text.startup,"ax",@progbits
 	.align	2
 	.globl	main
@@ -196,39 +263,39 @@ main:
 	sw	s7,300(sp)
 	sw	s8,296(sp)
  #APP
-# 106 "src/main.c" 1
+# 143 "src/main.c" 1
 	csrc mstatus, 8
 # 0 "" 2
  #NO_APP
 	call	init_sbrk
 	lui	a4,%hi(deadbeef)
 	lw	a5,%lo(deadbeef)(a4)
-	beq	a5,zero,.L24
-	lui	a0,%hi(.LC1)
-	addi	a0,a0,%lo(.LC1)
+	beq	a5,zero,.L31
+	lui	a0,%hi(.LC5)
+	addi	a0,a0,%lo(.LC5)
 	call	print_uart0
 	call	hard_reboot
-.L25:
+.L32:
 	lui	a5,%hi(sbrk_heap_end)
 	lw	a1,%lo(sbrk_heap_end)(a5)
 	addi	a0,sp,32
 	lui	s0,%hi(.LC0)
 	call	to_hex
-	lui	a0,%hi(.LC2)
-	addi	a0,a0,%lo(.LC2)
+	lui	a0,%hi(.LC6)
+	addi	a0,a0,%lo(.LC6)
 	call	print_uart0
 	addi	a0,sp,32
 	call	print_uart0
 	addi	a0,s0,%lo(.LC0)
 	call	print_uart0
-	lui	a0,%hi(.LC3)
-	li	a1,8
-	addi	a0,a0,%lo(.LC3)
+	lui	a0,%hi(.LC7)
+	li	a1,67
+	addi	a0,a0,%lo(.LC7)
 	call	printf
 	li	s1,-268435456
 	lw	a5,4(s1)
-	lui	a0,%hi(.LC4)
-	addi	a0,a0,%lo(.LC4)
+	lui	a0,%hi(.LC8)
+	addi	a0,a0,%lo(.LC8)
 	ori	a5,a5,2
 	sw	a5,4(s1)
 	call	printf
@@ -274,7 +341,7 @@ main:
 	sw	a3,0(a5)
 	call	i2c_init
  #APP
-# 197 "src/main.c" 1
+# 233 "src/main.c" 1
 	csrs mstatus, 8
 # 0 "" 2
  #NO_APP
@@ -287,22 +354,22 @@ main:
 	li	s4,-268369920
 	li	s6,46
 	addi	s2,s2,288
-.L28:
+.L35:
 	lw	a5,%lo(uart_config_reset_counter)(s5)
-	bgtu	a5,s7,.L26
+	bgtu	a5,s7,.L33
 	lw	a5,0(s8)
-	bge	a5,zero,.L26
-.L27:
+	bge	a5,zero,.L33
+.L34:
 	lw	a5,4(s4)
 	srli	a5,a5,16
 	andi	a5,a5,255
-	beq	a5,zero,.L27
+	beq	a5,zero,.L34
 	sw	s6,0(s4)
 	mv	a0,s2
 	addi	s1,s1,-1
 	call	delay_us
-	bne	s1,zero,.L28
-.L26:
+	bne	s1,zero,.L35
+.L33:
 	addi	a0,s0,%lo(.LC0)
 	call	printf
 	lui	s0,%hi(active_config)
@@ -313,40 +380,40 @@ main:
 	call	memcpy
 	lw	a4,%lo(uart_config_reset_counter)(s3)
 	li	a5,2
-	bleu	a4,a5,.L29
-	lui	a1,%hi(.LC5)
+	bleu	a4,a5,.L36
+	lui	a1,%hi(.LC9)
 	sw	zero,%lo(uart_config_reset_counter)(s3)
-	addi	a1,a1,%lo(.LC5)
-.L43:
-	lui	a0,%hi(.LC6)
-	addi	a0,a0,%lo(.LC6)
+	addi	a1,a1,%lo(.LC9)
+.L50:
+	lui	a0,%hi(.LC10)
+	addi	a0,a0,%lo(.LC10)
 	call	printf
-	j	.L30
-.L24:
+	j	.L37
+.L31:
 	li	a5,-559038464
 	addi	a5,a5,-273
 	sw	a5,%lo(deadbeef)(a4)
-	j	.L25
-.L29:
+	j	.L32
+.L36:
 	li	a5,-268435456
 	lw	a5,0(a5)
-	blt	a5,zero,.L31
-	lui	a1,%hi(.LC7)
-	addi	a1,a1,%lo(.LC7)
-	j	.L43
-.L31:
+	blt	a5,zero,.L38
+	lui	a1,%hi(.LC11)
+	addi	a1,a1,%lo(.LC11)
+	j	.L50
+.L38:
 	li	a0,-267845632
 	call	eeprom_probe
-	bne	a0,zero,.L32
+	bne	a0,zero,.L39
 	addi	a0,s0,%lo(active_config)
 	call	config_load
-	bne	a0,zero,.L33
-	lui	a0,%hi(.LC8)
-	addi	a0,a0,%lo(.LC8)
+	bne	a0,zero,.L40
+	lui	a0,%hi(.LC12)
+	addi	a0,a0,%lo(.LC12)
 	call	printf
-.L30:
+.L37:
  #APP
-# 233 "src/main.c" 1
+# 269 "src/main.c" 1
 	csrc mstatus, 8
 # 0 "" 2
  #NO_APP
@@ -356,32 +423,32 @@ main:
 	call	mac_lwip_init
 	call	modbus_udp_init
 	call	modbus_rtu_init
-	lui	a0,%hi(.LC11)
-	addi	a0,a0,%lo(.LC11)
+	lui	a0,%hi(.LC15)
+	addi	a0,a0,%lo(.LC15)
 	call	printf
 	li	a4,-268435456
 	lw	a5,4(a4)
 	andi	a5,a5,-8
 	sw	a5,4(a4)
  #APP
-# 253 "src/main.c" 1
+# 289 "src/main.c" 1
 	csrs mstatus, 8
 # 0 "" 2
  #NO_APP
 	lui	s1,%hi(font_6x8)
-	lui	a3,%hi(.LC12)
+	lui	a3,%hi(.LC16)
 	addi	a5,s1,%lo(font_6x8)
 	li	a7,8
 	li	a6,6
 	li	a4,5
-	addi	a3,a3,%lo(.LC12)
+	addi	a3,a3,%lo(.LC16)
 	li	a2,63
 	li	a1,0
 	li	a0,6
 	call	hub_print
 	lbu	a2,20(s0)
-	lui	a1,%hi(.LC13)
-	addi	a1,a1,%lo(.LC13)
+	lui	a1,%hi(.LC17)
+	addi	a1,a1,%lo(.LC17)
 	mv	a0,sp
 	call	sprintf
 	addi	a5,s1,%lo(font_6x8)
@@ -396,12 +463,12 @@ main:
 	li	s2,1998848
 	addi	a0,s2,1152
 	call	process_and_wait
-	lui	a3,%hi(.LC14)
+	lui	a3,%hi(.LC18)
 	addi	a5,s1,%lo(font_6x8)
 	li	a7,8
 	li	a6,6
 	li	a4,5
-	addi	a3,a3,%lo(.LC14)
+	addi	a3,a3,%lo(.LC18)
 	li	a2,63
 	li	a1,0
 	li	a0,6
@@ -409,8 +476,8 @@ main:
 	call	hub_print
 	addi	s0,s0,%lo(default_netif)
 	lbu	a2,4(s0)
-	lui	s3,%hi(.LC15)
-	addi	a1,s3,%lo(.LC15)
+	lui	s3,%hi(.LC19)
+	addi	a1,s3,%lo(.LC19)
 	mv	a0,sp
 	call	sprintf
 	addi	a5,s1,%lo(font_6x8)
@@ -425,7 +492,7 @@ main:
 	addi	a0,s2,1152
 	call	process_and_wait
 	lbu	a2,5(s0)
-	addi	a1,s3,%lo(.LC15)
+	addi	a1,s3,%lo(.LC19)
 	mv	a0,sp
 	call	sprintf
 	addi	a5,s1,%lo(font_6x8)
@@ -440,7 +507,7 @@ main:
 	addi	a0,s2,1152
 	call	process_and_wait
 	lbu	a2,6(s0)
-	addi	a1,s3,%lo(.LC15)
+	addi	a1,s3,%lo(.LC19)
 	mv	a0,sp
 	call	sprintf
 	addi	a5,s1,%lo(font_6x8)
@@ -455,7 +522,7 @@ main:
 	addi	a0,s2,1152
 	call	process_and_wait
 	lbu	a2,7(s0)
-	addi	a1,s3,%lo(.LC15)
+	addi	a1,s3,%lo(.LC19)
 	mv	a0,sp
 	call	sprintf
 	addi	a5,s1,%lo(font_6x8)
@@ -473,16 +540,16 @@ main:
 	lw	a2,%lo(hub_frame_size)(s0)
 	li	a1,0
 	li	a0,-268107776
-	li	s1,499712
+	li	s1,249856
 	call	memset
-	addi	s1,s1,288
-	lui	s3,%hi(reg_irq_counter)
-	lui	s7,%hi(reg_sys_counter)
-	lui	s4,%hi(reg_scratch)
-	lui	s5,%hi(.LC16)
-	lui	s6,%hi(.LC17)
-	lui	s8,%hi(reg_config_write)
-.L35:
+	addi	s1,s1,144
+	lui	s5,%hi(reg_irq_counter)
+	lui	s3,%hi(reg_sys_counter)
+	lui	s6,%hi(reg_scratch)
+	lui	s7,%hi(.LC20)
+	lui	s8,%hi(.LC21)
+	lui	s4,%hi(reg_config_write)
+.L42:
 	li	s2,-268435456
 	lw	a5,4(s2)
 	mv	a0,s1
@@ -495,18 +562,19 @@ main:
 	sw	a5,4(s2)
 	call	process_and_wait
  #APP
-# 303 "src/main.c" 1
+# 339 "src/main.c" 1
 	csrc mstatus, 8
 # 0 "" 2
  #NO_APP
 	li	a5,-268091392
-	lw	a1,0(a5)
-	lw	a2,%lo(hub_frame_size)(s0)
-	lw	a3,%lo(reg_irq_counter)(s3)
-	lw	a4,%lo(reg_sys_counter)(s7)
-	lw	a5,%lo(reg_scratch)(s4)
-	andi	a1,a1,127
-	addi	a0,s5,%lo(.LC16)
+	lw	a2,0(a5)
+	lw	a3,%lo(hub_frame_size)(s0)
+	lw	a4,%lo(reg_irq_counter)(s5)
+	lw	a5,%lo(reg_sys_counter)(s3)
+	lw	a6,%lo(reg_scratch)(s6)
+	andi	a2,a2,127
+	li	a1,67
+	addi	a0,s7,%lo(.LC20)
 	call	printf
 	li	a5,-268042240
 	lw	a1,0(a5)
@@ -514,40 +582,41 @@ main:
 	lw	a3,12(a5)
 	lw	a4,8(a5)
 	lw	a5,16(a5)
-	addi	a0,s6,%lo(.LC17)
+	addi	a0,s8,%lo(.LC21)
 	call	printf
 	call	mac_print_stats
  #APP
-# 312 "src/main.c" 1
+# 350 "src/main.c" 1
 	csrs mstatus, 8
 # 0 "" 2
  #NO_APP
-	lw	a5,%lo(reg_sys_counter)(s7)
+	call	sram_test_write_shorts
+	lw	a5,%lo(reg_sys_counter)(s3)
 	addi	a5,a5,1
-	sw	a5,%lo(reg_sys_counter)(s7)
-	lw	a5,%lo(reg_config_write)(s8)
-	beq	a5,zero,.L34
-	lw	a5,%lo(reg_config_write)(s8)
+	sw	a5,%lo(reg_sys_counter)(s3)
+	lw	a5,%lo(reg_config_write)(s4)
+	beq	a5,zero,.L41
+	lw	a5,%lo(reg_config_write)(s4)
 	addi	a5,a5,-1
-	sw	a5,%lo(reg_config_write)(s8)
-.L34:
+	sw	a5,%lo(reg_config_write)(s4)
+.L41:
 	li	a4,-268435456
 	lw	a5,4(a4)
 	andi	a5,a5,-3
 	sw	a5,4(a4)
-	j	.L35
-.L33:
+	j	.L42
+.L40:
 	addi	a1,s1,%lo(default_config)
 	li	a2,32
 	addi	a0,s0,%lo(active_config)
 	call	memcpy
-	lui	a1,%hi(.LC9)
-	addi	a1,a1,%lo(.LC9)
-	j	.L43
-.L32:
-	lui	a1,%hi(.LC10)
-	addi	a1,a1,%lo(.LC10)
-	j	.L43
+	lui	a1,%hi(.LC13)
+	addi	a1,a1,%lo(.LC13)
+	j	.L50
+.L39:
+	lui	a1,%hi(.LC14)
+	addi	a1,a1,%lo(.LC14)
+	j	.L50
 	.size	main, .-main
 	.text
 	.align	2
@@ -566,7 +635,7 @@ externalInterrupt:
 	li	a5,-268042240
 	lw	a5,4(a5)
 	andi	a5,a5,1
-	beq	a5,zero,.L46
+	beq	a5,zero,.L53
 	li	a4,-268435456
 	lw	a5,4(a4)
 	li	a1,42
@@ -574,37 +643,37 @@ externalInterrupt:
 	ori	a5,a5,2
 	sw	a5,4(a4)
 	li	a4,-268369920
-.L47:
+.L54:
 	lw	a5,4(a4)
 	srli	a5,a5,24
-	bne	a5,zero,.L51
+	bne	a5,zero,.L58
 	li	a4,-268042240
 	lw	a5,4(a4)
 	andi	a5,a5,-2
 	sw	a5,4(a4)
-.L46:
+.L53:
 	li	s0,-268042240
 	lw	a5,4(s0)
 	andi	a5,a5,2
-	beq	a5,zero,.L52
+	beq	a5,zero,.L59
 	call	modbus_rtu_isr
 	lw	a5,4(s0)
 	andi	a5,a5,-3
 	sw	a5,4(s0)
-.L52:
+.L59:
 	li	s0,-268042240
 	lw	a5,4(s0)
 	andi	a5,a5,4
-	beq	a5,zero,.L53
+	beq	a5,zero,.L60
 	call	mac_rx_isr
 	lw	a5,4(s0)
 	andi	a5,a5,-5
 	sw	a5,4(s0)
-.L53:
+.L60:
 	li	a5,-268042240
 	lw	a4,4(a5)
 	andi	a4,a4,8
-	beq	a4,zero,.L54
+	beq	a4,zero,.L61
 	li	a4,-268304384
 	li	a3,98304
 	sw	zero,12(a4)
@@ -617,11 +686,11 @@ externalInterrupt:
 	lw	a4,4(a5)
 	andi	a4,a4,-9
 	sw	a4,4(a5)
-.L54:
+.L61:
 	li	a5,-268042240
 	lw	a4,4(a5)
 	andi	a4,a4,16
-	beq	a4,zero,.L55
+	beq	a4,zero,.L62
 	li	a4,-268300288
 	li	a3,49152
 	sw	zero,12(a4)
@@ -634,58 +703,60 @@ externalInterrupt:
 	lw	a4,4(a5)
 	andi	a4,a4,-17
 	sw	a4,4(a5)
-.L55:
+.L62:
 	li	a5,-268042240
 	lw	a4,4(a5)
 	andi	a4,a4,32
-	beq	a4,zero,.L45
+	beq	a4,zero,.L52
 	lw	a4,4(a5)
 	andi	a4,a4,-33
 	sw	a4,4(a5)
-.L45:
+.L52:
 	lw	ra,12(sp)
 	lw	s0,8(sp)
 	addi	sp,sp,16
 	jr	ra
-.L51:
+.L58:
 	lw	a5,0(a4)
 	andi	a0,a5,0xff
 	andi	a3,a5,255
-.L48:
+.L55:
 	lw	a5,4(a4)
 	srli	a5,a5,16
 	andi	a5,a5,255
-	beq	a5,zero,.L48
+	beq	a5,zero,.L55
 	sw	a3,0(a4)
-	bne	a0,a1,.L49
+	bne	a0,a1,.L56
 	lw	a5,%lo(uart_config_reset_counter)(a2)
 	addi	a5,a5,1
 	sw	a5,%lo(uart_config_reset_counter)(a2)
-	j	.L47
-.L49:
+	j	.L54
+.L56:
 	sw	zero,%lo(uart_config_reset_counter)(a2)
-	j	.L47
+	j	.L54
 	.size	externalInterrupt, .-externalInterrupt
 	.align	2
 	.globl	crash
 	.type	crash, @function
 crash:
-	addi	sp,sp,-32
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	lui	s0,%hi(.LANCHOR0)
 	mv	a1,a0
-	mv	a0,sp
-	sw	ra,28(sp)
+	addi	a0,s0,%lo(.LANCHOR0)
+	sw	ra,12(sp)
 	call	to_hex
-	lui	a0,%hi(.LC18)
-	addi	a0,a0,%lo(.LC18)
+	lui	a0,%hi(.LC22)
+	addi	a0,a0,%lo(.LC22)
 	call	print_uart0
-	mv	a0,sp
+	addi	a0,s0,%lo(.LANCHOR0)
 	call	print_uart0
+	lw	s0,8(sp)
+	lw	ra,12(sp)
 	lui	a0,%hi(.LC0)
 	addi	a0,a0,%lo(.LC0)
-	call	print_uart0
-	lw	ra,28(sp)
-	addi	sp,sp,32
-	jr	ra
+	addi	sp,sp,16
+	tail	print_uart0
 	.size	crash, .-crash
 	.align	2
 	.globl	irqCallback
@@ -696,21 +767,25 @@ irqCallback:
 	addi	a5,a5,1
 	sw	a5,%lo(reg_irq_counter)(a4)
  #APP
-# 402 "src/main.c" 1
+# 442 "src/main.c" 1
 	csrr a5, mcause
 # 0 "" 2
  #NO_APP
-	bge	a5,zero,.L81
+	bge	a5,zero,.L88
 	andi	a5,a5,15
 	li	a4,7
-	beq	a5,a4,.L80
+	beq	a5,a4,.L87
 	li	a4,11
-	bne	a5,a4,.L81
+	bne	a5,a4,.L90
 	tail	externalInterrupt
-.L81:
-	li	a0,1
+.L90:
+	li	a0,2
+.L91:
 	tail	crash
-.L80:
+.L88:
+	li	a0,1
+	j	.L91
+.L87:
 	ret
 	.size	irqCallback, .-irqCallback
 	.globl	t2
@@ -723,60 +798,77 @@ irqCallback:
 	.globl	reg_scratch
 	.globl	reg_sys_counter
 	.globl	reg_irq_counter
+	.bss
+	.align	2
+	.set	.LANCHOR0,. + 0
+	.type	crash_str, @object
+	.size	crash_str, 16
+crash_str:
+	.zero	16
 	.section	.rodata.str1.4,"aMS",@progbits,1
 	.align	2
 .LC0:
 	.string	"\r\n"
 	.zero	1
 .LC1:
-	.string	"Soft-start, performing hard reset!\r\n"
-	.zero	3
+	.string	"Filling mem at: %p, size: %d bytes... "
+	.zero	1
 .LC2:
-	.string	"Sbrk heap_end: "
+	.string	"Done!\r\n"
 .LC3:
-	.string	"\r\nHUB-12/HUB-75 driver for Karnix ASB-254. Build %05d at date/time: Dec 11 2023 19:15:40\r\nCopyright (C) 2023, Fabmicro, LLC., Tyumen, Russia.\r\n\r\n"
-	.zero	2
+	.string	"Checking mem at: %p, size: %d bytes... "
 .LC4:
-	.string	"Hardware init...\r\n"
+	.string	"\r\nMem check failed at: %p, expected: %p, got: %p\r\n"
 	.zero	1
 .LC5:
-	.string	"user request"
+	.string	"Soft-start, performing hard reset!\r\n"
 	.zero	3
 .LC6:
-	.string	"Factory defaults loaded by %s!\r\n"
-	.zero	3
+	.string	"Sbrk heap_end: "
 .LC7:
-	.string	"CONFIG pin"
-	.zero	1
+	.string	"\r\nHUB-12/HUB-75 driver for Karnix ASB-254. Build %05d at date/time: Dec 15 2023 14:00:08\r\nCopyright (C) 2021-2023 Fabmicro, LLC., Tyumen, Russia.\r\n\r\n"
+	.zero	2
 .LC8:
-	.string	"Config loaded from EEPROM\r\n"
+	.string	"Hardware init...\r\n"
+	.zero	1
 .LC9:
-	.string	"EEPROM CRC ERROR"
+	.string	"user request"
 	.zero	3
 .LC10:
+	.string	"Factory defaults loaded by %s!\r\n"
+	.zero	3
+.LC11:
+	.string	"CONFIG pin"
+	.zero	1
+.LC12:
+	.string	"Config loaded from EEPROM\r\n"
+.LC13:
+	.string	"EEPROM CRC ERROR"
+	.zero	3
+.LC14:
 	.string	"EEPROM malfunction"
 	.zero	1
-.LC11:
+.LC15:
 	.string	"Hardware init done\r\n"
 	.zero	3
-.LC12:
+.LC16:
 	.string	"MBus:"
 	.zero	2
-.LC13:
+.LC17:
 	.string	"%d "
-.LC14:
+.LC18:
 	.string	"IP4:"
 	.zero	3
-.LC15:
+.LC19:
 	.string	"%d  "
 	.zero	3
-.LC16:
-	.string	"Karnix HUB12/75 adaptor: mode = HUB%d, frame_size = %d, irq_counter = %d, sys_counter = %d, scratch = %p\r\n"
-	.zero	1
-.LC17:
+.LC20:
+	.string	"HUB12/75 adapter (build: %05d): mode = HUB%d, frame_size = %d, irq_counter = %d, sys_counter = %d, scratch = %p\r\n"
+	.zero	2
+.LC21:
 	.string	"PLIC: ENABLE = %p, PENDING = %p, POLARITY = %p, IRQLINE = %p, IRQLAST = %p\r\n"
 	.zero	3
-.LC18:
+.LC22:
 	.string	"\r\n*** TRAP: "
 	.section	.sbss,"aw",@nobits
 	.align	3
