@@ -147,3 +147,82 @@ IOBUF PORT "io_lan_rxclk" IO_TYPE=LVCMOS33;
 IOBUF PORT "io_lan_rxclk" PULLMODE=NONE;
 FREQUENCY PORT "io_lan_rxclk" 25.0 MHz;
 
+LOCATE COMP "io_sram_cs" SITE "H15";		# SRAM #CS
+IOBUF PORT "io_sram_cs" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_we" SITE "K14";		# SRAM #WE
+IOBUF PORT "io_sram_we" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_oe" SITE "J14";		# SRAM #OE
+IOBUF PORT "io_sram_oe" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_bhe" SITE "J16";		# SRAM #BHE
+IOBUF PORT "io_sram_bhe" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_ble" SITE "J15";		# SRAM #BLE
+IOBUF PORT "io_sram_ble" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_dat[0]" SITE "L16";	# SRAM D00
+IOBUF PORT "io_sram_dat[0]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_dat[1]" SITE "L15";	# SRAM D01
+IOBUF PORT "io_sram_dat[1]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_dat[2]" SITE "M16";	# SRAM D02
+IOBUF PORT "io_sram_dat[2]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_dat[3]" SITE "M15";	# SRAM D03
+IOBUF PORT "io_sram_dat[3]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_dat[4]" SITE "K13";	# SRAM D04
+IOBUF PORT "io_sram_dat[4]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_dat[5]" SITE "K12";	# SRAM D05
+IOBUF PORT "io_sram_dat[5]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_dat[6]" SITE "L13";	# SRAM D06
+IOBUF PORT "io_sram_dat[6]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_dat[7]" SITE "L12";	# SRAM D07
+IOBUF PORT "io_sram_dat[7]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_dat[8]" SITE "N16";	# SRAM D08
+IOBUF PORT "io_sram_dat[8]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_dat[9]" SITE "P15";	# SRAM D09
+IOBUF PORT "io_sram_dat[9]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_dat[10]" SITE "L14";	# SRAM D10
+IOBUF PORT "io_sram_dat[10]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_dat[11]" SITE "M14";	# SRAM D11
+IOBUF PORT "io_sram_dat[11]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_dat[12]" SITE "P16";	# SRAM D12
+IOBUF PORT "io_sram_dat[12]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_dat[13]" SITE "R16";	# SRAM D13
+IOBUF PORT "io_sram_dat[13]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_dat[14]" SITE "M13";	# SRAM D14
+IOBUF PORT "io_sram_dat[14]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_dat[15]" SITE "N14";	# SRAM D15
+IOBUF PORT "io_sram_dat[15]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_addr[0]" SITE "N13";	# SRAM A00
+IOBUF PORT "io_sram_addr[0]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_addr[1]" SITE "P14";	# SRAM A01
+IOBUF PORT "io_sram_addr[1]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_addr[2]" SITE "R15";	# SRAM A02
+IOBUF PORT "io_sram_addr[2]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_addr[3]" SITE "T15";	# SRAM A03
+IOBUF PORT "io_sram_addr[3]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_addr[4]" SITE "P13";	# SRAM A04
+IOBUF PORT "io_sram_addr[4]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_addr[5]" SITE "R14";	# SRAM A05
+IOBUF PORT "io_sram_addr[5]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_addr[6]" SITE "R13";	# SRAM A06
+IOBUF PORT "io_sram_addr[6]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_addr[7]" SITE "T14";	# SRAM A06
+IOBUF PORT "io_sram_addr[7]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_addr[8]" SITE "R12";	# SRAM A08
+IOBUF PORT "io_sram_addr[8]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_addr[9]" SITE "T13";	# SRAM A09
+IOBUF PORT "io_sram_addr[9]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_addr[10]" SITE "M12";	# SRAM A10
+IOBUF PORT "io_sram_addr[10]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_addr[11]" SITE "N12";	# SRAM A11
+IOBUF PORT "io_sram_addr[11]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_addr[12]" SITE "M11";	# SRAM A12
+IOBUF PORT "io_sram_addr[12]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_addr[13]" SITE "N11";	# SRAM A13
+IOBUF PORT "io_sram_addr[13]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_addr[14]" SITE "P11";	# SRAM A14
+IOBUF PORT "io_sram_addr[14]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_addr[15]" SITE "P12";	# SRAM A15
+IOBUF PORT "io_sram_addr[15]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_addr[16]" SITE "K16";	# SRAM A16
+IOBUF PORT "io_sram_addr[16]" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_sram_addr[17]" SITE "K15";	# SRAM A17
+IOBUF PORT "io_sram_addr[17]" IO_TYPE=LVCMOS33;
+
