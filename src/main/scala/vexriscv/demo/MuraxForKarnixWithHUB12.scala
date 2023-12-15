@@ -41,13 +41,13 @@ import spinal.lib.com.eth._
 
 	The purpose of this SoC is to provide fast interface to chinese HUB12 and HUB75 LED matrices
 	through FPGA fabric - all high frequency dynamic updates of the matrix is performed in hardware 
-	transferring date from built-in SRAM to matrix array. 
+	transferring data from built-in SRAM to matrix array. 
 
 	RISC-V soft-core is used to control the fabric and to transfer data to fabric SRAM over Ethernet or RS-485 interface.
 
 	Written by Ruslan Zalata <rz@fabmicro.ru>
 
-	Feb 2021, Tyumen, Russia.
+	(C) 2021-2023 Fabmicro, LLC., Tyumen, Russia.
 
 */
 
@@ -91,11 +91,32 @@ object MuraxForKarnixWithHUB12Config{
     )),
     hardwareBreakpointCount = if(withXip) 3 else 0,
     cpuPlugins = ArrayBuffer( //DebugPlugin added by the toplevel
+
+      /*
+        new IBusCachedPlugin(
+          resetVector = if(withXip) 0xF001E000l else 0x80000000l,
+          prediction = STATIC,
+          config = InstructionCacheConfig(
+            cacheSize = 1024,
+            bytePerLine = 32,
+            wayCount = 1,
+            addressWidth = 32,
+            cpuDataWidth = 32,
+            memDataWidth = 32,
+            catchIllegalAccess = false,
+            catchAccessFault = false,
+            asyncTagMemory = false,
+            twoCycleRam = false, 
+            twoCycleCache = true 
+          )
+        ),
+      */
+
       new IBusSimplePlugin(
         resetVector = if(withXip) 0xF001E000l else 0x80000000l,
         cmdForkOnSecondStage = true,
         cmdForkPersistence = withXip, //Required by the Xip controller
-        prediction = NONE,
+        prediction = DYNAMIC,
         catchAccessFault = false,
         compressedGen = false,
         bigEndian = bigEndian
@@ -237,6 +258,7 @@ case class MuraxHUBFabric(config : MuraxForKarnixWithHUB12Config) extends Compon
     val mii = master(Mii(MiiParameter(MiiTxParameter(dataWidth = config.macConfig.phy.txDataWidth, withEr = false), MiiRxParameter( dataWidth = config.macConfig.phy.rxDataWidth)))) 
     val i2c = MicroI2CInterface()
     val hard_reset = out Bool()
+    val sram = master(SramInterface(SramLayout(addressWidth = 18, dataWidth = 16)))
   }
 
 
@@ -306,6 +328,10 @@ case class MuraxHUBFabric(config : MuraxForKarnixWithHUB12Config) extends Compon
 
 
     for(plugin <- cpu.plugins) plugin match{
+      case plugin : IBusCachedPlugin => {
+        mainBusArbiter.io.iBus.toPipelinedMemoryBus() <> plugin.iBus.toPipelinedMemoryBus()
+        // This does not compile
+      }
       case plugin : IBusSimplePlugin => {
         mainBusArbiter.io.iBus.cmd <> plugin.iBus.cmd
         mainBusArbiter.io.iBus.rsp <> plugin.iBus.rsp
@@ -351,7 +377,12 @@ case class MuraxHUBFabric(config : MuraxForKarnixWithHUB12Config) extends Compon
     )
     mainBusMapping += apbBridge.io.pipelinedMemoryBus -> (0xF0000000l, 1 MB)
 
-
+    val sramCtrl = new PipelinedMemoryBusSram(
+      pipelinedMemoryBusConfig = pipelinedMemoryBusConfig,
+      sramLayout = SramLayout(addressWidth = 18, dataWidth = 16)
+    )
+    sramCtrl.io.sram <> io.sram
+    mainBusMapping += sramCtrl.io.bus -> (0x90000000l, 512 kB)
 
 
     //******** APB peripherals *********
@@ -482,6 +513,8 @@ case class MuraxForKarnixWithHUB12() extends Component{
 	val i2c_scl = inout(Analog(Bool()))
 	val i2c_sda = inout(Analog(Bool()))
 
+        val sram = master(SramInterface(SramLayout(addressWidth = 18, dataWidth = 16)))
+
 	val config = in Bool() // Config reset pin
     }
 
@@ -496,33 +529,33 @@ case class MuraxForKarnixWithHUB12() extends Component{
     val murax = MuraxHUBFabric(MuraxForKarnixWithHUB12Config.default(withXip = false).copy(
 		coreFrequency = 25.0 MHz, 
 		onChipRamSize = 72 kB , 
-		//pipelineMainBus = true,
+		pipelineMainBus = true, // XXX
 		//onChipRamHexFile = "src/main/c/murax/karnix_hub12/build/karnix_hub12.hex"
 		onChipRamHexFile = "MuraxForKarnixWithHUB12TopLevel_random.hex"
 	))
 
-	// LAN PHY management 
-	io.lan_mdc := True
-	io.lan_mdio := True
-	io.lan_nrst := True
+    // LAN PHY management 
+    io.lan_mdc := True
+    io.lan_mdio := True
+    io.lan_nrst := True
 
-	// LAN PHY
-	murax.io.mii.TX.CLK := io.lan_txclk
-	io.lan_txen := murax.io.mii.TX.EN
-	io.lan_txd0 := murax.io.mii.TX.D(0)
-	io.lan_txd1 := murax.io.mii.TX.D(1)
-	io.lan_txd2 := murax.io.mii.TX.D(2)
-	io.lan_txd3 := murax.io.mii.TX.D(3)
+    // LAN PHY
+    murax.io.mii.TX.CLK := io.lan_txclk
+    io.lan_txen := murax.io.mii.TX.EN
+    io.lan_txd0 := murax.io.mii.TX.D(0)
+    io.lan_txd1 := murax.io.mii.TX.D(1)
+    io.lan_txd2 := murax.io.mii.TX.D(2)
+    io.lan_txd3 := murax.io.mii.TX.D(3)
 
-	murax.io.mii.RX.CLK := io.lan_rxclk
-	murax.io.mii.RX.D(0) := io.lan_rxd0
-	murax.io.mii.RX.D(1) := io.lan_rxd1
-	murax.io.mii.RX.D(2) := io.lan_rxd2
-	murax.io.mii.RX.D(3) := io.lan_rxd3
-	murax.io.mii.RX.DV := io.lan_rxdv
-	murax.io.mii.RX.ER := io.lan_rxer
-	murax.io.mii.RX.CRS := io.lan_crs
-	murax.io.mii.RX.COL := io.lan_col
+    murax.io.mii.RX.CLK := io.lan_rxclk
+    murax.io.mii.RX.D(0) := io.lan_rxd0
+    murax.io.mii.RX.D(1) := io.lan_rxd1
+    murax.io.mii.RX.D(2) := io.lan_rxd2
+    murax.io.mii.RX.D(3) := io.lan_rxd3
+    murax.io.mii.RX.DV := io.lan_rxdv
+    murax.io.mii.RX.ER := io.lan_rxer
+    murax.io.mii.RX.CRS := io.lan_crs
+    murax.io.mii.RX.COL := io.lan_col
 
 
 
@@ -560,11 +593,10 @@ case class MuraxForKarnixWithHUB12() extends Component{
     murax.io.uart1.rxd <> io.rs485_rxd
     murax.io.uart1.de <> io.rs485_de
 
+    murax.io.sram <> io.sram
 
     io.i2c_scl <> murax.io.i2c.scl
     io.i2c_sda <> murax.io.i2c.sda
-
-
 
 }
 
@@ -591,120 +623,120 @@ object MuraxForKarnixWithHUB12VerilogSim {
                 onChipRamSize = 72 kB ,
                 //pipelineMainBus = true,
                 //onChipRamHexFile = "src/main/c/murax/karnix_hub12/build/karnix_hub12.hex"
-               	onChipRamHexFile = "MuraxForKarnixWithHUB12TopLevel_random.hex"
+                   onChipRamHexFile = "MuraxForKarnixWithHUB12TopLevel_random.hex"
         )) 
         dut.io.asyncReset.simPublic()
         dut.io.mainClk.simPublic()
-	dut.system.cpu.decode.arbitration.isValid.simPublic()
-	dut.system.cpu.decode.arbitration.haltItself.simPublic()
-	dut.system.cpu.decode.arbitration.haltByOther.simPublic()
-	dut.system.cpu.execute.arbitration.isValid.simPublic()
-	dut.system.cpu.execute.arbitration.haltItself.simPublic()
-	dut.system.cpu.execute.arbitration.haltByOther.simPublic()
-	dut.system.cpu.memory.arbitration.isValid.simPublic()
-	dut.system.cpu.memory.arbitration.haltItself.simPublic()
-	dut.system.cpu.memory.arbitration.haltByOther.simPublic()
-	dut.system.cpu.writeBack.arbitration.isValid.simPublic()
-	dut.system.cpu.writeBack.arbitration.haltItself.simPublic()
-	dut.system.cpu.writeBack.arbitration.haltByOther.simPublic()
-	dut.system.mainBusArbiter.io.dBus.cmd.valid.simPublic()
-	dut.system.mainBusArbiter.io.dBus.cmd.wr.simPublic()
-	dut.system.mainBusArbiter.io.dBus.cmd.ready.simPublic()
-	dut.system.mainBusArbiter.io.dBus.cmd.address.simPublic()
-	dut.system.mainBusArbiter.io.dBus.cmd.data.simPublic()
-	dut.system.mainBusArbiter.io.iBus.cmd.valid.simPublic()
-	dut.system.mainBusArbiter.io.iBus.cmd.ready.simPublic()
-	dut.system.mainBusArbiter.io.iBus.cmd.pc.simPublic()
-	dut.system.mainBusArbiter.rspPending.simPublic()
-	dut.system.mainBusArbiter.rspTarget.simPublic()
-	dut.system.mainBusArbiter.io.dBus.rsp.ready.simPublic()
-	dut.system.mainBusArbiter.io.dBus.rsp.data.simPublic()
-	dut.system.mainBusArbiter.io.iBus.rsp.valid.simPublic()
-	dut.system.mainBusArbiter.io.iBus.rsp.inst.simPublic()
+    dut.system.cpu.decode.arbitration.isValid.simPublic()
+    dut.system.cpu.decode.arbitration.haltItself.simPublic()
+    dut.system.cpu.decode.arbitration.haltByOther.simPublic()
+    dut.system.cpu.execute.arbitration.isValid.simPublic()
+    dut.system.cpu.execute.arbitration.haltItself.simPublic()
+    dut.system.cpu.execute.arbitration.haltByOther.simPublic()
+    dut.system.cpu.memory.arbitration.isValid.simPublic()
+    dut.system.cpu.memory.arbitration.haltItself.simPublic()
+    dut.system.cpu.memory.arbitration.haltByOther.simPublic()
+    dut.system.cpu.writeBack.arbitration.isValid.simPublic()
+    dut.system.cpu.writeBack.arbitration.haltItself.simPublic()
+    dut.system.cpu.writeBack.arbitration.haltByOther.simPublic()
+    dut.system.mainBusArbiter.io.dBus.cmd.valid.simPublic()
+    dut.system.mainBusArbiter.io.dBus.cmd.wr.simPublic()
+    dut.system.mainBusArbiter.io.dBus.cmd.ready.simPublic()
+    dut.system.mainBusArbiter.io.dBus.cmd.address.simPublic()
+    dut.system.mainBusArbiter.io.dBus.cmd.data.simPublic()
+    dut.system.mainBusArbiter.io.iBus.cmd.valid.simPublic()
+    dut.system.mainBusArbiter.io.iBus.cmd.ready.simPublic()
+    dut.system.mainBusArbiter.io.iBus.cmd.pc.simPublic()
+    dut.system.mainBusArbiter.rspPending.simPublic()
+    dut.system.mainBusArbiter.rspTarget.simPublic()
+    dut.system.mainBusArbiter.io.dBus.rsp.ready.simPublic()
+    dut.system.mainBusArbiter.io.dBus.rsp.data.simPublic()
+    dut.system.mainBusArbiter.io.iBus.rsp.valid.simPublic()
+    dut.system.mainBusArbiter.io.iBus.rsp.inst.simPublic()
 
-	dut.system.apbBridge.io.pipelinedMemoryBus.cmd.valid.simPublic()
-	dut.system.apbBridge.io.pipelinedMemoryBus.cmd.ready.simPublic()
-	dut.system.apbBridge.io.pipelinedMemoryBus.cmd.data.simPublic()
-	dut.system.apbBridge.io.pipelinedMemoryBus.cmd.address.simPublic()
-	dut.system.apbBridge.io.pipelinedMemoryBus.rsp.valid.simPublic()
-	dut.system.apbBridge.io.pipelinedMemoryBus.rsp.data.simPublic()
+    dut.system.apbBridge.io.pipelinedMemoryBus.cmd.valid.simPublic()
+    dut.system.apbBridge.io.pipelinedMemoryBus.cmd.ready.simPublic()
+    dut.system.apbBridge.io.pipelinedMemoryBus.cmd.data.simPublic()
+    dut.system.apbBridge.io.pipelinedMemoryBus.cmd.address.simPublic()
+    dut.system.apbBridge.io.pipelinedMemoryBus.rsp.valid.simPublic()
+    dut.system.apbBridge.io.pipelinedMemoryBus.rsp.data.simPublic()
 
         dut
     }.doSim{ 
-	dut =>
+    dut =>
 
-	// Create our own clock domain using external signals mainClk and asyncReset
-	val myClockDomain = ClockDomain(dut.io.mainClk, dut.io.asyncReset)
+    // Create our own clock domain using external signals mainClk and asyncReset
+    val myClockDomain = ClockDomain(dut.io.mainClk, dut.io.asyncReset)
 
-	// Fork process that drives our clock
-	myClockDomain.forkStimulus(period = 10)
+    // Fork process that drives our clock
+    myClockDomain.forkStimulus(period = 10)
 
-	// We are in reset state at the beginning
-	myClockDomain.assertReset()
+    // We are in reset state at the beginning
+    myClockDomain.assertReset()
 
       var modelState = 0
 
 
       for(idx <- 0 to 29999){
 
-	if(idx > 1) { myClockDomain.deassertReset() }
+    if(idx > 1) { myClockDomain.deassertReset() }
 
         myClockDomain.waitRisingEdge()
 
 
-	implicit def bool2int(b:Boolean) = if (b) 1 else 0
+    implicit def bool2int(b:Boolean) = if (b) 1 else 0
 
 /*
-	println("[%08d] BUS: dBus.cmd (_v:%d, v:%d, w:%d, rdy:%d, p_rdy:%d, a:%08X, d:%08X), dBus.rsp (p_v:%d, rdy:%d, d:%08X), iBus.cmd (v:%d, rdy:%d, pc:%08X), iBus.rsp (v:%d, ins:%08X), pending: %d, target: %d, lastPC: %08X, lastInst: %08X, counter(%d of %d), SRC(%08X, %08X)".format(
-		idx,
-		dut.io.test.toBoolean * 1,
-		dut.system.mainBusArbiter.io.dBus.cmd.valid.toBoolean * 1,
-		dut.system.mainBusArbiter.io.dBus.cmd.wr.toBoolean * 1,
-		dut.system.mainBusArbiter.io.dBus.cmd.ready.toBoolean * 1,
-		dut.io.plugin_cmd_ready.toBoolean * 1,
-		dut.system.mainBusArbiter.io.dBus.cmd.address.toLong,
-		dut.system.mainBusArbiter.io.dBus.cmd.data.toLong,
-		dut.io.plugin_rsp_valid.toBoolean * 1,
-		dut.system.mainBusArbiter.io.dBus.rsp.ready.toBoolean * 1,
-		dut.system.mainBusArbiter.io.dBus.rsp.data.toLong,
-		dut.system.mainBusArbiter.io.iBus.cmd.valid.toBoolean * 1,
-		dut.system.mainBusArbiter.io.iBus.cmd.ready.toBoolean * 1,
-		dut.system.mainBusArbiter.io.iBus.cmd.pc.toLong,
-		dut.system.mainBusArbiter.io.iBus.rsp.valid.toBoolean * 1,
-		dut.system.mainBusArbiter.io.iBus.rsp.inst.toLong,
-		dut.system.mainBusArbiter.rspPending.toBoolean * 1,
-		dut.system.mainBusArbiter.rspTarget.toBoolean * 1,
-		dut.system.cpu.lastStagePc.toLong, 
-		dut.system.cpu.lastStageInstruction.toLong,
-		dut.io.mem_counter.toLong, 
-		dut.io.plugin_cmd_length.toLong, 
-		dut.system.cpu.lastStageSRC1.toLong, 
-		dut.system.cpu.lastStageSRC2.toLong 
-	))  
+    println("[%08d] BUS: dBus.cmd (_v:%d, v:%d, w:%d, rdy:%d, p_rdy:%d, a:%08X, d:%08X), dBus.rsp (p_v:%d, rdy:%d, d:%08X), iBus.cmd (v:%d, rdy:%d, pc:%08X), iBus.rsp (v:%d, ins:%08X), pending: %d, target: %d, lastPC: %08X, lastInst: %08X, counter(%d of %d), SRC(%08X, %08X)".format(
+        idx,
+        dut.io.test.toBoolean * 1,
+        dut.system.mainBusArbiter.io.dBus.cmd.valid.toBoolean * 1,
+        dut.system.mainBusArbiter.io.dBus.cmd.wr.toBoolean * 1,
+        dut.system.mainBusArbiter.io.dBus.cmd.ready.toBoolean * 1,
+        dut.io.plugin_cmd_ready.toBoolean * 1,
+        dut.system.mainBusArbiter.io.dBus.cmd.address.toLong,
+        dut.system.mainBusArbiter.io.dBus.cmd.data.toLong,
+        dut.io.plugin_rsp_valid.toBoolean * 1,
+        dut.system.mainBusArbiter.io.dBus.rsp.ready.toBoolean * 1,
+        dut.system.mainBusArbiter.io.dBus.rsp.data.toLong,
+        dut.system.mainBusArbiter.io.iBus.cmd.valid.toBoolean * 1,
+        dut.system.mainBusArbiter.io.iBus.cmd.ready.toBoolean * 1,
+        dut.system.mainBusArbiter.io.iBus.cmd.pc.toLong,
+        dut.system.mainBusArbiter.io.iBus.rsp.valid.toBoolean * 1,
+        dut.system.mainBusArbiter.io.iBus.rsp.inst.toLong,
+        dut.system.mainBusArbiter.rspPending.toBoolean * 1,
+        dut.system.mainBusArbiter.rspTarget.toBoolean * 1,
+        dut.system.cpu.lastStagePc.toLong, 
+        dut.system.cpu.lastStageInstruction.toLong,
+        dut.io.mem_counter.toLong, 
+        dut.io.plugin_cmd_length.toLong, 
+        dut.system.cpu.lastStageSRC1.toLong, 
+        dut.system.cpu.lastStageSRC2.toLong 
+    ))  
 
 */
 
-	// Print some details about peripheral access
+    // Print some details about peripheral access
 
-	if(dut.system.mainBusArbiter.io.dBus.cmd.valid.toBoolean && dut.system.mainBusArbiter.io.dBus.cmd.address.toLong >= 0xF0000000l) {
+    if(dut.system.mainBusArbiter.io.dBus.cmd.valid.toBoolean && dut.system.mainBusArbiter.io.dBus.cmd.address.toLong >= 0xF0000000l) {
 
 
-		println("[%08d] PERIPHERY: apbBridge(cmd.v: %s, cmd.rdy: %s, addr: %08X, data: %08X, rsp.v: %s, rsp.data: %08X), mainBusArbiter(cmd.v: %s, cmd.rdy: %s, addr: %08X, data: %08X, rsp.v: %s, rsp.data: %08X)".format(
-			idx,
-			dut.system.apbBridge.io.pipelinedMemoryBus.cmd.valid.toBoolean,
-			dut.system.apbBridge.io.pipelinedMemoryBus.cmd.ready.toBoolean,
-			dut.system.apbBridge.io.pipelinedMemoryBus.cmd.address.toLong,
-			dut.system.apbBridge.io.pipelinedMemoryBus.cmd.data.toLong,
-			dut.system.apbBridge.io.pipelinedMemoryBus.rsp.valid.toBoolean,
-			dut.system.apbBridge.io.pipelinedMemoryBus.rsp.data.toLong,
-			dut.system.mainBusArbiter.io.dBus.cmd.valid.toBoolean,
-			dut.system.mainBusArbiter.io.dBus.cmd.ready.toBoolean,
-			dut.system.mainBusArbiter.io.dBus.cmd.address.toLong,
-			dut.system.mainBusArbiter.io.dBus.cmd.data.toLong,
-			dut.system.mainBusArbiter.io.dBus.rsp.ready.toBoolean,
-			dut.system.mainBusArbiter.io.dBus.rsp.data.toLong
-		))
-	}
+        println("[%08d] PERIPHERY: apbBridge(cmd.v: %s, cmd.rdy: %s, addr: %08X, data: %08X, rsp.v: %s, rsp.data: %08X), mainBusArbiter(cmd.v: %s, cmd.rdy: %s, addr: %08X, data: %08X, rsp.v: %s, rsp.data: %08X)".format(
+            idx,
+            dut.system.apbBridge.io.pipelinedMemoryBus.cmd.valid.toBoolean,
+            dut.system.apbBridge.io.pipelinedMemoryBus.cmd.ready.toBoolean,
+            dut.system.apbBridge.io.pipelinedMemoryBus.cmd.address.toLong,
+            dut.system.apbBridge.io.pipelinedMemoryBus.cmd.data.toLong,
+            dut.system.apbBridge.io.pipelinedMemoryBus.rsp.valid.toBoolean,
+            dut.system.apbBridge.io.pipelinedMemoryBus.rsp.data.toLong,
+            dut.system.mainBusArbiter.io.dBus.cmd.valid.toBoolean,
+            dut.system.mainBusArbiter.io.dBus.cmd.ready.toBoolean,
+            dut.system.mainBusArbiter.io.dBus.cmd.address.toLong,
+            dut.system.mainBusArbiter.io.dBus.cmd.data.toLong,
+            dut.system.mainBusArbiter.io.dBus.rsp.ready.toBoolean,
+            dut.system.mainBusArbiter.io.dBus.rsp.data.toLong
+        ))
+    }
 
         sleep(1);
 
