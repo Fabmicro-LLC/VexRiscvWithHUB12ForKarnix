@@ -203,7 +203,7 @@ LOCATE COMP "io_sram_addr[5]" SITE "R14";	# SRAM A05
 IOBUF PORT "io_sram_addr[5]" IO_TYPE=LVCMOS33;
 LOCATE COMP "io_sram_addr[6]" SITE "R13";	# SRAM A06
 IOBUF PORT "io_sram_addr[6]" IO_TYPE=LVCMOS33;
-LOCATE COMP "io_sram_addr[7]" SITE "T14";	# SRAM A06
+LOCATE COMP "io_sram_addr[7]" SITE "T14";	# SRAM A07
 IOBUF PORT "io_sram_addr[7]" IO_TYPE=LVCMOS33;
 LOCATE COMP "io_sram_addr[8]" SITE "R12";	# SRAM A08
 IOBUF PORT "io_sram_addr[8]" IO_TYPE=LVCMOS33;
