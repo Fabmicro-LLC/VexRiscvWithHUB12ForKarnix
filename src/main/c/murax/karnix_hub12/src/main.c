@@ -114,7 +114,7 @@ void sram_test_write_shorts(void) {
 	while((unsigned int)mem < SRAM_ADDR_END) {
 		*mem++ = fill++;
 	}
-	printf("Done!\r\n");
+	printf("Done\r\n");
 
 	fill = 0;
 	mem = (unsigned short*) SRAM_ADDR_BEGIN;
@@ -124,9 +124,47 @@ void sram_test_write_shorts(void) {
 	while((unsigned int)mem < SRAM_ADDR_END) {
 		if(*mem != fill) {
 			printf("\r\nMem check failed at: %p, expected: %p, got: %p\r\n", mem, fill, *mem);
+		} else {
+			//printf("\r\nMem check OK     at: %p, expected: %p, got: %p\r\n", mem, fill, *mem);
 		}
 		mem++;
 		fill++;
+	}
+
+	if((unsigned int)mem == SRAM_ADDR_END)
+		printf("Done!\r\n");
+
+}
+
+void sram_test_write_random_ints(void) {
+	volatile unsigned int *mem;
+	unsigned int fill;
+
+	fill = 0xdeadbeef;
+	mem = (unsigned int*) SRAM_ADDR_BEGIN;
+
+	printf("Filling mem at: %p, size: %d bytes... ", mem, SRAM_SIZE);
+
+	while((unsigned int)mem < SRAM_ADDR_END) {
+		*mem++ = fill;
+		fill += fill;
+	}
+	printf("Done\r\n");
+
+
+	fill = 0xdeadbeef;
+	mem = (unsigned int*) SRAM_ADDR_BEGIN;
+
+	printf("Checking mem at: %p, size: %d bytes... ", mem, SRAM_SIZE);
+
+	while((unsigned int)mem < SRAM_ADDR_END) {
+		if(*mem != fill) {
+			printf("\r\nMem check failed at: %p, expected: %p, got: %p\r\n", mem, fill, *mem);
+		} else {
+			//printf("\r\nMem check OK     at: %p, expected: %p, got: %p\r\n", mem, fill, *mem);
+		}
+		mem++;
+		fill += fill;
 	}
 
 	if((unsigned int)mem == SRAM_ADDR_END)
@@ -143,7 +181,6 @@ void main() {
 	csr_clear(mstatus, MSTATUS_MIE); // Disable Machine interrupts during hardware init
 
 	init_sbrk(); // initialize sbrk_heap_end pointer for malloc
-
 
 	if(deadbeef != 0) {
 		print("Soft-start, performing hard reset!\r\n");
@@ -350,7 +387,8 @@ void main() {
 			csr_set(mstatus, MSTATUS_MIE); // Enable Machine interrupts
 		}
 	
-		sram_test_write_shorts();
+		//sram_test_write_shorts();
+		sram_test_write_random_ints();
 
 		reg_sys_counter++;
 
