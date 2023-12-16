@@ -530,8 +530,8 @@ case class MuraxForKarnixWithHUB12() extends Component{
 		coreFrequency = 25.0 MHz, 
 		onChipRamSize = 72 kB , 
 		pipelineMainBus = true, // XXX
-		//onChipRamHexFile = "src/main/c/murax/karnix_hub12/build/karnix_hub12.hex"
 		onChipRamHexFile = "MuraxForKarnixWithHUB12TopLevel_random.hex"
+		//onChipRamHexFile = "src/main/c/murax/karnix_hub12/build/karnix_hub12.hex"
 	))
 
     // LAN PHY management 
@@ -623,7 +623,7 @@ object MuraxForKarnixWithHUB12VerilogSim {
                 onChipRamSize = 72 kB ,
                 //pipelineMainBus = true,
                 //onChipRamHexFile = "src/main/c/murax/karnix_hub12/build/karnix_hub12.hex"
-                   onChipRamHexFile = "MuraxForKarnixWithHUB12TopLevel_random.hex"
+                onChipRamHexFile = "MuraxForKarnixWithHUB12TopLevel_random.hex"
         )) 
         dut.io.asyncReset.simPublic()
         dut.io.mainClk.simPublic()
@@ -656,6 +656,7 @@ object MuraxForKarnixWithHUB12VerilogSim {
 
     dut.system.apbBridge.io.pipelinedMemoryBus.cmd.valid.simPublic()
     dut.system.apbBridge.io.pipelinedMemoryBus.cmd.ready.simPublic()
+    dut.system.apbBridge.io.pipelinedMemoryBus.cmd.write.simPublic()
     dut.system.apbBridge.io.pipelinedMemoryBus.cmd.data.simPublic()
     dut.system.apbBridge.io.pipelinedMemoryBus.cmd.address.simPublic()
     dut.system.apbBridge.io.pipelinedMemoryBus.rsp.valid.simPublic()
@@ -677,7 +678,7 @@ object MuraxForKarnixWithHUB12VerilogSim {
       var modelState = 0
 
 
-      for(idx <- 0 to 29999){
+      for(idx <- 0 to 2999999){
 
     if(idx > 1) { myClockDomain.deassertReset() }
 
@@ -718,19 +719,23 @@ object MuraxForKarnixWithHUB12VerilogSim {
 
     // Print some details about peripheral access
 
-    if(dut.system.mainBusArbiter.io.dBus.cmd.valid.toBoolean && dut.system.mainBusArbiter.io.dBus.cmd.address.toLong >= 0xF0000000l) {
+    //if(dut.system.mainBusArbiter.io.dBus.cmd.valid.toBoolean && dut.system.mainBusArbiter.io.dBus.cmd.address.toLong >= 0x90000000l) {
+    //if(dut.system.mainBusArbiter.io.dBus.cmd.address.toLong >= 0x90000000l && dut.system.mainBusArbiter.io.dBus.cmd.address.toLong < 0xa0000000l) {
+    if(!dut.system.mainBusArbiter.io.dBus.cmd.wr.toBoolean && dut.system.mainBusArbiter.io.dBus.cmd.address.toLong >= 0x90000000l && dut.system.mainBusArbiter.io.dBus.cmd.address.toLong < 0xa0000000l) {
 
 
-        println("[%08d] PERIPHERY: apbBridge(cmd.v: %s, cmd.rdy: %s, addr: %08X, data: %08X, rsp.v: %s, rsp.data: %08X), mainBusArbiter(cmd.v: %s, cmd.rdy: %s, addr: %08X, data: %08X, rsp.v: %s, rsp.data: %08X)".format(
+        println("[%08d] PERIPHERY: apbBridge(cmd.v: %s, cmd.rdy: %s, cmd.wr: %s, addr: %08X, data: %08X, rsp.v: %s, rsp.data: %08X), mainBusArbiter(cmd.v: %s, cmd.rdy: %s, cmd.wr: %s, addr: %08X, data: %08X, rsp.rdy: %s, rsp.data: %08X)".format(
             idx,
             dut.system.apbBridge.io.pipelinedMemoryBus.cmd.valid.toBoolean,
             dut.system.apbBridge.io.pipelinedMemoryBus.cmd.ready.toBoolean,
+            dut.system.apbBridge.io.pipelinedMemoryBus.cmd.write.toBoolean,
             dut.system.apbBridge.io.pipelinedMemoryBus.cmd.address.toLong,
             dut.system.apbBridge.io.pipelinedMemoryBus.cmd.data.toLong,
             dut.system.apbBridge.io.pipelinedMemoryBus.rsp.valid.toBoolean,
             dut.system.apbBridge.io.pipelinedMemoryBus.rsp.data.toLong,
             dut.system.mainBusArbiter.io.dBus.cmd.valid.toBoolean,
             dut.system.mainBusArbiter.io.dBus.cmd.ready.toBoolean,
+            dut.system.mainBusArbiter.io.dBus.cmd.wr.toBoolean,
             dut.system.mainBusArbiter.io.dBus.cmd.address.toLong,
             dut.system.mainBusArbiter.io.dBus.cmd.data.toLong,
             dut.system.mainBusArbiter.io.dBus.rsp.ready.toBoolean,
