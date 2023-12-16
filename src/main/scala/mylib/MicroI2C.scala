@@ -123,9 +123,11 @@ class Apb3MicroI2CCtrl(busWidth: Int = 32) extends Component {
 
 				io.interrupt := False 
 
+                                /*
 				assert(False, "I2C IDLE: tx_data, bit_counter", NOTE);
 				assert(False, List(tx_data), NOTE);
 				assert(False, List(bit_counter), NOTE);
+                                */
 			}
 
 			is(1) { // START
@@ -136,8 +138,10 @@ class Apb3MicroI2CCtrl(busWidth: Int = 32) extends Component {
 				}	
 				when(tx_drive) { io.i2c.sda := sda } 
 
+                                /*
 				assert(False, "I2C START: tx_data, bit_counter", NOTE);
 				assert(False, List(tx_data, bit_counter), NOTE);
+                                */
 			}
 
 			is(2) { // TX_DATA 
@@ -186,9 +190,11 @@ class Apb3MicroI2CCtrl(busWidth: Int = 32) extends Component {
 				}
 				when(tx_drive) { io.i2c.sda := sda } 
 
+                                /*
 				assert(False, "I2C ACK: tx_data, bit_counter", NOTE);
 				assert(False, List(tx_data), NOTE);
 				assert(False, List(bit_counter), NOTE);
+                                */
 			}
 
 			is(4) { // STOP1 
@@ -205,9 +211,12 @@ class Apb3MicroI2CCtrl(busWidth: Int = 32) extends Component {
 				}
 
 				//io.i2c.sda := sda 
+                                
+                                /*
 				assert(False, "I2C STOP1: tx_data, bit_counter", NOTE);
 				assert(False, List(tx_data), NOTE);
 				assert(False, List(bit_counter), NOTE);
+                                */
 			}
 
 			is(5) { // STOP2 
@@ -238,9 +247,11 @@ class Apb3MicroI2CCtrl(busWidth: Int = 32) extends Component {
 
 				when(tx_ack) { io.i2c.sda := sda }
 
+                                /*
 				assert(False, "I2C STOP2: tx_data, bit_counter", NOTE);
 				assert(False, List(tx_data), NOTE);
 				assert(False, List(bit_counter), NOTE);
+                                */
 			}
 
 			is(6) { // STOP3 

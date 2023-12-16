@@ -23,10 +23,12 @@ class Hub12SPI(data_size: Int = 8) extends Component {
 	io.data := False
 	io.cmd.ready := False
 
-	//assert(False, "HUB12SPI mask:", NOTE)
-	//assert(False, List(io.cmd.valid), NOTE)
-	//assert(False, List(mask), NOTE)
-	//assert(False, List(io.cmd.payload.data), NOTE)
+        /*
+	assert(False, "HUB12SPI mask:", NOTE)
+	assert(False, List(io.cmd.valid), NOTE)
+	assert(False, List(mask), NOTE)
+	assert(False, List(io.cmd.payload.data), NOTE)
+        */
 
 	when(io.cmd.valid) {
 
@@ -292,12 +294,14 @@ class Hub12Transfer(max_planes: Int = 8) extends Component {
 					plane := plane - 1
 					state := 1 
 				}
+                                /*
 				assert(False, "HUB12 plane/col/row_offset/fb_addr/fb_data:", NOTE)
 				assert(False, List(plane), NOTE)
 				assert(False, List(io.col), NOTE)
 				assert(False, List(io.row_offset), NOTE)
 				assert(False, List(io.fb_addr), NOTE)
 				assert(False, List(io.fb_data), NOTE)
+                                */
 			}
 		}
 
@@ -419,12 +423,14 @@ class Hub75Transfer(max_planes: Int = 8) extends Component {
 					state := 0 
 					io.ready := True
 
+                                        /*
 					assert(False, "HUB75 col/row_offset/data64/planeOffsets(0)/planeOffsets(1):", NOTE)
 					assert(False, List(io.col), NOTE)
 					assert(False, List(io.row_offset), NOTE)
 					assert(False, List(spi.io.cmd.payload.data), NOTE)
 					assert(False, List(io.planeOffsets(0)), NOTE)
 					assert(False, List(io.planeOffsets(1)), NOTE)
+                                        */
 				}
 
 			}
@@ -680,9 +686,11 @@ class Apb3HubCtrl(max_width: Int = 64, max_height: Int = 64, color_bits: Int = 8
 						when(col === matrix_width) { // col is one byte = 1 pix
 							// End of row, calc new row address
 
+                                                        /*
 							assert(False, "HUB75: EoR, rows_per_plane/row", NOTE)
 							assert(False, List(rows_per_plane), NOTE)
 							assert(False, List(row), NOTE)
+                                                        */
 
 							when(row === rows_per_plane + 2) {
 								row := 0
@@ -761,9 +769,11 @@ class Apb3HubCtrl(max_width: Int = 64, max_height: Int = 64, color_bits: Int = 8
 						when(col === (matrix_width >> U(3)) ) { // col is one byte = 8 pix
 							// End of row, calc new row address
 
+                                                        /*
 							assert(False, "HUB12: EoR, rows_per_plane/row", NOTE)
 							assert(False, List(rows_per_plane), NOTE)
 							assert(False, List(row), NOTE)
+                                                        */
 
 							when(row === (rows_per_plane - 1)) {
 								row := 0
