@@ -53,6 +53,7 @@ case class PipelinedMemoryBusSram(pipelinedMemoryBusConfig: PipelinedMemoryBusCo
       when (state === 0) { // Wrire low 16 bits
         io.sram.addr := io.bus.cmd.address(sramLayout.addressWidth downto 2).asBits ## B"0"
         io.sram.dat := io.bus.cmd.data(15 downto 0).asBits
+        //io.sram.dat := io.sram.addr(15 downto 0).asBits // Test
         //io.sram.dat := io.bus.cmd.address(15 downto 0).asBits // Test
         io.sram.ble := ~io.bus.cmd.mask(0)
         io.sram.bhe := ~io.bus.cmd.mask(1)
@@ -60,6 +61,7 @@ case class PipelinedMemoryBusSram(pipelinedMemoryBusConfig: PipelinedMemoryBusCo
       } elsewhen (state === 1) { // Write high 16 bits
         io.sram.addr := io.bus.cmd.address(sramLayout.addressWidth downto 2).asBits ## B"1"
         io.sram.dat := io.bus.cmd.data(31 downto 16).asBits
+        //io.sram.dat := io.sram.addr(15 downto 0).asBits // Test
         //io.sram.dat := io.bus.cmd.address(31 downto 16).asBits // Test
         io.sram.ble := ~io.bus.cmd.mask(2)
         io.sram.bhe := ~io.bus.cmd.mask(3)
