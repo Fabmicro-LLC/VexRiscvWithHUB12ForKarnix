@@ -15,7 +15,7 @@ MEMORY {
 }
 
 _stack_size = DEFINED(_stack_size) ? _stack_size : 2048;
-_heap_size = DEFINED(_heap_size) ? _heap_size : 0;
+_ram_heap_size = DEFINED(_ram_heap_size) ? _ram_heap_size : 0;
 
 
 SECTIONS {
@@ -99,15 +99,15 @@ SECTIONS {
     PROVIDE (_stack_start = .);
   } > RAM
 
-  ._user_heap (NOLOAD):
+  ._ram_heap (NOLOAD):
   {
     . = ALIGN(8);
     PROVIDE ( end = . );
     PROVIDE ( _end = . );
-    PROVIDE ( _heap_start = .);
-    . = . + _heap_size;
+    PROVIDE ( _ram_heap_start = .);
+    . = . + _ram_heap_size;
     /* PROVIDE ( _heap_end = ALIGN(ORIGIN(RAM) + LENGTH(RAM) - 8 ,8) ); */
-    PROVIDE ( _heap_end = ALIGN(ORIGIN(RAM) + LENGTH(RAM) ,8) );
+    PROVIDE ( _ram_heap_end = ALIGN(ORIGIN(RAM) + LENGTH(RAM) ,8) );
   } > RAM
 
 

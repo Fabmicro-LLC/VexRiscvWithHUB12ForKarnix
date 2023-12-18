@@ -20,28 +20,43 @@ __malloc_unlock:
 	.globl	init_sbrk
 	.type	init_sbrk, @function
 init_sbrk:
-	lui	a5,%hi(_heap_start)
-	lui	a4,%hi(sbrk_heap_end)
-	addi	a5,a5,%lo(_heap_start)
-	sw	a5,%lo(sbrk_heap_end)(a4)
+	lui	a5,%hi(heap_start)
+	lui	a3,%hi(heap_end)
+	bne	a0,zero,.L4
+	lui	a4,%hi(_ram_heap_start)
+	addi	a4,a4,%lo(_ram_heap_start)
+	sw	a4,%lo(heap_start)(a5)
+	lui	a4,%hi(_ram_heap_end)
+	addi	a4,a4,%lo(_ram_heap_end)
+	sw	a4,%lo(heap_end)(a3)
+.L5:
+	lw	a4,%lo(heap_start)(a5)
+	lui	a5,%hi(sbrk_heap_end)
+	sw	a4,%lo(sbrk_heap_end)(a5)
 	ret
+.L4:
+	slli	a1,a1,2
+	sw	a0,%lo(heap_start)(a5)
+	add	a0,a0,a1
+	sw	a0,%lo(heap_end)(a3)
+	j	.L5
 	.size	init_sbrk, .-init_sbrk
 	.align	2
 	.globl	delay
 	.type	delay, @function
 delay:
 	li	a5,0
-.L5:
-	bne	a5,a0,.L6
+.L7:
+	bne	a5,a0,.L8
 	ret
-.L6:
+.L8:
  #APP
-# 63 "src/utils.c" 1
+# 76 "src/utils.c" 1
 	add a2,a2,0
 # 0 "" 2
  #NO_APP
 	addi	a5,a5,1
-	j	.L5
+	j	.L7
 	.size	delay, .-delay
 	.align	2
 	.globl	delay_us
@@ -51,15 +66,15 @@ delay_us:
 	lw	a6,0(a5)
 	lw	a7,4(a5)
 	li	a2,-267714560
-.L8:
+.L10:
 	lw	t1,0(a2)
 	lw	t2,4(a2)
 	sub	a3,t1,a6
 	sgtu	a4,a3,t1
 	sub	a5,t2,a7
-	bne	a5,a4,.L7
-	bgtu	a0,a3,.L8
-.L7:
+	bne	a5,a4,.L9
+	bgtu	a0,a3,.L10
+.L9:
 	ret
 	.size	delay_us, .-delay_us
 	.align	2
@@ -67,18 +82,18 @@ delay_us:
 	.type	print_uart0, @function
 print_uart0:
 	li	a3,-268369920
-.L12:
+.L14:
 	lbu	a4,0(a0)
-	bne	a4,zero,.L13
+	bne	a4,zero,.L15
 	ret
-.L13:
+.L15:
 	lw	a5,4(a3)
 	srli	a5,a5,16
 	andi	a5,a5,255
-	beq	a5,zero,.L13
+	beq	a5,zero,.L15
 	sw	a4,0(a3)
 	addi	a0,a0,1
-	j	.L12
+	j	.L14
 	.size	print_uart0, .-print_uart0
 	.align	2
 	.globl	_sbrk
@@ -86,20 +101,24 @@ print_uart0:
 _sbrk:
 	lui	a2,%hi(sbrk_heap_end)
 	lw	a5,%lo(sbrk_heap_end)(a2)
-	bne	a5,zero,.L18
-	lui	a5,%hi(_heap_start)
-	addi	a5,a5,%lo(_heap_start)
+	lui	a1,%hi(heap_end)
+	bne	a5,zero,.L20
+	lui	a5,%hi(_ram_heap_start)
+	addi	a5,a5,%lo(_ram_heap_start)
+	lui	a4,%hi(heap_start)
+	sw	a5,%lo(heap_start)(a4)
+	lui	a4,%hi(_ram_heap_end)
+	addi	a4,a4,%lo(_ram_heap_end)
+	sw	a4,%lo(heap_end)(a1)
 	sw	a5,%lo(sbrk_heap_end)(a2)
-.L18:
+.L20:
 	lw	a3,%lo(sbrk_heap_end)(a2)
-	lui	a4,%hi(_heap_end)
-	addi	a1,a4,%lo(_heap_end)
+	lw	a4,%lo(heap_end)(a1)
 	add	a5,a3,a0
-	bleu	a5,a1,.L19
+	bltu	a5,a4,.L21
 	addi	sp,sp,-144
 	lui	a2,%hi(.LC0)
 	mv	a5,a0
-	addi	a4,a4,%lo(_heap_end)
 	addi	a2,a2,%lo(.LC0)
 	li	a1,128
 	mv	a0,sp
@@ -112,7 +131,7 @@ _sbrk:
 	mv	a0,a3
 	addi	sp,sp,144
 	jr	ra
-.L19:
+.L21:
 	sw	a5,%lo(sbrk_heap_end)(a2)
 	mv	a0,a3
 	ret
@@ -122,18 +141,18 @@ _sbrk:
 	.type	print_uart1, @function
 print_uart1:
 	li	a3,-268365824
-.L26:
+.L28:
 	lbu	a4,0(a0)
-	bne	a4,zero,.L27
+	bne	a4,zero,.L29
 	ret
-.L27:
+.L29:
 	lw	a5,4(a3)
 	srli	a5,a5,16
 	andi	a5,a5,255
-	beq	a5,zero,.L27
+	beq	a5,zero,.L29
 	sw	a4,0(a3)
 	addi	a0,a0,1
-	j	.L26
+	j	.L28
 	.size	print_uart1, .-print_uart1
 	.align	2
 	.globl	_write
@@ -141,20 +160,20 @@ print_uart1:
 _write:
 	add	a3,a1,a2
 	li	a4,-268369920
-.L32:
-	bne	a1,a3,.L34
+.L34:
+	bne	a1,a3,.L36
 	mv	a0,a2
 	ret
-.L34:
+.L36:
 	addi	a1,a1,1
 	lbu	a0,-1(a1)
-.L33:
+.L35:
 	lw	a5,4(a4)
 	srli	a5,a5,16
 	andi	a5,a5,255
-	beq	a5,zero,.L33
+	beq	a5,zero,.L35
 	sw	a0,0(a4)
-	j	.L32
+	j	.L34
 	.size	_write, .-_write
 	.align	2
 	.globl	_read
@@ -229,26 +248,37 @@ hard_reboot:
 	.type	memcpy_rev, @function
 memcpy_rev:
 	li	a5,0
-.L47:
-	bne	a2,a5,.L48
+.L49:
+	bne	a2,a5,.L50
 	ret
-.L48:
+.L50:
 	sub	a4,a1,a5
 	lbu	a3,0(a4)
 	add	a4,a0,a5
 	addi	a5,a5,1
 	sb	a3,0(a4)
-	j	.L47
+	j	.L49
 	.size	memcpy_rev, .-memcpy_rev
+	.globl	heap_end
+	.globl	heap_start
 	.globl	sbrk_heap_end
 	.section	.rodata.str1.4,"aMS",@progbits,1
 	.align	2
 .LC0:
-	.string	"_sbrk() NO MEM, sbrk_heap_end = %p, _heap_end = %p, incr = %u\r\n"
+	.string	"_sbrk() OUT OF MEM, sbrk_heap_end = %p, heap_end = %p, incr = %u\r\n"
+	.zero	1
 .LC1:
 	.string	"*** GOING HARD RESET ***\r\n"
 	.section	.sbss,"aw",@nobits
 	.align	2
+	.type	heap_end, @object
+	.size	heap_end, 4
+heap_end:
+	.zero	4
+	.type	heap_start, @object
+	.size	heap_start, 4
+heap_start:
+	.zero	4
 	.type	sbrk_heap_end, @object
 	.size	sbrk_heap_end, 4
 sbrk_heap_end:
