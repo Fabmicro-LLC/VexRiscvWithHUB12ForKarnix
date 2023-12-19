@@ -8,7 +8,7 @@
 
 extern unsigned char* sbrk_heap_end;
 
-void init_sbrk(void);
+void init_sbrk(unsigned int* heap, int size);
 void delay(uint32_t loops);
 void delay_us(uint32_t us);
 void print_uart0(const char*str);

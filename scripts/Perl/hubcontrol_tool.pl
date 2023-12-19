@@ -71,6 +71,7 @@ GetOptions(
 	"get_hub_type" => \$get_hub_type,		### Get current HUB controller type
 	"set_options=o" => \$set_options,		### Set misc configuration options
 	"get_options" => \$get_options,			### Get misc configuration options
+	"demo_clock" => \$demo_clock,			### Demo: clock 
 
 
 
@@ -343,6 +344,50 @@ if(length($set_modbus_baud) > 0) {
 }
 
 
+if(length($demo_clock) > 0) {
+
+	my @data = (0);
+
+	eval {
+		$req = $client->write_multiple_registers( unit => $device_addr, address  => $reg_clear_text, values => \@data );
+		$client->send_request($req);
+		$resp = $client->receive_response;
+	};
+
+	while(1) {
+		my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
+
+		my $test = sprintf("%02d:%02d", $hour, $min);
+ 
+		@data = buffer_to_array($test, 3, $text_flag);
+		@data[0] = 0; ## X
+		@data[1] = 3; ## Y
+		@data[2] = 1; ## Font ID
+
+		eval {
+			$req = $client->write_multiple_registers( unit => $device_addr, address  => $reg_print_text, values => \@data );
+			$client->send_request($req);
+			$resp = $client->receive_response;
+		};
+
+		usleep(500000);
+		
+		$test = sprintf("%02d %02d", $hour, $min);
+
+		@data = buffer_to_array($test, 3, $text_flag);
+		@data[0] = 0; ## X
+		@data[1] = 3; ## Y
+		@data[2] = 1; ## Font ID
+
+		eval {
+			$req = $client->write_multiple_registers( unit => $device_addr, address  => $reg_print_text, values => \@data );
+			$client->send_request($req);
+			$resp = $client->receive_response;
+		};
+
+		usleep(500000);
+	}
+}
 
 
 if(length($test) > 0) {

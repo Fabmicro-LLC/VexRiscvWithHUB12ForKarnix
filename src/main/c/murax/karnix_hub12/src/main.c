@@ -19,12 +19,15 @@
 
 
 /* Below is some linker specific stuff */
-extern unsigned int   end; /* Set by linker.  */
-extern unsigned int   _heap_start; /* Set by linker.  */
-extern unsigned int   _heap_end; /* Set by linker.  */
 extern unsigned int   _stack_start; /* Set by linker.  */
 extern unsigned int   _stack_size; /* Set by linker.  */
 extern unsigned int   trap_entry;
+extern unsigned int   heap_start; /* programmer defined heap start */
+extern unsigned int   heap_end; /* programmer defined heap end */
+
+#define SRAM_SIZE       (512*1024)
+#define SRAM_ADDR_BEGIN 0x90000000
+#define SRAM_ADDR_END   (0x90000000 + SRAM_SIZE)
 
 extern struct netif default_netif;
 
@@ -50,18 +53,18 @@ char to_hex_nibble(char n)
 {
 	n &= 0x0f;
 
-        if(n > 0x09)
-                return n + 'A' - 0x0A;
-        else
-                return n + '0';
+	if(n > 0x09)
+		return n + 'A' - 0x0A;
+	else
+		return n + '0';
 }
 
 void to_hex(char*s , unsigned int n)
 {
 	for(int i = 0; i < 8; i++) {
-        	s[i] = to_hex_nibble(n >> (28 - i*4));
+		s[i] = to_hex_nibble(n >> (28 - i*4));
 	}
-        s[8] = 0;
+	s[8] = 0;
 }
 
 
@@ -96,15 +99,14 @@ void process_and_wait(uint32_t us) {
 	}
 }
 
+
 // Test SRAM by writing shorts
 
-#define	SRAM_SIZE	(512*1024)
-#define SRAM_ADDR_BEGIN	0x90000000
-#define	SRAM_ADDR_END	(0x90000000 + SRAM_SIZE)
-
-void sram_test_write_shorts(void) {
+/*
+int sram_test_write_shorts(void) {
 	volatile unsigned short *mem;
 	unsigned short fill;
+	int fails = 0;
 
 	fill = 0;
 	mem = (unsigned short*) SRAM_ADDR_BEGIN;
@@ -124,6 +126,7 @@ void sram_test_write_shorts(void) {
 	while((unsigned int)mem < SRAM_ADDR_END) {
 		if(*mem != fill) {
 			printf("\r\nMem check failed at: %p, expected: %p, got: %p\r\n", mem, fill, *mem);
+			fails++;
 		} else {
 			//printf("\r\nMem check OK     at: %p, expected: %p, got: %p\r\n", mem, fill, *mem);
 		}
@@ -132,55 +135,60 @@ void sram_test_write_shorts(void) {
 	}
 
 	if((unsigned int)mem == SRAM_ADDR_END)
-		printf("Done!\r\n");
+		printf("Done! Mem fails = %d\r\n", fails);
 
+	return fails;
 }
+*/
 
-void sram_test_write_random_ints(void) {
+int sram_test_write_random_ints(void) {
 	volatile unsigned int *mem;
 	unsigned int fill;
+	int fails = 0;
 
 	fill = 0xdeadbeef;
 	mem = (unsigned int*) SRAM_ADDR_BEGIN;
 
-	printf("Filling mem at: %p, size: %d bytes... ", mem, SRAM_SIZE);
+	printf("Filling SRAM at: %p, size: %d bytes...\r\n", mem, SRAM_SIZE);
 
 	while((unsigned int)mem < SRAM_ADDR_END) {
 		*mem++ = fill;
 		fill += fill;
 	}
-	printf("Done\r\n");
-
 
 	fill = 0xdeadbeef;
 	mem = (unsigned int*) SRAM_ADDR_BEGIN;
 
-	printf("Checking mem at: %p, size: %d bytes... ", mem, SRAM_SIZE);
+	printf("Checking SRAM at: %p, size: %d bytes...\r\n", mem, SRAM_SIZE);
 
 	while((unsigned int)mem < SRAM_ADDR_END) {
 		if(*mem != fill) {
-			printf("\r\nMem check failed at: %p, expected: %p, got: %p\r\n", mem, fill, *mem);
+			printf("SRAM check failed at: %p, expected: %p, got: %p\r\n", mem, fill, *mem);
+			fails++;
 		} else {
 			//printf("\r\nMem check OK     at: %p, expected: %p, got: %p\r\n", mem, fill, *mem);
 		}
 		mem++;
-		fill += fill;
+		fill += fill; // generate pseudo-random data
 	}
 
 	if((unsigned int)mem == SRAM_ADDR_END)
-		printf("Done!\r\n");
+		printf("SRAM Fails: %d\r\n", fails);
 
+	return fails++;
 }
 
 
 void main() {
 
 	unsigned int n;
-	char str[256];
+	char str[128];
 
 	csr_clear(mstatus, MSTATUS_MIE); // Disable Machine interrupts during hardware init
 
-	init_sbrk(); // initialize sbrk_heap_end pointer for malloc
+	init_sbrk(NULL, 0); // Initialize heap for malloc to use on-chip RAM
+
+	delay_us(2000000); // Allow user to connect to debug uart
 
 	if(deadbeef != 0) {
 		print("Soft-start, performing hard reset!\r\n");
@@ -193,44 +201,52 @@ void main() {
 	// Can be usful for debugging heal allocation issues 
 
 /*
-        to_hex(str, (unsigned int)&_heap_start);
-        print("Heap start: ");
-        print(str);
-        print("\r\n");
+	to_hex(str, (unsigned int)&_ram_heap_start);
+	print("Heap start: ");
+	print(str);
+	print("\r\n");
 
-        to_hex(str, (unsigned int)&_heap_end);
-        print("Heap end: ");
-        print(str);
-        print("\r\n");
-*/
+	to_hex(str, (unsigned int)&_ram_heap_end);
+	print("Heap end: ");
+	print(str);
+	print("\r\n");
 
-        to_hex(str, (unsigned int)sbrk_heap_end);
-        print("Sbrk heap_end: ");
-        print(str);
-        print("\r\n");
+	to_hex(str, (unsigned int)sbrk_heap_end);
+	print("Sbrk heap_end: ");
+	print(str);
+	print("\r\n");
 
-/*
-        to_hex(str, (unsigned int)&_stack_start);
-        print("Stack start: ");
-        print(str);
-        print("\r\n");
+	to_hex(str, (unsigned int)&_stack_start);
+	print("Stack start: ");
+	print(str);
+	print("\r\n");
 
-        to_hex(str, (unsigned int)&_stack_size);
-        print("Stack size: ");
-        print(str);
-        print("\r\n");
+	to_hex(str, (unsigned int)&_stack_size);
+	print("Stack size: ");
+	print(str);
+	print("\r\n");
 */
 
 	printf("\r\n"
-		"HUB-12/HUB-75 driver for Karnix ASB-254. Build %05d at date/time: " __DATE__ " " __TIME__ "\r\n"
+		"HUB-12/HUB-75 driver for Karnix ASB-254. Build %05d, date/time: " __DATE__ " " __TIME__ "\r\n"
 		"Copyright (C) 2021-2023 Fabmicro, LLC., Tyumen, Russia.\r\n\r\n",
 		BUILD_NUMBER
 	);
 
 	GPIO->OUTPUT |= (1 << LED_R); // LED_R is ON - indicate we are not yet ready
 
-	printf("Hardware init...\r\n");
+	printf("Hardware init\r\n");
 
+	// Test SRAM and initialize heap for malloc to use SRAM if tested OK
+	if(sram_test_write_random_ints() == 0) {
+		printf("Enabling SRAM...\r\n");
+		init_sbrk((unsigned int*)SRAM_ADDR_BEGIN, SRAM_SIZE);
+		printf("SRAM %s!\r\n", "enabled"); 
+		// If this prints, we are running with new heap all right
+		// Note, that some garbage can be printed along, that's ok!
+	} else {
+		printf("SRAM %s!\r\n", "disabled"); 
+	}
 
 	// Disable HUB controller
 	HUB0->CONTROL = 0;
@@ -269,14 +285,19 @@ void main() {
 
 	csr_set(mstatus, MSTATUS_MIE); // Enable Machine interrupts during user input 
 
+	fpurge(stdout);
+	printf("Press '*' to reset config");
+	fflush(stdout);
+
 	for(int i = 0; i < 10; i++) {
-		if(uart_config_reset_counter > 2)	// has user typed *** on the console ?
+		if(uart_config_reset_counter > 2) // has user typed *** on the console ?
 			break;
 
-		if((GPIO->INPUT & (1 << CONFIG_PIN)) == 0)	// is CONFIG pin tied to ground ?
+		if((GPIO->INPUT & (1 << CONFIG_PIN)) == 0) // is CONFIG pin tied to ground ?
 			break;
 
-		uart_write(UART0, '.');
+		putchar('.');
+		fflush(stdout);
 		delay_us(500000);
 	}
 
@@ -286,19 +307,19 @@ void main() {
 
 	if(uart_config_reset_counter > 2) {
 		uart_config_reset_counter = 0;
-		printf("Factory defaults loaded by %s!\r\n", "user request");
+		printf("Defaults loaded by %s!\r\n", "user request");
  	} else if((GPIO->INPUT & (1 << CONFIG_PIN)) == 0) {
-		printf("Factory defaults loaded by %s!\r\n", "CONFIG pin");
+		printf("Defaults loaded by %s!\r\n", "CONFIG pin");
 	} else {
 		if(eeprom_probe(I2C0) == 0) {
 			if(config_load(&active_config) == 0) {
 				printf("Config loaded from EEPROM\r\n");
 			} else {
 				active_config = default_config;
-				printf("Factory defaults loaded by %s!\r\n", "EEPROM CRC ERROR");
+				printf("Defaults loaded by %s!\r\n", "EEPROM CRC ERROR");
 			}
 		} else {
-			printf("Factory defaults loaded by %s!\r\n", "EEPROM malfunction");
+			printf("Defaults loaded by %s!\r\n", "EEPROM malfunction");
 		}
 	} 
 
@@ -331,6 +352,8 @@ void main() {
 	if(1) {
 		char txt[32];
 		int len;
+
+		printf("Displaying current setting...\r\n");
 
 		hub_print(6, 0, HUB_COLOR_WHITE, "MBus:", 5, font_6x8, 6, 8);
 
@@ -365,20 +388,20 @@ void main() {
 
 		GPIO->OUTPUT |= (1 << LED_G); // LED_G is ON
 
-    		process_and_wait(250000); 
+    		process_and_wait(500000); 
 
 		GPIO->OUTPUT &= ~(1 << LED_G); // LED_G is OFF
 
-    		process_and_wait(250000); 
+    		process_and_wait(500000); 
 
 
 		{ // Critical section - printfs is not re-enterable
 			csr_clear(mstatus, MSTATUS_MIE); // Disable Machine interrupts
 	
-			printf("HUB12/75 adapter (build: %05d): mode = HUB%d, frame_size = %d, irq_counter = %d, sys_counter = %d, scratch = %p\r\n",
-				BUILD_NUMBER,	
+			printf("HUB12/75 adapter build %05d: mode = HUB%d, hub_fb_size = %d, irqs = %d, sys_cnt = %d, scratch = %p, sbrk_heap_end = %p\r\n",
+				BUILD_NUMBER,
 				(HUB0->CONTROL & HUB_MASK_TYPE),
-				hub_frame_size, reg_irq_counter, reg_sys_counter, reg_scratch);
+				hub_frame_size, reg_irq_counter, reg_sys_counter, reg_scratch, sbrk_heap_end);
 
 			plic_print_stats();
 
@@ -388,7 +411,7 @@ void main() {
 		}
 	
 		//sram_test_write_shorts();
-		sram_test_write_random_ints();
+		//sram_test_write_random_ints();
 
 		reg_sys_counter++;
 
@@ -497,6 +520,4 @@ void irqCallback() {
 
 	// Interrupt state will be restored by machine on MRET
 }
-
-
 
