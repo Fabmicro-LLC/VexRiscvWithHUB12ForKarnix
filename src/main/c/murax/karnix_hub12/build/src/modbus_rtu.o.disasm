@@ -72,10 +72,6 @@ modbus_rtu_poll:
 	addi	a5,a5,1807
 	bleu	a3,a5,.L3
 .L10:
-	lw	a1,%lo(modbus_rtu_rx_len)(s0)
-	lui	a0,%hi(.LC1)
-	addi	a0,a0,%lo(.LC1)
-	call	printf
 	lw	s1,%lo(modbus_rtu_rx_len)(s0)
 	li	a5,128
 	mv	a2,s1
@@ -86,12 +82,11 @@ modbus_rtu_poll:
 	addi	a1,a1,%lo(.LANCHOR0)
 	mv	a0,sp
 	call	memcpy
-	mv	a1,s1
 	addi	a2,sp,128
+	mv	a1,s1
 	mv	a0,sp
 	sw	zero,%lo(modbus_rtu_rx_len)(s0)
 	call	modbus_recv
-	mv	a1,a0
 	beq	a0,zero,.L3
 	li	a4,0
 	li	a3,-268365824
@@ -106,10 +101,7 @@ modbus_rtu_poll:
 	beq	a5,zero,.L8
 	sw	a2,0(a3)
 	addi	a4,a4,1
-	bne	a1,a4,.L9
-	lui	a0,%hi(.LC2)
-	addi	a0,a0,%lo(.LC2)
-	call	printf
+	bne	a0,a4,.L9
 .L3:
 	lw	ra,268(sp)
 	lw	s0,264(sp)
@@ -148,9 +140,9 @@ modbus_rtu_isr:
 	beq	a5,zero,.L23
 	lw	a3,4(a4)
 	lw	a4,%lo(modbus_rtu_rx_len)(s0)
-	lui	a2,%hi(.LC3)
+	lui	a2,%hi(.LC1)
 	srli	a3,a3,24
-	addi	a2,a2,%lo(.LC3)
+	addi	a2,a2,%lo(.LC1)
 	li	a1,128
 	mv	a0,sp
 	call	snprintf
@@ -203,12 +195,6 @@ modbus_rtu_rx_buf:
 	.string	"modbus_rtu_init() done, dataLength = %d, parity = %d, stop = %d, clockDivider = %d (was: %d)\r\n"
 	.zero	1
 .LC1:
-	.string	"modbus_rtu_poll() recv %d bytes in request\r\n"
-	.zero	3
-.LC2:
-	.string	"modbus_rtu_poll() sent %d bytes in response\r\n"
-	.zero	2
-.LC3:
 	.string	"modbus_rtu_isr() stale RX FIFO %d bytes, rx_len = %d\r\n"
 	.section	.sbss,"aw",@nobits
 	.align	3

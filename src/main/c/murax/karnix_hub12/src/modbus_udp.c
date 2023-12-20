@@ -13,8 +13,9 @@
 //#include "aes.h"
 #include "modbus.h"
 
+//#define MODBUS_DEBUG	1
 
-#define	MODBUS_UDP_PORT			2001
+#define	MODBUS_UDP_PORT	2001
 	
 struct udp_pcb* modbus_udp_pcb = NULL;
 
@@ -56,7 +57,9 @@ void modbus_udp_recv(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_a
 	uint32_t tx_len = 0;
 	uint8_t tx_buf[MODBUS_TX_BUF_SIZE];
 
+	#ifdef MODBUS_DEBUG
 	printf("modbus_udp_recv() from %s:%d, size = %d\r\n", ipaddr_ntoa(addr), port, rx_len);
+	#endif
 
 	LWIP_UNUSED_ARG(arg);
 	LWIP_UNUSED_ARG(upcb);
@@ -67,7 +70,9 @@ void modbus_udp_recv(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_a
 	pbuf_free(p);
 
 	if(tx_len > 0) {
+		#ifdef MODBUS_DEBUG
 		printf("modbus_udp_recv() responding with %d bytes\r\n", tx_len);
+		#endif
 
 		modbus_udp_send(addr, port, tx_buf, tx_len);
 	}
@@ -106,7 +111,9 @@ void modbus_udp_send(const ip_addr_t *addr, u16_t port, uint8_t* buf, uint32_t b
 		GPIO->OUTPUT &= ~(1 << LED_R); // Error indicator
 		printf("modbus_udp_send() error while in udp_sendto() = %d\r\n", err);
 	} else {
+		#ifdef MODBUS_DEBUG
 		printf("modbus_udp_send() sent %d bytes to %s:%d\r\n", p->len, ipaddr_ntoa(addr), port);
+		#endif
 	}
 
 	pbuf_free(p);
