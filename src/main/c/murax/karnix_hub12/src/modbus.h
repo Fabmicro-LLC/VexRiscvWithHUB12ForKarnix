@@ -22,6 +22,7 @@
 #define ERR_WRONG_ARGS                  0x03            // Error code: invalid arguments
 #define ERR_SYS_ERROR			0x07            // Error code: system failure 
 
+#define	REG_FRAMEBUFFER			20		// Command to write directly to framebuffer with given offset (first two bytes)
 #define REG_SYS_COUNTER			30              // Register holding system counter value (32 bits)
 #define	REG_IRQ_COUNTER			31		// Register holding IRQ counter (32 bits)
 #define	REG_SCRATCH			32		// Register holding temporary data (32 bits)
