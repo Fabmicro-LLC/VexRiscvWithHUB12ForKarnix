@@ -58,7 +58,7 @@ modbus_store_reg:
 	lui	a0,%hi(.LC1)
 	addi	a0,a0,%lo(.LC1)
 	call	printf
-.L58:
+.L60:
 	li	s1,-2
 	j	.L3
 .L4:
@@ -74,7 +74,7 @@ modbus_store_reg:
 	beq	a0,a5,.L11
 	li	a5,20
 	beq	a0,a5,.L12
-.L59:
+.L61:
 	li	s1,-1
 .L3:
 	lw	ra,44(sp)
@@ -88,16 +88,16 @@ modbus_store_reg:
 	beq	a0,a5,.L13
 	bltu	a0,a5,.L14
 	li	a5,45
-	bne	a0,a5,.L59
+	bne	a0,a5,.L61
 	mv	a0,sp
 	call	config_load
-	bge	a0,zero,.L34
+	bge	a0,zero,.L35
 	lui	a1,%hi(default_config)
 	li	a2,32
 	addi	a1,a1,%lo(default_config)
 	mv	a0,sp
 	call	memcpy
-.L34:
+.L35:
 	lbu	a5,0(s0)
 	lbu	a4,1(s0)
 	slli	a5,a5,24
@@ -109,14 +109,14 @@ modbus_store_reg:
 	slli	a4,a4,8
 	or	a5,a5,a4
 	sw	a5,24(sp)
-	j	.L56
+	j	.L58
 .L7:
 	li	a5,51
 	beq	a0,a5,.L16
 	bgtu	a0,a5,.L17
 	li	a5,49
 	beq	a0,a5,.L18
-	bleu	a0,a5,.L53
+	bleu	a0,a5,.L55
 	lbu	a4,1(s0)
 	lbu	a0,0(s0)
 	lbu	a1,2(s0)
@@ -150,75 +150,81 @@ modbus_store_reg:
 	lui	a3,%hi(reg_hub_color)
 	lw	a2,%lo(reg_hub_color)(a3)
 	addi	a3,s0,6
-	bne	a5,zero,.L26
+	bne	a5,zero,.L27
 	lui	a5,%hi(font_6x8)
 	li	a7,8
 	li	a6,6
 	addi	a5,a5,%lo(font_6x8)
-.L61:
+.L63:
 	call	hub_print
-	j	.L60
+	j	.L62
 .L17:
 	li	a5,126
 	beq	a0,a5,.L21
 	li	a5,127
 	beq	a0,a5,.L22
 	li	a5,52
-	bne	a0,a5,.L59
+	bne	a0,a5,.L61
 	lbu	a4,3(s0)
 	lui	a5,%hi(reg_hub_color)
 	sw	a4,%lo(reg_hub_color)(a5)
-	j	.L60
+	j	.L62
 .L16:
 	lui	a5,%hi(hub_frame_size)
 	lw	a2,%lo(hub_frame_size)(a5)
 	li	a1,0
 	li	a0,-268107776
 	call	memset
-.L60:
+.L62:
 	li	s1,0
 	j	.L3
 .L12:
 	lbu	a3,1(s0)
 	lbu	a4,0(s0)
-	addi	a2,a2,-2
+	li	a5,1024
 	slli	a3,a3,8
 	or	a3,a3,a4
-	srai	a5,a2,31
 	slli	a4,a3,8
-	andi	a5,a5,3
 	srli	a3,a3,8
 	or	a4,a4,a3
-	add	a5,a5,a2
+	li	a3,4096
 	slli	a4,a4,16
-	andi	a5,a5,-4
+	addi	a3,a3,2
 	srli	a4,a4,16
+	bgtu	a2,a3,.L24
+	addi	a2,a2,-2
+	srai	a5,a2,31
+	andi	a5,a5,3
+	add	a5,a5,a2
+	srai	a5,a5,2
+.L24:
+	slli	a5,a5,2
 	add	a5,s0,a5
 	li	a0,-268107776
-.L24:
+.L25:
 	addi	a1,a4,4
-	beq	s0,a5,.L60
-	lbu	a3,5(s0)
-	lbu	a2,4(s0)
+	beq	s0,a5,.L62
+	lbu	a2,5(s0)
+	lbu	a3,4(s0)
 	add	a4,a0,a4
-	slli	a3,a3,24
-	slli	a2,a2,16
-	or	a3,a3,a2
-	lbu	a2,2(s0)
+	slli	a2,a2,24
+	slli	a3,a3,16
+	or	a2,a2,a3
+	lbu	a3,2(s0)
 	addi	s0,s0,4
-	or	a3,a3,a2
-	lbu	a2,-1(s0)
-	slli	a2,a2,8
-	or	a3,a3,a2
-	sw	a3,0(a4)
+	or	a2,a2,a3
+	lbu	a3,-1(s0)
+	slli	a3,a3,8
+	or	a2,a2,a3
+	sw	a2,0(a4)
 	mv	a4,a1
-	j	.L24
-.L26:
+	j	.L25
+.L27:
 	lui	a5,%hi(font_12x16)
 	li	a7,16
 	li	a6,12
 	addi	a5,a5,%lo(font_12x16)
-	j	.L61
+	j	.L63
 .L10:
 	lbu	a5,0(s0)
 	lbu	a4,1(s0)
@@ -232,7 +238,7 @@ modbus_store_reg:
 	or	a5,a5,a4
 	lui	a4,%hi(reg_scratch)
 	sw	a5,%lo(reg_scratch)(a4)
-	j	.L60
+	j	.L62
 .L21:
 	lbu	a5,0(s0)
 	lbu	a4,1(s0)
@@ -246,43 +252,43 @@ modbus_store_reg:
 	or	a5,a5,a4
 	lui	a4,%hi(reg_config_write)
 	sw	a5,%lo(reg_config_write)(a4)
-	j	.L60
+	j	.L62
 .L22:
 	call	hard_reboot
-	j	.L60
-.L53:
+	j	.L62
+.L55:
 	lbu	a0,3(s0)
 	call	hub_init
 	mv	s1,a0
-	bne	a0,zero,.L58
+	bne	a0,zero,.L60
 	mv	a0,sp
 	call	config_load
-	bge	a0,zero,.L28
+	bge	a0,zero,.L29
 	lui	a1,%hi(default_config)
 	li	a2,32
 	addi	a1,a1,%lo(default_config)
 	mv	a0,sp
 	call	memcpy
-.L28:
+.L29:
 	lbu	a5,3(s0)
 	mv	a0,sp
 	sb	a5,19(sp)
 	call	config_save
 	bge	a0,zero,.L3
-	j	.L58
+	j	.L60
 .L13:
 	mv	a0,sp
 	call	config_load
-	bge	a0,zero,.L30
+	bge	a0,zero,.L31
 	lui	a1,%hi(default_config)
 	li	a2,32
 	addi	a1,a1,%lo(default_config)
 	mv	a0,sp
 	call	memcpy
-.L30:
+.L31:
 	lbu	a5,3(s0)
 	sb	a5,20(sp)
-.L56:
+.L58:
 	mv	a0,sp
 	call	config_save
 	srai	a0,a0,31
@@ -291,75 +297,75 @@ modbus_store_reg:
 .L18:
 	mv	a0,sp
 	call	config_load
-	bge	a0,zero,.L32
+	bge	a0,zero,.L33
 	lui	a1,%hi(default_config)
 	li	a2,32
 	addi	a1,a1,%lo(default_config)
 	mv	a0,sp
 	call	memcpy
-.L32:
+.L33:
 	lbu	a5,3(s0)
 	sb	a5,12(sp)
-	j	.L56
+	j	.L58
 .L11:
 	mv	a0,sp
 	call	config_load
-	bge	a0,zero,.L36
+	bge	a0,zero,.L37
 	lui	a1,%hi(default_config)
 	li	a2,32
 	addi	a1,a1,%lo(default_config)
 	mv	a0,sp
 	call	memcpy
-.L36:
+.L37:
 	li	a2,4
 	addi	a1,s0,3
 	mv	a0,sp
-.L62:
+.L64:
 	call	memcpy_rev
-	j	.L56
+	j	.L58
 .L8:
 	mv	a0,sp
 	call	config_load
-	bge	a0,zero,.L38
+	bge	a0,zero,.L39
 	lui	a1,%hi(default_config)
 	li	a2,32
 	addi	a1,a1,%lo(default_config)
 	mv	a0,sp
 	call	memcpy
-.L38:
+.L39:
 	li	a2,4
 	addi	a1,s0,3
 	addi	a0,sp,4
-	j	.L62
+	j	.L64
 .L14:
 	mv	a0,sp
 	call	config_load
-	bge	a0,zero,.L40
+	bge	a0,zero,.L41
 	lui	a1,%hi(default_config)
 	li	a2,32
 	addi	a1,a1,%lo(default_config)
 	mv	a0,sp
 	call	memcpy
-.L40:
+.L41:
 	li	a2,4
 	addi	a1,s0,3
 	addi	a0,sp,8
-	j	.L62
+	j	.L64
 .L6:
 	mv	a0,sp
 	call	config_load
-	bge	a0,zero,.L42
+	bge	a0,zero,.L43
 	lui	a1,%hi(default_config)
 	li	a2,32
 	addi	a1,a1,%lo(default_config)
 	mv	a0,sp
 	call	memcpy
-.L42:
+.L43:
 	li	a2,6
 	mv	a1,s0
 	addi	a0,sp,13
 	call	memcpy
-	j	.L56
+	j	.L58
 	.size	modbus_store_reg, .-modbus_store_reg
 	.align	2
 	.globl	modbus_recv
@@ -377,35 +383,37 @@ modbus_recv:
 	sw	s7,44(sp)
 	sw	s8,40(sp)
 	li	s0,-1
-	beq	a0,zero,.L63
-	beq	a2,zero,.L63
+	beq	a0,zero,.L65
+	beq	a2,zero,.L65
 	li	a5,4
-	ble	a1,a5,.L63
-	mv	s5,a1
-	addi	a1,a1,-2
+	ble	a1,a5,.L65
+	slli	s5,a1,16
+	srli	s5,s5,16
+	mv	s0,a1
+	addi	a1,s5,-2
 	slli	a1,a1,16
-	srli	a1,a1,16
 	mv	s4,a0
+	srli	a1,a1,16
 	mv	s1,a2
+	add	s0,s4,s0
 	call	crc16
-	add	a5,s4,s5
-	lbu	a2,-1(a5)
-	lbu	a5,-2(a5)
+	lbu	a2,-1(s0)
+	lbu	a5,-2(s0)
 	mv	a1,a0
 	slli	a2,a2,8
 	or	a2,a2,a5
-	bne	a0,a2,.L65
+	bne	a0,a2,.L67
 	lui	a5,%hi(active_config)
 	addi	a4,a5,%lo(active_config)
 	lbu	a1,0(s4)
 	lbu	a2,20(a4)
 	lbu	s2,1(s4)
 	addi	s6,a5,%lo(active_config)
-	beq	a1,a2,.L66
-	bne	a1,zero,.L67
+	beq	a1,a2,.L68
+	bne	a1,zero,.L69
 	li	a5,17
-	bne	s2,a5,.L67
-.L66:
+	bne	s2,a5,.L69
+.L68:
 	lbu	s0,2(s4)
 	lbu	a5,3(s4)
 	li	a2,128
@@ -426,40 +434,40 @@ modbus_recv:
 	andi	a5,a5,0xff
 	li	a4,16
 	srli	s7,s7,16
-	bgtu	a5,a4,.L68
-	lui	a4,%hi(.L70)
+	bgtu	a5,a4,.L70
+	lui	a4,%hi(.L72)
 	slli	a5,a5,2
-	addi	a4,a4,%lo(.L70)
+	addi	a4,a4,%lo(.L72)
 	add	a5,a5,a4
 	lw	a5,0(a5)
 	jr	a5
 	.section	.rodata
 	.align	2
 	.align	2
-.L70:
+.L72:
+	.word	.L75
+	.word	.L75
+	.word	.L75
+	.word	.L70
 	.word	.L73
 	.word	.L73
+	.word	.L70
+	.word	.L70
+	.word	.L70
+	.word	.L70
+	.word	.L70
+	.word	.L70
+	.word	.L70
+	.word	.L70
 	.word	.L73
-	.word	.L68
+	.word	.L73
 	.word	.L71
-	.word	.L71
-	.word	.L68
-	.word	.L68
-	.word	.L68
-	.word	.L68
-	.word	.L68
-	.word	.L68
-	.word	.L68
-	.word	.L68
-	.word	.L71
-	.word	.L71
-	.word	.L69
 	.text
-.L69:
+.L71:
 	lui	a3,%hi(.LC2)
 	lui	a1,%hi(.LC3)
 	addi	a3,a3,%lo(.LC2)
-	li	a2,116
+	li	a2,120
 	addi	a1,a1,%lo(.LC3)
 	addi	a0,s1,3
 	call	sprintf
@@ -469,7 +477,7 @@ modbus_recv:
 	mv	a0,s1
 	call	add_crc
 	li	s0,45
-.L63:
+.L65:
 	mv	a0,s0
 	lw	ra,76(sp)
 	lw	s0,72(sp)
@@ -483,151 +491,37 @@ modbus_recv:
 	lw	s8,40(sp)
 	addi	sp,sp,80
 	jr	ra
-.L73:
+.L75:
 	slli	s3,s3,8
 	or	s3,s3,s8
 	slli	s3,s3,16
 	srai	s3,s3,16
 	li	a5,1
 	mv	a2,s1
-	bne	s3,a5,.L105
+	bne	s3,a5,.L107
 	li	a5,44
-	beq	s0,a5,.L77
-	bgt	s0,a5,.L78
-	li	a5,32
 	beq	s0,a5,.L79
 	bgt	s0,a5,.L80
-	li	a5,30
+	li	a5,32
 	beq	s0,a5,.L81
+	bgt	s0,a5,.L82
+	li	a5,30
+	beq	s0,a5,.L83
 	li	a5,31
-	beq	s0,a5,.L82
-.L83:
+	beq	s0,a5,.L84
+.L85:
 	mv	a2,s1
 	li	a1,2
 	mv	a0,s2
 	call	modbus_error
 	mv	s0,a0
-	j	.L94
-.L80:
-	li	a5,42
-	beq	s0,a5,.L84
-	bgt	s0,a5,.L85
-	li	a5,41
-	bne	s0,a5,.L83
-	mv	a0,sp
-	call	config_load
-	bge	a0,zero,.L95
-	lui	a1,%hi(default_config)
-	li	a2,32
-	addi	a1,a1,%lo(default_config)
-	mv	a0,sp
-	call	memcpy
-.L95:
-	li	a2,4
-	mv	a1,sp
-.L116:
-	addi	a0,s1,3
-	call	memcpy
-	j	.L113
-.L78:
-	li	a5,48
-	beq	s0,a5,.L87
-	bgt	s0,a5,.L88
-	li	a5,45
-	beq	s0,a5,.L89
-	li	a5,47
-	bne	s0,a5,.L83
-	mv	a0,sp
-	call	config_load
-	bge	a0,zero,.L98
-	lui	a1,%hi(default_config)
-	li	a2,32
-	addi	a1,a1,%lo(default_config)
-	mv	a0,sp
-	call	memcpy
-.L98:
-	li	a2,6
-	addi	a1,sp,13
-.L112:
-	addi	a0,s1,3
-	call	memcpy
-	j	.L111
-.L88:
-	li	a5,52
-	beq	s0,a5,.L91
-	li	a5,126
-	beq	s0,a5,.L92
-	li	a5,49
-	bne	s0,a5,.L83
-	mv	a0,sp
-	call	config_load
-	bge	a0,zero,.L101
-	lui	a1,%hi(default_config)
-	li	a2,32
-	addi	a1,a1,%lo(default_config)
-	mv	a0,sp
-	call	memcpy
-.L101:
-	lbu	a5,12(sp)
-	j	.L117
-.L81:
-	lui	a1,%hi(reg_sys_counter+3)
-	li	a2,4
-	addi	a1,a1,%lo(reg_sys_counter+3)
-.L110:
-	addi	a0,s1,3
-	call	memcpy_rev
-.L113:
-	li	s0,4
-.L94:
-	addi	a1,s0,3
-	slli	a1,a1,16
-	sb	s0,2(s1)
-	srli	a1,a1,16
-	mv	a0,s1
-	call	add_crc
-	addi	s0,s0,5
-.L76:
-	bne	s0,zero,.L63
-	lui	a0,%hi(.LC4)
-	mv	a1,s2
-	addi	a0,a0,%lo(.LC4)
-	call	printf
-	j	.L63
+	j	.L96
 .L82:
-	lui	a1,%hi(reg_irq_counter+3)
-	li	a2,4
-	addi	a1,a1,%lo(reg_irq_counter+3)
-	j	.L110
-.L79:
-	lui	a1,%hi(reg_scratch+3)
-	li	a2,4
-	addi	a1,a1,%lo(reg_scratch+3)
-	j	.L110
-.L92:
-	lui	a1,%hi(reg_config_write+3)
-	li	a2,4
-	addi	a1,a1,%lo(reg_config_write+3)
-	j	.L110
-.L91:
-	lui	a1,%hi(reg_hub_color+3)
-	li	a2,4
-	addi	a1,a1,%lo(reg_hub_color+3)
-	j	.L110
-.L84:
-	mv	a0,sp
-	call	config_load
-	bge	a0,zero,.L96
-	lui	a1,%hi(default_config)
-	li	a2,32
-	addi	a1,a1,%lo(default_config)
-	mv	a0,sp
-	call	memcpy
-.L96:
-	li	a2,4
-	addi	a1,sp,4
-	j	.L116
-.L85:
+	li	a5,42
+	beq	s0,a5,.L86
+	bgt	s0,a5,.L87
+	li	a5,41
+	bne	s0,a5,.L85
 	mv	a0,sp
 	call	config_load
 	bge	a0,zero,.L97
@@ -638,8 +532,109 @@ modbus_recv:
 	call	memcpy
 .L97:
 	li	a2,4
-	addi	a1,sp,8
-	j	.L116
+	mv	a1,sp
+.L118:
+	addi	a0,s1,3
+	call	memcpy
+	j	.L115
+.L80:
+	li	a5,48
+	beq	s0,a5,.L89
+	bgt	s0,a5,.L90
+	li	a5,45
+	beq	s0,a5,.L91
+	li	a5,47
+	bne	s0,a5,.L85
+	mv	a0,sp
+	call	config_load
+	bge	a0,zero,.L100
+	lui	a1,%hi(default_config)
+	li	a2,32
+	addi	a1,a1,%lo(default_config)
+	mv	a0,sp
+	call	memcpy
+.L100:
+	li	a2,6
+	addi	a1,sp,13
+.L114:
+	addi	a0,s1,3
+	call	memcpy
+	j	.L113
+.L90:
+	li	a5,52
+	beq	s0,a5,.L93
+	li	a5,126
+	beq	s0,a5,.L94
+	li	a5,49
+	bne	s0,a5,.L85
+	mv	a0,sp
+	call	config_load
+	bge	a0,zero,.L103
+	lui	a1,%hi(default_config)
+	li	a2,32
+	addi	a1,a1,%lo(default_config)
+	mv	a0,sp
+	call	memcpy
+.L103:
+	lbu	a5,12(sp)
+	j	.L119
+.L83:
+	lui	a1,%hi(reg_sys_counter+3)
+	li	a2,4
+	addi	a1,a1,%lo(reg_sys_counter+3)
+.L112:
+	addi	a0,s1,3
+	call	memcpy_rev
+.L115:
+	li	s0,4
+.L96:
+	addi	a1,s0,3
+	slli	a1,a1,16
+	sb	s0,2(s1)
+	srli	a1,a1,16
+	mv	a0,s1
+	call	add_crc
+	addi	s0,s0,5
+.L78:
+	bne	s0,zero,.L65
+	lui	a0,%hi(.LC4)
+	mv	a1,s2
+	addi	a0,a0,%lo(.LC4)
+	call	printf
+	j	.L65
+.L84:
+	lui	a1,%hi(reg_irq_counter+3)
+	li	a2,4
+	addi	a1,a1,%lo(reg_irq_counter+3)
+	j	.L112
+.L81:
+	lui	a1,%hi(reg_scratch+3)
+	li	a2,4
+	addi	a1,a1,%lo(reg_scratch+3)
+	j	.L112
+.L94:
+	lui	a1,%hi(reg_config_write+3)
+	li	a2,4
+	addi	a1,a1,%lo(reg_config_write+3)
+	j	.L112
+.L93:
+	lui	a1,%hi(reg_hub_color+3)
+	li	a2,4
+	addi	a1,a1,%lo(reg_hub_color+3)
+	j	.L112
+.L86:
+	mv	a0,sp
+	call	config_load
+	bge	a0,zero,.L98
+	lui	a1,%hi(default_config)
+	li	a2,32
+	addi	a1,a1,%lo(default_config)
+	mv	a0,sp
+	call	memcpy
+.L98:
+	li	a2,4
+	addi	a1,sp,4
+	j	.L118
 .L87:
 	mv	a0,sp
 	call	config_load
@@ -650,25 +645,26 @@ modbus_recv:
 	mv	a0,sp
 	call	memcpy
 .L99:
-	lbu	a5,19(sp)
-.L117:
-	sb	a5,6(s1)
-.L111:
-	li	s0,6
-	j	.L94
-.L77:
+	li	a2,4
+	addi	a1,sp,8
+	j	.L118
+.L89:
 	mv	a0,sp
 	call	config_load
-	bge	a0,zero,.L100
+	bge	a0,zero,.L101
 	lui	a1,%hi(default_config)
 	li	a2,32
 	addi	a1,a1,%lo(default_config)
 	mv	a0,sp
 	call	memcpy
-.L100:
-	lbu	a5,20(sp)
-	j	.L117
-.L89:
+.L101:
+	lbu	a5,19(sp)
+.L119:
+	sb	a5,6(s1)
+.L113:
+	li	s0,6
+	j	.L96
+.L79:
 	mv	a0,sp
 	call	config_load
 	bge	a0,zero,.L102
@@ -678,10 +674,22 @@ modbus_recv:
 	mv	a0,sp
 	call	memcpy
 .L102:
+	lbu	a5,20(sp)
+	j	.L119
+.L91:
+	mv	a0,sp
+	call	config_load
+	bge	a0,zero,.L104
+	lui	a1,%hi(default_config)
+	li	a2,32
+	addi	a1,a1,%lo(default_config)
+	mv	a0,sp
+	call	memcpy
+.L104:
 	li	a2,4
 	addi	a1,sp,27
-	j	.L112
-.L103:
+	j	.L114
+.L105:
 	li	a2,4
 	addi	a1,s4,2
 	addi	a0,s1,2
@@ -690,40 +698,41 @@ modbus_recv:
 	mv	a0,s1
 	call	add_crc
 	li	s0,8
-	j	.L63
-.L71:
+	j	.L65
+.L73:
 	addi	a2,s5,-9
-	andi	a2,a2,0xff
+	slli	a2,a2,16
+	srli	a2,a2,16
 	addi	a1,s4,7
 	mv	a0,s7
 	call	modbus_store_reg
-	bge	a0,zero,.L103
+	bge	a0,zero,.L105
 	li	a5,-2
 	mv	a2,s1
 	li	a1,7
-	beq	a0,a5,.L114
-.L105:
+	beq	a0,a5,.L116
+.L107:
 	li	a1,3
-.L114:
+.L116:
 	mv	a0,s2
 	call	modbus_error
 	mv	s0,a0
-	j	.L76
-.L68:
+	j	.L78
+.L70:
 	mv	a2,s1
 	li	a1,1
-	j	.L114
-.L67:
+	j	.L116
+.L69:
 	lui	a0,%hi(.LC5)
 	addi	a0,a0,%lo(.LC5)
-.L115:
+.L117:
 	call	printf
 	li	s0,0
-	j	.L63
-.L65:
+	j	.L65
+.L67:
 	lui	a0,%hi(.LC6)
 	addi	a0,a0,%lo(.LC6)
-	j	.L115
+	j	.L117
 	.size	modbus_recv, .-modbus_recv
 	.globl	reg_hub_color
 	.section	.rodata.str1.4,"aMS",@progbits,1
@@ -735,7 +744,7 @@ modbus_recv:
 	.string	"modbus_store_reg() config write not allowed! Unlock first!\r\n"
 	.zero	3
 .LC2:
-	.string	"Dec 19 2023"
+	.string	"Dec 20 2023"
 .LC3:
 	.string	"HUB12/75: build %05d, date: %s"
 	.zero	1

@@ -22,7 +22,7 @@ uint32_t modbus_error(uint8_t f, uint8_t err_code, uint8_t *txbuf)
 }
 
 
-int modbus_store_reg(uint16_t reg, uint8_t *data, uint8_t data_len) {
+int modbus_store_reg(uint16_t reg, uint8_t *data, uint16_t data_len) {
 
 	int ret = -1; // Wrong reg number is default error code
 

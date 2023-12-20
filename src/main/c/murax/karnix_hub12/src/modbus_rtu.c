@@ -42,7 +42,9 @@ void modbus_rtu_poll(void) {
 		uint8_t rx_buf[MODBUS_RX_BUF_SIZE];
 		uint8_t tx_buf[MODBUS_TX_BUF_SIZE];
 
+		#ifdef MODBUS_DEBUG
 		printf("modbus_rtu_poll() recv %d bytes in request\r\n", modbus_rtu_rx_len);
+		#endif
 
 		
 		// Critical section: this procedure getting called from timer ISR, all interrupts are blocked
@@ -62,7 +64,9 @@ void modbus_rtu_poll(void) {
 				uart_write(UART1, tx_buf[i]);
 			}
 
+			#ifdef MODBUS_DEBUG
 			printf("modbus_rtu_poll() sent %d bytes in response\r\n", tx_len);
+			#endif
 		}
 
 	}
