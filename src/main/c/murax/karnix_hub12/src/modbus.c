@@ -7,6 +7,7 @@
 #include "hub.h"
 #include "modbus.h"
 
+//#define MODBUS_DEBUG	1
 
 uint32_t reg_hub_color = HUB_COLOR_WHITE;
 
@@ -34,6 +35,26 @@ int modbus_store_reg(uint16_t reg, uint8_t *data, uint8_t data_len) {
 
 		case REG_CLEAR_TEXT: {
 			memset((void*)HUB0->FB,  0, hub_frame_size);
+			ret = 0;
+		} break;
+
+		case REG_FRAMEBUFFER: {
+			int offset = data[0] << 8 | data[1];
+			int words_to_copy = MIN(HUB_FRAMEBUFFER_SIZE, data_len - 2) / 4;
+
+			// We can write only 32 bit words at a time to HUB frame buffer
+			for(int i = 0; i < words_to_copy; i++)
+				*(unsigned int*)(HUB0->FB + offset + i*4) = 
+					data[2 + i * 4 + 3] << 24 |
+					data[2 + i * 4 + 2] << 16 |
+					data[2 + i * 4 + 1] << 8  |
+					data[2 + i * 4 + 0] << 0;
+
+			#ifdef MODBUS_DEBUG
+			printf("REG_FRAMEBUFFER: data_len = %d, offset = %d, words_to_copy = %d\r\n",
+				data_len, offset, words_to_copy);
+			#endif
+
 			ret = 0;
 		} break;
 
@@ -233,11 +254,16 @@ int modbus_recv(uint8_t *rx_buf, int rx_len, uint8_t *tx_buf) {
 			tx_buf[0] = active_config.modbus_addr;
 			tx_buf[1] = func;
 
+			#ifdef MODBUS_DEBUG
 			printf("modbus_recv() func = %d, reg = %d\r\n", func, reg_addr);
+			for(int i = 0; i < rx_len; i++)
+				printf("0x%02X ", rx_buf[i]);
+			printf("\r\n");
+			#endif
 
 			switch(func) {
 				case FUNC_ID:   {
-					tx_len = sprintf(tx_buf+3, "Karnix: build: %05d, date: %s", BUILD_NUMBER, __DATE__);
+					tx_len = sprintf(tx_buf+3, "HUB12/75: build %05d, date: %s", BUILD_NUMBER, __DATE__);
 					tx_buf[2] = tx_len;
 					add_crc(tx_buf, tx_len+3);
 					tx_len += 3+2;
