@@ -10,6 +10,11 @@
 ##
 #############################################################################################
 
+# Override standard Request module with local one.
+# We need this local version of the module to allow more than 255 bytes of data per packet
+require 'Request.pm';
+Request->import();
+
 use Time::HiRes qw(usleep);
 use Getopt::Long qw(GetOptions);
 use Cwd qw(abs_path);
@@ -26,12 +31,10 @@ use File::stat;
 use File::Basename;
 use Data::Dumper;
 
+my $max_pixels_per_packet = 1380;			### How many animation pixels to send per packet, less than (UDP - RTU)
+my $animation_fps = 30.0;				### Target framerate to play animation
+
 print "Running under ".$^O."\r\n";
-
-
-#if(!($^O eq 'MSWin32')) {
-#	eval "use Imager;"
-#}
 
 GetOptions(
 	"host=s" => \$host,				### Use IP Host address of RS-485 converter 
@@ -71,9 +74,12 @@ GetOptions(
 	"get_hub_type" => \$get_hub_type,		### Get current HUB controller type
 	"set_options=o" => \$set_options,		### Set misc configuration options
 	"get_options" => \$get_options,			### Get misc configuration options
-	"demo_clock" => \$demo_clock,			### Demo: clock 
-	"demo_sprite" => \$demo_sprite,			### Demo: sprite 
-	"demo_animation" => \$demo_animation,		### Demo: animated bitmaps 
+	"demo_clock_hub12" => \$demo_clock_hub12,	### Demo: clock on HUB12
+	"demo_clock_hub75" => \$demo_clock_hub75,	### Demo: clock on HUB75
+	"demo_sprite_hub12" => \$demo_sprite_hub12,	### Demo: sprite on HUB12
+	"demo_filled_hub12" => \$demo_filled_hub12,	### Demo: filled screen on HUB12 
+	"demo_animation_hub12" =>\$demo_animation_hub12,### Demo: animated bitmaps on HUB12 
+	"demo_animation_hub75" =>\$demo_animation_hub75,### Demo: animated bitmaps on HUB75
 
 
 
@@ -345,18 +351,130 @@ if(length($set_modbus_baud) > 0) {
 	print STDERR "Modbus baud rate set: ".sprintf("%d", $set_modbus_baud)."\n";
 }
 
+sub bgr8_to_hub75 {
+	## Convert FFMPEG's BGR8 (3:3:2) colour space to HUB75 (2:2:2)
+ 
+	my $bgr8 = shift @_;
 
-if(length($demo_animation) > 0) {
+	my $r = $bgr8 >> 6;
+	my $g = ($bgr8 >> 3) & 0x3;
+	my $b = $bgr8 & 0x3;
+
+	my $rgb2 = ($r << 4) | ($g << 2) | $b;
+
+	#print "bgr8 = $bgr8, rgb2 = $rgb2\n"; 
+
+	return $rgb2;
+}
+
+if(length($demo_animation_hub75) > 0) {
 
 
-	open($in, "<", $ARGV[0]) or die "Cannot open animation file: $ARGV[0], $!\n";
+	if($ARGV[0] =~ /\.gz/) {
+		open($in, "gunzip -c $ARGV[0] |") or die "Cannot open gzipped BGR8 animation file: $ARGV[0], $!\n";
+	} else {
+		open($in, "<" , $ARGV[0]) or die "Cannot open plain BGR8 animation file: $ARGV[0], $!\n";
+	}
+
 	binmode($in);
+
+	my $frame_width = 80;
+	my $frame_height = 40;
+	my $frame_size = $frame_width * $frame_height;
+	my $start_time = Time::HiRes::time();
+
+	while(1) {
+
+		my $success = read($in, $frame, $frame_size);
+
+		if(!defined($success)) {
+			print "End of file: $ARGV[0]\n";
+			exit;
+		}
+
+		if(length($frame) < $frame_size) {
+			print "No enough data read ".length($frame).", expected $frame_size. Stop!\n";
+			exit;
+		}
+
+		my @data = (0);
+		@data[0] = 0; ## Offset
+
+		my $pixel_idx = 0;
+		my $data_idx = 1;
+
+		for(my $row = 0; $row < $frame_height; $row++) {
+			for(my $col = 0; $col < $frame_width; $col+=2) {
+
+				# print "pixel_idx = $pixel_idx, data_idx = $data_idx, col = $col, row = $row\n";
+
+				$pixel_h = bgr8_to_hub75(unpack("x$pixel_idx C1", $frame));
+				$pixel_idx++;
+				$pixel_l = bgr8_to_hub75(unpack("x$pixel_idx C1", $frame));
+				$pixel_idx++;
+
+				@data[$data_idx] = $pixel_h << 8 | $pixel_l;
+				$data_idx++;
+
+
+				if($data_idx * 2 > $max_pixels_per_packet) {
+
+					## Modus packet is full, send it
+
+					eval {
+						$req = $client->write_multiple_registers( unit => $device_addr, address  => $reg_framebuffer, values => \@data );
+						$client->send_request($req);
+						## $resp = $client->receive_response;
+					};
+
+					$data_idx = 1;
+					@data = (0);
+					@data[0] = $pixel_idx; ## Offset
+
+					# print "Modbus packet sent: frames = $frames, pixel_idx = $pixel_idx\n"; 
+				}
+			}
+		}
+
+		eval {
+			$req = $client->write_multiple_registers( unit => $device_addr, address  => $reg_framebuffer, values => \@data );
+			$client->send_request($req);
+			## $resp = $client->receive_response;
+		};
+
+		my $end_time = Time::HiRes::time();
+		my $delta_time = $end_time - $start_time;
+		my $fps = $frames / $delta_time;
+
+		print sprintf("Frame %d sent (fps = %.1f)\n", $frames, $fps) ;
+
+		if($fps > $animation_fps) {
+			usleep(($fps + 1 - $animation_fps) * 1000000/30);
+		}
+
+		$frames++;
+	}
+}
+
+
+if(length($demo_animation_hub12) > 0) {
+
+
+	if($ARGV[0] =~ /\.gz/) {
+		open($in, "gunzip -c $ARGV[0] |") or die "Cannot open gzipped BGR8 animation file: $ARGV[0], $!\n";
+	} else {
+		open($in, "<" , $ARGV[0]) or die "Cannot open plain BGR8 animation file: $ARGV[0], $!\n";
+	}
+
+	binmode($in);
+
+	my $start_time = Time::HiRes::time();
 
 	while(1) {
 		my $success = read($in, $frame, 512);
 
 		if(!defined($success)) {
-			print "End of file: $test\n";
+			print "End of file: $ARGV[0]\n";
 			exit;
 		}
 
@@ -398,18 +516,24 @@ if(length($demo_animation) > 0) {
 		eval {
 			$req = $client->write_multiple_registers( unit => $device_addr, address  => $reg_framebuffer, values => \@data );
 			$client->send_request($req);
-			$resp = $client->receive_response;
+			#$resp = $client->receive_response;
 		};
 
-		print "Frame $frames sent\n";
+		my $end_time = Time::HiRes::time();
+		my $delta_time = $end_time - $start_time;
+		my $fps = $frames / $delta_time;
 
-		usleep(15000);
+		print sprintf("Frame %d sent (fps = %.1f)\n", $frames, $fps) ;
+
+		if($fps > $animation_fps) {
+			usleep(($fps + 1 - $animation_fps) * 1000000/30);
+		}
 
 		$frames++;
 	}
 }
 
-if(length($demo_sprite) > 0) {
+if(length($demo_sprite_hub12) > 0) {
 
 	my @data = (0);
 	@data[0] = 0; ## Offset
@@ -441,7 +565,39 @@ if(length($demo_sprite) > 0) {
 }
 
 
-if(length($demo_clock) > 0) {
+if(length($demo_filled_hub12) > 0) {
+
+	my @data = (0);
+	@data[0] = 0; ## Offset
+
+	(@data[1], @data[2]) = (0b1010101010101010, 0b1010101010101010);
+	(@data[3], @data[4]) = (0b0000000000000000, 0b0000000000000000);
+	(@data[5], @data[6]) = (0b0101010101010101, 0b0101010101010101);
+	(@data[7], @data[8]) = (0b0000000000000000, 0b0000000000000000);
+	(@data[9], @data[10]) = (0b1010101010101010, 0b1010101010101010);
+	(@data[11], @data[12]) = (0b0000000000000000, 0b0000000000000000);
+	(@data[13], @data[14]) = (0b0101010101010101, 0b0101010101010101);
+	(@data[15], @data[16]) = (0b0000000000000000, 0b0000000000000000);
+	(@data[17], @data[18]) = (0b1010101010101010, 0b1010101010101010);
+	(@data[19], @data[20]) = (0b0000000000000000, 0b0000000000000000);
+	(@data[21], @data[22]) = (0b0101010101010101, 0b0101010101010101);
+	(@data[23], @data[24]) = (0b0000000000000000, 0b0000000000000000);
+	(@data[25], @data[26]) = (0b1010101010101010, 0b1010101010101010);
+	(@data[27], @data[28]) = (0b0000000000000000, 0b0000000000000000);
+	(@data[29], @data[30]) = (0b0101010101010101, 0b0101010101010101);
+	(@data[31], @data[32]) = (0b0000000000000000, 0b0000000000000000);
+
+	eval {
+		$req = $client->write_multiple_registers( unit => $device_addr, address  => $reg_framebuffer, values => \@data );
+		$client->send_request($req);
+		$resp = $client->receive_response;
+	};
+
+	print "Filled screen shown\n";
+}
+
+
+if(length($demo_clock_hub12) > 0) {
 
 	my @data = (0);
 
@@ -454,9 +610,9 @@ if(length($demo_clock) > 0) {
 	while(1) {
 		my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
 
-		my $test = sprintf("%02d:%02d", $hour, $min);
+		my $text = sprintf("%02d:%02d", $hour, $min);
  
-		@data = buffer_to_array($test, 3, $text_flag);
+		@data = buffer_to_array($text, 3, $text_flag);
 		@data[0] = 0; ## X
 		@data[1] = 3; ## Y
 		@data[2] = $font_id; ## Font ID
@@ -469,12 +625,84 @@ if(length($demo_clock) > 0) {
 
 		usleep(500000);
 		
-		$test = sprintf("%02d %02d", $hour, $min);
+		$text = sprintf("%02d %02d", $hour, $min);
 
-		@data = buffer_to_array($test, 3, $text_flag);
+		@data = buffer_to_array($text, 3, $text_flag);
 		@data[0] = 0; ## X
 		@data[1] = 3; ## Y
 		@data[2] = $font_id; ## Font ID
+
+		eval {
+			$req = $client->write_multiple_registers( unit => $device_addr, address  => $reg_print_text, values => \@data );
+			$client->send_request($req);
+			$resp = $client->receive_response;
+		};
+
+		usleep(500000);
+	}
+}
+
+
+if(length($demo_clock_hub75) > 0) {
+
+	my @data = (0);
+
+	eval {
+		$req = $client->write_multiple_registers( unit => $device_addr, address  => $reg_clear_text, values => \@data );
+		$client->send_request($req);
+		$resp = $client->receive_response;
+	};
+
+	while(1) {
+		my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
+
+		my $text = sprintf("%02d:%02d", $hour, $min);
+ 
+		@data = buffer_to_array($text, 3, $text_flag);
+		@data[0] = 10; ## X
+		@data[1] = 2; ## Y
+		@data[2] = 1; ## Font ID
+
+		eval {
+			$req = $client->write_multiple_registers( unit => $device_addr, address  => $reg_print_text, values => \@data );
+			$client->send_request($req);
+			$resp = $client->receive_response;
+		};
+
+		usleep(500000);
+		
+		$text = sprintf("%02d %02d", $hour, $min);
+
+		@data = buffer_to_array($text, 3, $text_flag);
+		@data[0] = 10; ## X
+		@data[1] = 2; ## Y
+		@data[2] = 1; ## Font ID
+
+		eval {
+			$req = $client->write_multiple_registers( unit => $device_addr, address  => $reg_print_text, values => \@data );
+			$client->send_request($req);
+			$resp = $client->receive_response;
+		};
+
+		$text = sprintf("%d %d %d", $mday, $mon+1, $year+1900);
+
+		@data = buffer_to_array($text, 3, $text_flag);
+		@data[0] = 10; ## X
+		@data[1] = 20; ## Y
+		@data[2] = 0; ## Font ID
+
+		eval {
+			$req = $client->write_multiple_registers( unit => $device_addr, address  => $reg_print_text, values => \@data );
+			$client->send_request($req);
+			$resp = $client->receive_response;
+		};
+
+		$text = sprintf("С Новым Годом!"); 
+
+		@data = buffer_to_array($text, 3, 1);
+		@data[0] = 0; ## X
+		@data[1] = 30; ## Y
+		@data[2] = 0; ## Font ID
 
 		eval {
 			$req = $client->write_multiple_registers( unit => $device_addr, address  => $reg_print_text, values => \@data );
