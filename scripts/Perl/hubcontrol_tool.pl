@@ -72,6 +72,8 @@ GetOptions(
 	"set_options=o" => \$set_options,		### Set misc configuration options
 	"get_options" => \$get_options,			### Get misc configuration options
 	"demo_clock" => \$demo_clock,			### Demo: clock 
+	"demo_sprite" => \$demo_sprite,			### Demo: sprite 
+	"demo_animation" => \$demo_animation,		### Demo: animated bitmaps 
 
 
 
@@ -344,6 +346,101 @@ if(length($set_modbus_baud) > 0) {
 }
 
 
+if(length($demo_animation) > 0) {
+
+
+	open($in, "<", $ARGV[0]) or die "Cannot open animation file: $ARGV[0], $!\n";
+	binmode($in);
+
+	while(1) {
+		my $success = read($in, $frame, 512);
+
+		if(!defined($success)) {
+			print "End of file: $test\n";
+			exit;
+		}
+
+		if(length($frame) < 512) {
+			print "No enough data read (".length($frame)."). Stop!\n";
+			exit;
+		}
+
+		my @data = (0);
+		@data[0] = 0; ## Offset
+		
+		my $pixel_idx = 0;
+		my $data_idx = 1;
+		my $dat = 0, $bit = 0;
+
+		for(my $row = 0; $row < 16; $row++) {
+			$bit = 15;
+			for(my $col = 0; $col < 32; $col++) {
+				$pixel = unpack("x$pixel_idx C1", $frame);
+				$pixel_idx++;
+
+				if($pixel > 127) {
+					$dat |= (1<< $bit); 
+				} else {
+					$dat &= ~(1<< $bit); 
+				}
+		
+
+				if($bit == 0) {
+					@data[$data_idx] = $dat;
+					$data_idx++;
+					$bit = 15;
+				} else {
+					$bit--;
+				}
+			}
+		}
+
+		eval {
+			$req = $client->write_multiple_registers( unit => $device_addr, address  => $reg_framebuffer, values => \@data );
+			$client->send_request($req);
+			$resp = $client->receive_response;
+		};
+
+		print "Frame $frames sent\n";
+
+		usleep(15000);
+
+		$frames++;
+	}
+}
+
+if(length($demo_sprite) > 0) {
+
+	my @data = (0);
+	@data[0] = 0; ## Offset
+
+	(@data[1], @data[2]) = (0b1111111111111111, 0b1111111111111111);
+	(@data[3], @data[4]) = (0b0000000000000000, 0b0000000000000000);
+	(@data[5], @data[6]) = (0b0000000000000000, 0b0000000000000000);
+	(@data[7], @data[8]) = (0b0000000001111111, 0b1111111000000000);
+	(@data[9], @data[10]) = (0b0000001110000000, 0b0000000111000000);
+	(@data[11], @data[12]) = (0b0000010000000000, 0b1000100000100000);
+	(@data[13], @data[14]) = (0b0000100011100000, 0b0111000000010000);
+	(@data[15], @data[16]) = (0b0000100100010000, 0b0000000000010000);
+	(@data[17], @data[18]) = (0b0000100000000000, 0b0000000000010000);
+	(@data[19], @data[20]) = (0b0000100000110000, 0b0001100000010000);
+	(@data[21], @data[22]) = (0b0000010000001111, 0b1110000000100000);
+	(@data[23], @data[24]) = (0b0000001110000000, 0b0000000111000000);
+	(@data[25], @data[26]) = (0b0000000001111111, 0b1111111000000000);
+	(@data[27], @data[28]) = (0b0000000000000000, 0b0000000000000000);
+	(@data[29], @data[30]) = (0b0000000000000000, 0b0000000000000000);
+	(@data[31], @data[32]) = (0b1111111111111111, 0b1111111111111111);
+
+	eval {
+		$req = $client->write_multiple_registers( unit => $device_addr, address  => $reg_framebuffer, values => \@data );
+		$client->send_request($req);
+		$resp = $client->receive_response;
+	};
+
+	print "Sprite shown\n";
+}
+
+
 if(length($demo_clock) > 0) {
 
 	my @data = (0);
@@ -362,7 +459,7 @@ if(length($demo_clock) > 0) {
 		@data = buffer_to_array($test, 3, $text_flag);
 		@data[0] = 0; ## X
 		@data[1] = 3; ## Y
-		@data[2] = 1; ## Font ID
+		@data[2] = $font_id; ## Font ID
 
 		eval {
 			$req = $client->write_multiple_registers( unit => $device_addr, address  => $reg_print_text, values => \@data );
@@ -377,7 +474,7 @@ if(length($demo_clock) > 0) {
 		@data = buffer_to_array($test, 3, $text_flag);
 		@data[0] = 0; ## X
 		@data[1] = 3; ## Y
-		@data[2] = 1; ## Font ID
+		@data[2] = $font_id; ## Font ID
 
 		eval {
 			$req = $client->write_multiple_registers( unit => $device_addr, address  => $reg_print_text, values => \@data );
