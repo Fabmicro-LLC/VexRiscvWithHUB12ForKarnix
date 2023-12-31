@@ -64,7 +64,7 @@ sub read_port {
 	my $rin = fhbits($self->{fd});
 
 	if(length($buffer) == 0) {
-		if(select($rin, undef, undef, 1.0) < 1) {
+		if(select($rin, undef, undef, $self->{timeout}) < 1) {
 			last;
 		}
 	} else {
