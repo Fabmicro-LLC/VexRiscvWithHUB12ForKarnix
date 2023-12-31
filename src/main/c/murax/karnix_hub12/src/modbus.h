@@ -40,6 +40,9 @@
 #define	REG_CLEAR_TEXT			51		// Clear screen
 #define	REG_COLOR			52		// Current text color 
 
+#define	REG_AUDIODAC0_BUFFER		60		// Command to write to AUDIODAC0 tx buffer 
+
+
 #define	REG_CONFIG_WRITE		126		// Config write Operations: (32 bit signed) - any positive value greater than 0 allows config to be written 
 #define	REG_REBOOT			127		// Writing to this register causes hard reboot
 

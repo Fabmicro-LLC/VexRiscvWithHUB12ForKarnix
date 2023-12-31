@@ -33,7 +33,7 @@ build/src/config.o.disasm: src/config.c src/soc.h src/timer.h \
  /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/riscv64-unknown-elf/include/sys/sched.h \
  /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/riscv64-unknown-elf/include/machine/types.h \
  /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/riscv64-unknown-elf/include/sys/stdio.h \
- src/eeprom.h src/config.h src/lwip/include/lwip/inet.h \
+ src/audiodac.h src/eeprom.h src/config.h src/lwip/include/lwip/inet.h \
  src/lwip/include/lwip/opt.h src/lwip/include/lwipopts.h \
  src/lwip/include/lwip/debug.h src/lwip/include/lwip/arch.h \
  src/lwip/include/arch/cc.h \

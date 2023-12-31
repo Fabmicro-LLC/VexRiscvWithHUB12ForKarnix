@@ -1,3 +1,5 @@
+#ifndef	_UTILS_H_
+#define _UTILS_H_
 #include <stdint.h>
 #include <stdio.h>
 
@@ -18,4 +20,6 @@ void memcpy_rev(void* dst, void* src, uint32_t count);
 
 
 #define print print_uart0
+
+#endif // _UTILS_H_
 

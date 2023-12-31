@@ -61,6 +61,6 @@ build/src/main.o.disasm: src/main.c \
  src/lwip/include/lwip/priv/memp_priv.h \
  src/lwip/include/lwip/priv/mem_priv.h src/soc.h src/timer.h \
  src/prescaler.h src/interrupt.h src/gpio.h src/uart.h src/pwm.h \
- src/hub.h src/mac.h src/i2c.h src/wd.h src/riscv.h src/plic.h \
- src/utils.h src/modbus_udp.h src/modbus_rtu.h src/eeprom.h src/config.h \
- src/lwip/include/lwip/inet.h
+ src/hub.h src/mac.h src/i2c.h src/wd.h src/audiodac.h src/riscv.h \
+ src/plic.h src/utils.h src/modbus_udp.h src/modbus_rtu.h src/eeprom.h \
+ src/config.h src/lwip/include/lwip/inet.h

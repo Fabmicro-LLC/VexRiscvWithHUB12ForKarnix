@@ -226,3 +226,22 @@ IOBUF PORT "io_sram_addr[16]" IO_TYPE=LVCMOS33;
 LOCATE COMP "io_sram_addr[17]" SITE "K15";	# SRAM A17
 IOBUF PORT "io_sram_addr[17]" IO_TYPE=LVCMOS33;
 
+LOCATE COMP "io_spiAudioDAC_sclk" SITE "C16";	# DAC SPI SCLK 
+IOBUF PORT "io_spiAudioDAC_sclk" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_spiAudioDAC_miso" SITE "B16";	# DAC SPI MISO 
+IOBUF PORT "io_spiAudioDAC_miso" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_spiAudioDAC_mosi" SITE "B15";	# DAC SPI MOSI 
+IOBUF PORT "io_spiAudioDAC_mosi" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_spiAudioDAC_ss[0]" SITE "C15";	# DAC SPI CSn 
+IOBUF PORT "io_spiAudioDAC_mosi" IO_TYPE=LVCMOS33;
+
+LOCATE COMP "io_core_jtag_tck" SITE "J1";	# CORE JTAG TCK 
+IOBUF PORT "io_core_jtag_tck" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_core_jtag_tms" SITE "J2";	# CORE JTAG TMS
+IOBUF PORT "io_core_jtag_tms" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_core_jtag_tdi" SITE "K1";	# CORE JTAG TDI
+IOBUF PORT "io_core_jtag_tdi" IO_TYPE=LVCMOS33;
+LOCATE COMP "io_core_jtag_tdo" SITE "K2";	# CORE JTAG TDO
+IOBUF PORT "io_core_jtag_tdo" IO_TYPE=LVCMOS33;
+
+

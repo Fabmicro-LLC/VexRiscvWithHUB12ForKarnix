@@ -8,7 +8,7 @@
 	.globl	i2c_init
 	.type	i2c_init, @function
 i2c_init:
-	li	a5,250
+	li	a5,600
 	sw	a5,8(a0)
 	ret
 	.size	i2c_init, .-i2c_init

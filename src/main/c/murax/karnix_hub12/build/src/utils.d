@@ -38,4 +38,5 @@ build/src/utils.o: src/utils.c \
  /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/riscv64-unknown-elf/include/_syslist.h \
  /opt/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/riscv64-unknown-elf/include/reent.h \
  src/soc.h src/timer.h src/prescaler.h src/interrupt.h src/gpio.h \
- src/uart.h src/pwm.h src/hub.h src/mac.h src/i2c.h src/wd.h src/utils.h
+ src/uart.h src/pwm.h src/hub.h src/mac.h src/i2c.h src/wd.h \
+ src/audiodac.h src/utils.h

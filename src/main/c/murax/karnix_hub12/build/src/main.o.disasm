@@ -135,48 +135,64 @@ to_hex:
 	.globl	process_and_wait
 	.type	process_and_wait, @function
 process_and_wait:
-	addi	sp,sp,-32
-	sw	s0,24(sp)
-	sw	s1,20(sp)
-	sw	s4,8(sp)
-	sw	s5,4(sp)
-	sw	ra,28(sp)
-	sw	s2,16(sp)
-	sw	s3,12(sp)
+	addi	sp,sp,-48
+	sw	s0,40(sp)
+	sw	s1,36(sp)
+	sw	s4,24(sp)
+	sw	s5,20(sp)
+	sw	s6,16(sp)
+	sw	s7,12(sp)
+	sw	ra,44(sp)
+	sw	s2,32(sp)
+	sw	s3,28(sp)
 	li	a5,-267714560
 	lw	s2,0(a5)
 	lw	s3,4(a5)
-	mv	s4,a0
-	li	s5,-267714560
-	lui	s1,%hi(events_modbus_rtu_poll)
-	lui	s0,%hi(events_mac_poll)
-.L14:
-	lw	a5,0(s5)
-	lw	a6,4(s5)
+	mv	s5,a0
+	li	s6,-267714560
+	lui	s0,%hi(events_modbus_rtu_poll)
+	lui	s7,%hi(events_modbus_rtu_rx)
+	lui	s4,%hi(events_mac_poll)
+	lui	s1,%hi(events_mac_rx)
+.L16:
+	lw	a5,0(s6)
+	lw	a6,4(s6)
 	sub	a3,a5,s2
 	sgtu	a4,a3,a5
 	sub	a5,a6,s3
 	bne	a5,a4,.L10
-	bleu	s4,a3,.L10
-	lw	a5,%lo(events_modbus_rtu_poll)(s1)
+	bleu	s5,a3,.L10
+	lw	a5,%lo(events_modbus_rtu_poll)(s0)
 	beq	a5,zero,.L13
 	call	modbus_rtu_poll
-	sw	zero,%lo(events_modbus_rtu_poll)(s1)
+	sw	zero,%lo(events_modbus_rtu_poll)(s0)
 .L13:
-	lw	a5,%lo(events_mac_poll)(s0)
+	lw	a5,%lo(events_modbus_rtu_rx)(s7)
 	beq	a5,zero,.L14
+	call	modbus_rtu_rx
+	sw	zero,%lo(events_modbus_rtu_poll)(s0)
+.L14:
+	lw	a5,%lo(events_mac_poll)(s4)
+	beq	a5,zero,.L15
 	call	mac_poll
-	sw	zero,%lo(events_mac_poll)(s0)
-	j	.L14
+	sw	zero,%lo(events_mac_poll)(s4)
+.L15:
+	lw	a5,%lo(events_mac_rx)(s1)
+	beq	a5,zero,.L16
+	call	mac_rx
+	sw	zero,%lo(events_mac_rx)(s1)
+	j	.L16
 .L10:
-	lw	ra,28(sp)
-	lw	s0,24(sp)
-	lw	s1,20(sp)
-	lw	s2,16(sp)
-	lw	s3,12(sp)
-	lw	s4,8(sp)
-	lw	s5,4(sp)
-	addi	sp,sp,32
+	lw	ra,44(sp)
+	lw	s0,40(sp)
+	lw	s1,36(sp)
+	lw	s2,32(sp)
+	lw	s3,28(sp)
+	lw	s4,24(sp)
+	lw	s5,20(sp)
+	lw	s6,16(sp)
+	lw	s7,12(sp)
+	addi	sp,sp,48
 	jr	ra
 	.size	process_and_wait, .-process_and_wait
 	.align	2
@@ -199,11 +215,11 @@ sram_test_write_random_ints:
 	addi	a5,a5,-273
 	li	a4,-1879048192
 	li	a3,-1878523904
-.L24:
+.L32:
 	sw	a5,0(a4)
 	addi	a4,a4,4
 	slli	a5,a5,1
-	bne	a4,a3,.L24
+	bne	a4,a3,.L32
 	lui	a0,%hi(.LC2)
 	li	a2,524288
 	li	a1,-1879048192
@@ -215,19 +231,19 @@ sram_test_write_random_ints:
 	li	s0,-1879048192
 	lui	s4,%hi(.LC3)
 	li	s3,-1878523904
-.L26:
+.L34:
 	lw	a5,0(s0)
-	beq	a5,s1,.L25
+	beq	a5,s1,.L33
 	lw	a3,0(s0)
 	mv	a2,s1
 	mv	a1,s0
 	addi	a0,s4,%lo(.LC3)
 	call	printf
 	addi	s2,s2,1
-.L25:
+.L33:
 	addi	s0,s0,4
 	slli	s1,s1,1
-	bne	s0,s3,.L26
+	bne	s0,s3,.L34
 	lui	a0,%hi(.LC4)
 	mv	a1,s2
 	addi	a0,a0,%lo(.LC4)
@@ -247,19 +263,19 @@ sram_test_write_random_ints:
 	.globl	main
 	.type	main, @function
 main:
-	addi	sp,sp,-80
-	sw	ra,76(sp)
-	sw	s0,72(sp)
-	sw	s1,68(sp)
-	sw	s2,64(sp)
-	sw	s3,60(sp)
-	sw	s4,56(sp)
-	sw	s5,52(sp)
-	sw	s6,48(sp)
-	sw	s7,44(sp)
-	sw	s8,40(sp)
+	addi	sp,sp,-96
+	sw	ra,92(sp)
+	sw	s0,88(sp)
+	sw	s1,84(sp)
+	sw	s2,80(sp)
+	sw	s3,76(sp)
+	sw	s4,72(sp)
+	sw	s5,68(sp)
+	sw	s6,64(sp)
+	sw	s7,60(sp)
+	sw	s8,56(sp)
  #APP
-# 187 "src/main.c" 1
+# 218 "src/main.c" 1
 	csrc mstatus, 8
 # 0 "" 2
  #NO_APP
@@ -271,14 +287,14 @@ main:
 	call	delay_us
 	lui	a4,%hi(deadbeef)
 	lw	a5,%lo(deadbeef)(a4)
-	beq	a5,zero,.L31
+	beq	a5,zero,.L39
 	lui	a0,%hi(.LC5)
 	addi	a0,a0,%lo(.LC5)
 	call	print_uart0
 	call	hard_reboot
-.L32:
+.L40:
 	lui	a0,%hi(.LC6)
-	li	a1,105
+	li	a1,322
 	addi	a0,a0,%lo(.LC6)
 	call	printf
 	li	a4,-268435456
@@ -290,7 +306,7 @@ main:
 	call	printf
 	call	sram_test_write_random_ints
 	lui	s0,%hi(.LC10)
-	bne	a0,zero,.L33
+	bne	a0,zero,.L41
 	lui	a0,%hi(.LC8)
 	addi	a0,a0,%lo(.LC8)
 	call	printf
@@ -299,19 +315,19 @@ main:
 	call	init_sbrk
 	lui	a1,%hi(.LC9)
 	addi	a1,a1,%lo(.LC9)
-.L49:
+.L59:
 	addi	a0,s0,%lo(.LC10)
 	call	printf
 	li	a5,-268091392
 	sw	zero,0(a5)
 	li	a4,-268435456
 	lw	a5,4(a4)
-	li	a2,25
+	li	a2,60
 	li	a3,1
 	andi	a5,a5,-9
 	sw	a5,4(a4)
 	li	a5,-268042240
-	li	a4,63
+	li	a4,127
 	sw	a4,12(a5)
 	sw	zero,4(a5)
 	li	a4,-1
@@ -345,7 +361,7 @@ main:
 	sw	a3,0(a5)
 	call	i2c_init
  #APP
-# 286 "src/main.c" 1
+# 317 "src/main.c" 1
 	csrs mstatus, 8
 # 0 "" 2
  #NO_APP
@@ -366,11 +382,11 @@ main:
 	lw	a0,8(a5)
 	addi	s2,s2,288
 	call	fflush
-.L36:
+.L44:
 	lw	a5,%lo(uart_config_reset_counter)(s4)
-	bgtu	a5,s5,.L35
+	bgtu	a5,s5,.L43
 	lw	a5,0(s6)
-	bge	a5,zero,.L35
+	bge	a5,zero,.L43
 	li	a0,46
 	call	putchar
 	lw	a5,%lo(_impure_ptr)(s0)
@@ -379,8 +395,8 @@ main:
 	call	fflush
 	mv	a0,s2
 	call	delay_us
-	bne	s1,zero,.L36
-.L35:
+	bne	s1,zero,.L44
+.L43:
 	lui	a0,%hi(.LC0)
 	addi	a0,a0,%lo(.LC0)
 	call	printf
@@ -392,44 +408,44 @@ main:
 	call	memcpy
 	lw	a4,%lo(uart_config_reset_counter)(s3)
 	li	a5,2
-	bleu	a4,a5,.L37
+	bleu	a4,a5,.L45
 	lui	a1,%hi(.LC13)
 	sw	zero,%lo(uart_config_reset_counter)(s3)
 	addi	a1,a1,%lo(.LC13)
-.L50:
+.L60:
 	lui	a0,%hi(.LC14)
 	addi	a0,a0,%lo(.LC14)
 	call	printf
-	j	.L38
-.L31:
+	j	.L46
+.L39:
 	li	a5,-559038464
 	addi	a5,a5,-273
 	sw	a5,%lo(deadbeef)(a4)
-	j	.L32
-.L33:
+	j	.L40
+.L41:
 	lui	a1,%hi(.LC11)
 	addi	a1,a1,%lo(.LC11)
-	j	.L49
-.L37:
+	j	.L59
+.L45:
 	li	a5,-268435456
 	lw	a5,0(a5)
-	blt	a5,zero,.L39
+	blt	a5,zero,.L47
 	lui	a1,%hi(.LC15)
 	addi	a1,a1,%lo(.LC15)
-	j	.L50
-.L39:
+	j	.L60
+.L47:
 	li	a0,-267845632
 	call	eeprom_probe
-	bne	a0,zero,.L40
+	bne	a0,zero,.L48
 	addi	a0,s0,%lo(active_config)
 	call	config_load
-	bne	a0,zero,.L41
+	bne	a0,zero,.L49
 	lui	a0,%hi(.LC16)
 	addi	a0,a0,%lo(.LC16)
 	call	printf
-.L38:
+.L46:
  #APP
-# 327 "src/main.c" 1
+# 358 "src/main.c" 1
 	csrc mstatus, 8
 # 0 "" 2
  #NO_APP
@@ -439,6 +455,10 @@ main:
 	call	mac_lwip_init
 	call	modbus_udp_init
 	call	modbus_rtu_init
+	li	a1,16384
+	addi	a1,a1,-384
+	li	a0,-267649024
+	call	audiodac_init
 	lui	a0,%hi(.LC19)
 	addi	a0,a0,%lo(.LC19)
 	call	printf
@@ -447,7 +467,7 @@ main:
 	andi	a5,a5,-8
 	sw	a5,4(a4)
  #APP
-# 347 "src/main.c" 1
+# 380 "src/main.c" 1
 	csrs mstatus, 8
 # 0 "" 2
  #NO_APP
@@ -456,9 +476,9 @@ main:
 	call	printf
 	lui	s1,%hi(font_6x8)
 	lui	a3,%hi(.LC21)
-	addi	a5,s1,%lo(font_6x8)
 	li	a7,8
 	li	a6,6
+	addi	a5,s1,%lo(font_6x8)
 	li	a4,5
 	addi	a3,a3,%lo(.LC21)
 	li	a2,63
@@ -468,13 +488,13 @@ main:
 	lbu	a2,20(s0)
 	lui	a1,%hi(.LC22)
 	addi	a1,a1,%lo(.LC22)
-	mv	a0,sp
+	addi	a0,sp,16
 	call	sprintf
-	addi	a5,s1,%lo(font_6x8)
 	mv	a4,a0
 	li	a7,8
 	li	a6,6
-	mv	a3,sp
+	addi	a5,s1,%lo(font_6x8)
+	addi	a3,sp,16
 	li	a2,63
 	li	a1,8
 	li	a0,0
@@ -483,9 +503,9 @@ main:
 	addi	a0,s2,1152
 	call	process_and_wait
 	lui	a3,%hi(.LC23)
-	addi	a5,s1,%lo(font_6x8)
 	li	a7,8
 	li	a6,6
+	addi	a5,s1,%lo(font_6x8)
 	li	a4,5
 	addi	a3,a3,%lo(.LC23)
 	li	a2,63
@@ -497,13 +517,13 @@ main:
 	lbu	a2,4(s0)
 	lui	s3,%hi(.LC24)
 	addi	a1,s3,%lo(.LC24)
-	mv	a0,sp
+	addi	a0,sp,16
 	call	sprintf
-	addi	a5,s1,%lo(font_6x8)
 	mv	a4,a0
 	li	a7,8
 	li	a6,6
-	mv	a3,sp
+	addi	a5,s1,%lo(font_6x8)
+	addi	a3,sp,16
 	li	a2,63
 	li	a1,8
 	li	a0,0
@@ -512,13 +532,13 @@ main:
 	call	process_and_wait
 	lbu	a2,5(s0)
 	addi	a1,s3,%lo(.LC24)
-	mv	a0,sp
+	addi	a0,sp,16
 	call	sprintf
-	addi	a5,s1,%lo(font_6x8)
 	mv	a4,a0
 	li	a7,8
 	li	a6,6
-	mv	a3,sp
+	addi	a5,s1,%lo(font_6x8)
+	addi	a3,sp,16
 	li	a2,63
 	li	a1,8
 	li	a0,0
@@ -527,13 +547,13 @@ main:
 	call	process_and_wait
 	lbu	a2,6(s0)
 	addi	a1,s3,%lo(.LC24)
-	mv	a0,sp
+	addi	a0,sp,16
 	call	sprintf
-	addi	a5,s1,%lo(font_6x8)
 	mv	a4,a0
 	li	a7,8
 	li	a6,6
-	mv	a3,sp
+	addi	a5,s1,%lo(font_6x8)
+	addi	a3,sp,16
 	li	a2,63
 	li	a1,8
 	li	a0,0
@@ -542,13 +562,13 @@ main:
 	call	process_and_wait
 	lbu	a2,7(s0)
 	addi	a1,s3,%lo(.LC24)
-	mv	a0,sp
+	addi	a0,sp,16
 	call	sprintf
-	addi	a5,s1,%lo(font_6x8)
 	mv	a4,a0
 	li	a7,8
 	li	a6,6
-	mv	a3,sp
+	addi	a5,s1,%lo(font_6x8)
+	addi	a3,sp,16
 	li	a2,63
 	li	a1,8
 	li	a0,0
@@ -559,16 +579,24 @@ main:
 	lw	a2,%lo(hub_frame_size)(s0)
 	li	a1,0
 	li	a0,-268107776
-	li	s1,499712
 	call	memset
+	li	a0,61440
+	addi	a0,a0,-1440
+	call	malloc
+	beq	a0,zero,.L50
+	li	a1,28672
+	addi	a1,a1,1328
+	call	audiodac0_start_playback
+.L52:
+	li	s1,499712
 	addi	s1,s1,288
 	lui	s4,%hi(reg_irq_counter)
 	lui	s3,%hi(reg_sys_counter)
 	lui	s5,%hi(reg_scratch)
-	lui	s6,%hi(sbrk_heap_end)
-	lui	s7,%hi(.LC25)
-	lui	s8,%hi(.LC26)
-.L43:
+	lui	s6,%hi(audiodac0_samples_sent)
+	lui	s7,%hi(audiodac0_irqs)
+	lui	s8,%hi(sbrk_heap_end)
+.L51:
 	li	s2,-268435456
 	lw	a5,4(s2)
 	mv	a0,s1
@@ -580,63 +608,56 @@ main:
 	andi	a5,a5,-2
 	sw	a5,4(s2)
 	call	process_and_wait
- #APP
-# 399 "src/main.c" 1
-	csrc mstatus, 8
-# 0 "" 2
- #NO_APP
 	li	a5,-268091392
 	lw	a2,0(a5)
-	lw	a7,%lo(sbrk_heap_end)(s6)
 	lw	a4,%lo(reg_irq_counter)(s4)
-	lw	a3,%lo(hub_frame_size)(s0)
 	lw	a5,%lo(reg_sys_counter)(s3)
 	lw	a6,%lo(reg_scratch)(s5)
+	lw	a3,%lo(audiodac0_samples_sent)(s6)
+	lw	a1,%lo(audiodac0_irqs)(s7)
+	lw	a7,%lo(sbrk_heap_end)(s8)
+	sw	a3,0(sp)
+	lw	a3,%lo(hub_frame_size)(s0)
+	lui	a0,%hi(.LC26)
 	andi	a2,a2,127
-	li	a1,105
-	addi	a0,s7,%lo(.LC25)
+	sw	a1,4(sp)
+	addi	a0,a0,%lo(.LC26)
+	li	a1,322
 	call	printf
-	li	a5,-268042240
-	lw	a1,0(a5)
-	lw	a2,4(a5)
-	lw	a3,12(a5)
-	lw	a4,8(a5)
-	lw	a5,16(a5)
-	addi	a0,s8,%lo(.LC26)
-	call	printf
+	call	plic_print_stats
 	call	mac_print_stats
- #APP
-# 410 "src/main.c" 1
-	csrs mstatus, 8
-# 0 "" 2
- #NO_APP
 	lw	a5,%lo(reg_sys_counter)(s3)
 	addi	a5,a5,1
 	sw	a5,%lo(reg_sys_counter)(s3)
 	lui	a5,%hi(reg_config_write)
 	lw	a4,%lo(reg_config_write)(a5)
-	beq	a4,zero,.L42
+	beq	a4,zero,.L53
 	lw	a4,%lo(reg_config_write)(a5)
 	addi	a4,a4,-1
 	sw	a4,%lo(reg_config_write)(a5)
-.L42:
+.L53:
 	li	a4,-268435456
 	lw	a5,4(a4)
 	andi	a5,a5,-3
 	sw	a5,4(a4)
-	j	.L43
-.L41:
+	j	.L51
+.L49:
 	addi	a1,s1,%lo(default_config)
 	li	a2,32
 	addi	a0,s0,%lo(active_config)
 	call	memcpy
 	lui	a1,%hi(.LC17)
 	addi	a1,a1,%lo(.LC17)
-	j	.L50
-.L40:
+	j	.L60
+.L48:
 	lui	a1,%hi(.LC18)
 	addi	a1,a1,%lo(.LC18)
-	j	.L50
+	j	.L60
+.L50:
+	lui	a0,%hi(.LC25)
+	addi	a0,a0,%lo(.LC25)
+	call	printf
+	j	.L52
 	.size	main, .-main
 	.text
 	.align	2
@@ -655,7 +676,7 @@ externalInterrupt:
 	li	a5,-268042240
 	lw	a5,4(a5)
 	andi	a5,a5,1
-	beq	a5,zero,.L53
+	beq	a5,zero,.L63
 	li	a4,-268435456
 	lw	a5,4(a4)
 	li	a1,42
@@ -663,37 +684,43 @@ externalInterrupt:
 	ori	a5,a5,2
 	sw	a5,4(a4)
 	li	a4,-268369920
-.L54:
+.L64:
 	lw	a5,4(a4)
 	srli	a5,a5,24
-	bne	a5,zero,.L58
+	bne	a5,zero,.L68
 	li	a4,-268042240
 	lw	a5,4(a4)
 	andi	a5,a5,-2
 	sw	a5,4(a4)
-.L53:
-	li	s0,-268042240
-	lw	a5,4(s0)
-	andi	a5,a5,2
-	beq	a5,zero,.L59
-	call	modbus_rtu_isr
-	lw	a5,4(s0)
-	andi	a5,a5,-3
-	sw	a5,4(s0)
-.L59:
-	li	s0,-268042240
-	lw	a5,4(s0)
-	andi	a5,a5,4
-	beq	a5,zero,.L60
-	call	mac_rx_isr
-	lw	a5,4(s0)
-	andi	a5,a5,-5
-	sw	a5,4(s0)
-.L60:
+.L63:
+	li	a5,-268042240
+	lw	a4,4(a5)
+	andi	a4,a4,2
+	beq	a4,zero,.L69
+	lui	a3,%hi(events_modbus_rtu_rx)
+	lw	a4,%lo(events_modbus_rtu_rx)(a3)
+	addi	a4,a4,1
+	sw	a4,%lo(events_modbus_rtu_rx)(a3)
+	lw	a4,4(a5)
+	andi	a4,a4,-3
+	sw	a4,4(a5)
+.L69:
+	li	a5,-268042240
+	lw	a4,4(a5)
+	andi	a4,a4,4
+	beq	a4,zero,.L70
+	lui	a3,%hi(events_mac_rx)
+	lw	a4,%lo(events_mac_rx)(a3)
+	addi	a4,a4,1
+	sw	a4,%lo(events_mac_rx)(a3)
+	lw	a4,4(a5)
+	andi	a4,a4,-5
+	sw	a4,4(a5)
+.L70:
 	li	a5,-268042240
 	lw	a4,4(a5)
 	andi	a4,a4,8
-	beq	a4,zero,.L61
+	beq	a4,zero,.L71
 	li	a4,-268304384
 	li	a3,98304
 	sw	zero,12(a4)
@@ -701,16 +728,18 @@ externalInterrupt:
 	sw	a3,16(a4)
 	li	a3,1
 	sw	a3,0(a4)
-	lui	a4,%hi(events_mac_poll)
-	sw	a3,%lo(events_mac_poll)(a4)
+	lui	a3,%hi(events_mac_poll)
+	lw	a4,%lo(events_mac_poll)(a3)
+	addi	a4,a4,1
+	sw	a4,%lo(events_mac_poll)(a3)
 	lw	a4,4(a5)
 	andi	a4,a4,-9
 	sw	a4,4(a5)
-.L61:
+.L71:
 	li	a5,-268042240
 	lw	a4,4(a5)
 	andi	a4,a4,16
-	beq	a4,zero,.L62
+	beq	a4,zero,.L72
 	li	a4,-268300288
 	li	a3,49152
 	sw	zero,12(a4)
@@ -718,42 +747,61 @@ externalInterrupt:
 	sw	a3,16(a4)
 	li	a3,1
 	sw	a3,0(a4)
-	lui	a4,%hi(events_modbus_rtu_poll)
-	sw	a3,%lo(events_modbus_rtu_poll)(a4)
+	lui	a3,%hi(events_modbus_rtu_poll)
+	lw	a4,%lo(events_modbus_rtu_poll)(a3)
+	addi	a4,a4,1
+	sw	a4,%lo(events_modbus_rtu_poll)(a3)
 	lw	a4,4(a5)
 	andi	a4,a4,-17
 	sw	a4,4(a5)
-.L62:
+.L72:
 	li	a5,-268042240
 	lw	a4,4(a5)
 	andi	a4,a4,32
-	beq	a4,zero,.L52
+	beq	a4,zero,.L73
 	lw	a4,4(a5)
 	andi	a4,a4,-33
 	sw	a4,4(a5)
-.L52:
+.L73:
+	li	s0,-268042240
+	lw	a5,4(s0)
+	andi	a5,a5,64
+	beq	a5,zero,.L62
+	lui	a4,%hi(audiodac0_irqs)
+	lw	a5,%lo(audiodac0_irqs)(a4)
+	addi	a5,a5,1
+	sw	a5,%lo(audiodac0_irqs)(a4)
+	call	audiodac0_isr
+	lui	a4,%hi(audiodac0_samples_sent)
+	lw	a5,%lo(audiodac0_samples_sent)(a4)
+	add	a0,a0,a5
+	sw	a0,%lo(audiodac0_samples_sent)(a4)
+	lw	a5,4(s0)
+	andi	a5,a5,-65
+	sw	a5,4(s0)
+.L62:
 	lw	ra,12(sp)
 	lw	s0,8(sp)
 	addi	sp,sp,16
 	jr	ra
-.L58:
+.L68:
 	lw	a5,0(a4)
 	andi	a0,a5,0xff
 	andi	a3,a5,255
-.L55:
+.L65:
 	lw	a5,4(a4)
 	srli	a5,a5,16
 	andi	a5,a5,255
-	beq	a5,zero,.L55
+	beq	a5,zero,.L65
 	sw	a3,0(a4)
-	bne	a0,a1,.L56
+	bne	a0,a1,.L66
 	lw	a5,%lo(uart_config_reset_counter)(a2)
 	addi	a5,a5,1
 	sw	a5,%lo(uart_config_reset_counter)(a2)
-	j	.L54
-.L56:
+	j	.L64
+.L66:
 	sw	zero,%lo(uart_config_reset_counter)(a2)
-	j	.L54
+	j	.L64
 	.size	externalInterrupt, .-externalInterrupt
 	.align	2
 	.globl	crash
@@ -787,37 +835,171 @@ irqCallback:
 	addi	a5,a5,1
 	sw	a5,%lo(reg_irq_counter)(a4)
  #APP
-# 503 "src/main.c" 1
+# 569 "src/main.c" 1
 	csrr a5, mcause
 # 0 "" 2
  #NO_APP
-	bge	a5,zero,.L88
+	bge	a5,zero,.L102
 	andi	a5,a5,15
 	li	a4,7
-	beq	a5,a4,.L87
+	beq	a5,a4,.L101
 	li	a4,11
-	bne	a5,a4,.L90
+	bne	a5,a4,.L104
 	tail	externalInterrupt
-.L90:
+.L104:
 	li	a0,2
-.L91:
+.L105:
 	tail	crash
-.L88:
+.L102:
 	li	a0,1
-	j	.L91
-.L87:
+	j	.L105
+.L101:
 	ret
 	.size	irqCallback, .-irqCallback
 	.globl	t2
 	.globl	t1
+	.globl	saw_table
+	.globl	sine_table
 	.globl	deadbeef
+	.globl	audiodac0_samples_sent
+	.globl	audiodac0_irqs
+	.globl	events_modbus_rtu_rx
 	.globl	events_modbus_rtu_poll
+	.globl	events_mac_rx
 	.globl	events_mac_poll
 	.globl	uart_config_reset_counter
 	.globl	reg_config_write
 	.globl	reg_scratch
 	.globl	reg_sys_counter
 	.globl	reg_irq_counter
+	.section	.rodata
+	.align	2
+	.type	saw_table, @object
+	.size	saw_table, 80
+saw_table:
+	.half	-32768
+	.half	-31130
+	.half	-29492
+	.half	-27854
+	.half	-26216
+	.half	-24578
+	.half	-22940
+	.half	-21302
+	.half	-19664
+	.half	-18026
+	.half	-16388
+	.half	-14750
+	.half	-13112
+	.half	-11474
+	.half	-9836
+	.half	-8189
+	.half	-6560
+	.half	-4922
+	.half	-3284
+	.half	-1646
+	.half	-8
+	.half	1630
+	.half	3268
+	.half	4906
+	.half	6544
+	.half	8182
+	.half	9820
+	.half	11458
+	.half	13096
+	.half	14734
+	.half	16372
+	.half	18010
+	.half	19648
+	.half	21286
+	.half	22924
+	.half	24562
+	.half	25200
+	.half	27838
+	.half	29476
+	.half	31114
+	.type	sine_table, @object
+	.size	sine_table, 160
+sine_table:
+	.half	0
+	.half	5125
+	.half	10125
+	.half	14876
+	.half	19260
+	.half	23170
+	.half	26509
+	.half	29196
+	.half	31163
+	.half	32364
+	.half	32767
+	.half	32364
+	.half	31163
+	.half	29196
+	.half	26509
+	.half	23170
+	.half	19260
+	.half	14876
+	.half	10125
+	.half	5125
+	.half	0
+	.half	-5126
+	.half	-10126
+	.half	-14877
+	.half	-19261
+	.half	-23171
+	.half	-26510
+	.half	-29197
+	.half	-31164
+	.half	-32365
+	.half	-32768
+	.half	-32365
+	.half	-31164
+	.half	-29197
+	.half	-26510
+	.half	-23171
+	.half	-19261
+	.half	-14877
+	.half	-10126
+	.half	-5126
+	.half	0
+	.half	5125
+	.half	10125
+	.half	14876
+	.half	19260
+	.half	23170
+	.half	26509
+	.half	29196
+	.half	31163
+	.half	32364
+	.half	32767
+	.half	32364
+	.half	31163
+	.half	29196
+	.half	26509
+	.half	23170
+	.half	19260
+	.half	14876
+	.half	10125
+	.half	5125
+	.half	0
+	.half	-5126
+	.half	-10126
+	.half	-14877
+	.half	-19261
+	.half	-23171
+	.half	-26510
+	.half	-29197
+	.half	-31164
+	.half	-32365
+	.half	-32768
+	.half	-32365
+	.half	-31164
+	.half	-29197
+	.half	-26510
+	.half	-23171
+	.half	-19261
+	.half	-14877
+	.half	-10126
+	.half	-5126
 	.bss
 	.align	2
 	.set	.LANCHOR0,. + 0
@@ -846,7 +1028,7 @@ crash_str:
 	.string	"Soft-start, performing hard reset!\r\n"
 	.zero	3
 .LC6:
-	.string	"\r\nHUB-12/HUB-75 driver for Karnix ASB-254. Build %05d, date/time: Dec 18 2023 22:30:07\r\nCopyright (C) 2021-2023 Fabmicro, LLC., Tyumen, Russia.\r\n\r\n"
+	.string	"\r\nHUB-12/HUB-75 driver for Karnix ASB-254. Build %05d, date/time: Dec 31 2023 16:39:43\r\nCopyright (C) 2021-2023 Fabmicro, LLC., Tyumen, Russia.\r\n\r\n"
 .LC7:
 	.string	"Hardware init\r\n"
 .LC8:
@@ -884,7 +1066,8 @@ crash_str:
 	.string	"Hardware init done\r\n"
 	.zero	3
 .LC20:
-	.string	"Displaying current setting...\r\n"
+	.string	"Displaying network settings...\r\n"
+	.zero	3
 .LC21:
 	.string	"MBus:"
 	.zero	2
@@ -897,11 +1080,11 @@ crash_str:
 	.string	"%d  "
 	.zero	3
 .LC25:
-	.string	"HUB12/75 adapter build %05d: mode = HUB%d, hub_fb_size = %d, irqs = %d, sys_cnt = %d, scratch = %p, sbrk_heap_end = %p\r\n"
-	.zero	3
+	.string	"Failed to allocate ring_buffer!\r\n"
+	.zero	2
 .LC26:
-	.string	"PLIC: ENABLE = %p, PENDING = %p, POLARITY = %p, IRQLINE = %p, IRQLAST = %p\r\n"
-	.zero	3
+	.string	"HUB12/75 adapter build %05d: mode = HUB%d, hub_fb_size = %d, irqs = %d, sys_cnt = %d, scratch = %p, sbrk_heap_end = %p, audiodac0_samples_sent = %d, audiodac0_irqs = %d\r\n"
+	.zero	1
 .LC27:
 	.string	"\r\n*** TRAP: "
 	.section	.sbss,"aw",@nobits
@@ -918,9 +1101,25 @@ t1:
 	.size	deadbeef, 4
 deadbeef:
 	.zero	4
+	.type	audiodac0_samples_sent, @object
+	.size	audiodac0_samples_sent, 4
+audiodac0_samples_sent:
+	.zero	4
+	.type	audiodac0_irqs, @object
+	.size	audiodac0_irqs, 4
+audiodac0_irqs:
+	.zero	4
+	.type	events_modbus_rtu_rx, @object
+	.size	events_modbus_rtu_rx, 4
+events_modbus_rtu_rx:
+	.zero	4
 	.type	events_modbus_rtu_poll, @object
 	.size	events_modbus_rtu_poll, 4
 events_modbus_rtu_poll:
+	.zero	4
+	.type	events_mac_rx, @object
+	.size	events_mac_rx, 4
+events_mac_rx:
 	.zero	4
 	.type	events_mac_poll, @object
 	.size	events_mac_poll, 4

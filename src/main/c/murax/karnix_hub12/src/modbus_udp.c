@@ -72,6 +72,10 @@ void modbus_udp_recv(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_a
 	if(tx_len > 0) {
 		#ifdef MODBUS_DEBUG
 		printf("modbus_udp_recv() responding with %d bytes\r\n", tx_len);
+
+		for(int i = 0; i < tx_len; i++)
+			printf("0x%02X ", tx_buf[i]);
+		printf("\r\n");
 		#endif
 
 		modbus_udp_send(addr, port, tx_buf, tx_len);

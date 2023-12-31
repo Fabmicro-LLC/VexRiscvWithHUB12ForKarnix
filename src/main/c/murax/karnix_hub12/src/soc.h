@@ -11,6 +11,7 @@
 #include "mac.h"
 #include "i2c.h"
 #include "wd.h"
+#include "audiodac.h"
 
 #define TIMER_PRESCALER	((Prescaler_Reg*)0xF0020000)
 #define TIMER_INTERRUPT	((InterruptCtrl_Reg*)0xF0020010)
@@ -26,10 +27,11 @@
 #define I2C0		((I2C_Reg*)(0xF0090000))
 #define WD		((WD_Reg*)(0xF00A0000))
 #define MTIME		(*(volatile unsigned long long*)(0xF00B0000))
+#define AUDIODAC0	((AUDIODAC_Reg*)(0xF00C0000))
 
-static unsigned long long get_mtime(void) { return MTIME; }
+inline volatile unsigned long long get_mtime(void) { return MTIME; }
 
-#define	SYSTEM_CLOCK_HZ	25000000
+#define	SYSTEM_CLOCK_HZ	60000000
 
 
 #endif /* __SOC_H__ */

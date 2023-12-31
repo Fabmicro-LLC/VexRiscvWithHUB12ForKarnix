@@ -9,7 +9,9 @@ sim:
 	(cd ../../..; sbt "runMain vexriscv.demo.MuraxForKarnixWithHUB12VerilogSim")
 
 ../../../MuraxForKarnixWithHUB12TopLevel_random.hexx:	
-	ecpbram -g ../../../MuraxForKarnixWithHUB12TopLevel_random.hexx -w 32 -d 18432 # 72K RAM 
+	ecpbram -g ../../../MuraxForKarnixWithHUB12TopLevel_random.hexx -w 32 -d 24576 # 96K RAM 
+	#ecpbram -g ../../../MuraxForKarnixWithHUB12TopLevel_random.hexx -w 32 -d 21504  # 86K RAM 
+	#ecpbram -g ../../../MuraxForKarnixWithHUB12TopLevel_random.hexx -w 32 -d 18432 # 72K RAM 
 	#ecpbram -g ../../../MuraxForKarnixWithHUB12TopLevel_random.hexx -w 32 -d 17920 # 70K RAM
 	#ecpbram -g ../../../MuraxForKarnixWithHUB12TopLevel_random.hexx -w 32 -d 16384 
 	#ecpbram -g ../../../MuraxForKarnixWithHUB12TopLevel_random.hexx -w 32 -d 5120 
@@ -34,7 +36,7 @@ bin/MuraxForKarnixWithHUB12TopLevel.json : ${VERILOG} ../../../MuraxForKarnixWit
 	#yosys -v2 -e ABC -p "synth_ecp5 -abc9 -top MuraxForKarnixWithHUB12TopLevel -json bin/MuraxForKarnixWithHUB12TopLevel.json" ${VERILOG}
 
 bin/MuraxForKarnixWithHUB12TopLevel_random_25F.config : karnix_hub12_cabga256.lpf bin/MuraxForKarnixWithHUB12TopLevel.json
-	nextpnr-ecp5 --25k --lpf karnix_hub12_cabga256.lpf --placed-svg bin/MuraxForKarnixWithHUB12TopLevel_placed.svg --package CABGA256 --json bin/MuraxForKarnixWithHUB12TopLevel.json --textcfg $@ 
+	nextpnr-ecp5 --seed 4433 --speed 7 --25k --lpf karnix_hub12_cabga256.lpf --placed-svg bin/MuraxForKarnixWithHUB12TopLevel_placed.svg --package CABGA256 --json bin/MuraxForKarnixWithHUB12TopLevel.json --textcfg $@ 
 
 bin/MuraxForKarnixWithHUB12TopLevel_25F.config: bin/MuraxForKarnixWithHUB12TopLevel_random_25F.config ../../../src/main/c/murax/karnix_hub12/build/karnix_hub12.hexx ../../../MuraxForKarnixWithHUB12TopLevel_random.hexx
 	ecpbram -v -i bin/MuraxForKarnixWithHUB12TopLevel_random_25F.config -o bin/MuraxForKarnixWithHUB12TopLevel_25F.config -f ../../../MuraxForKarnixWithHUB12TopLevel_random.hexx -t ../../../src/main/c/murax/karnix_hub12/build/karnix_hub12.hexx

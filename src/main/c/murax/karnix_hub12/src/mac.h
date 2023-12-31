@@ -82,7 +82,7 @@ static uint32_t mac_pushTx(MAC_Reg *reg, uint32_t val){
 
 int mac_lwip_init(void);
 void mac_tx_test(void);
-void mac_rx_isr(void);
+void mac_rx(void);
 void mac_poll(void);
 void mac_print_stats(void);
 

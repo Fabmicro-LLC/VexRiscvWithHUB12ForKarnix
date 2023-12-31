@@ -17,8 +17,8 @@ modbus_rtu_init:
 	li	s0,-268365824
 	lw	a5,8(s0)
 	lw	a1,%lo(active_config+24)(a4)
-	li	a0,25001984
-	addi	a0,a0,-1984
+	li	a0,59998208
+	addi	a0,a0,1792
 	sw	a5,12(sp)
 	call	__udivsi3
 	li	a1,5
@@ -110,14 +110,14 @@ modbus_rtu_poll:
 	jr	ra
 	.size	modbus_rtu_poll, .-modbus_rtu_poll
 	.align	2
-	.globl	modbus_rtu_isr
-	.type	modbus_rtu_isr, @function
-modbus_rtu_isr:
-	addi	sp,sp,-144
-	sw	s0,136(sp)
-	sw	s1,132(sp)
+	.globl	modbus_rtu_rx
+	.type	modbus_rtu_rx, @function
+modbus_rtu_rx:
+	addi	sp,sp,-16
+	sw	s0,8(sp)
+	sw	s1,4(sp)
 	lui	s0,%hi(modbus_rtu_rx_len)
-	sw	ra,140(sp)
+	sw	ra,12(sp)
 	li	a5,-268365824
 	lw	a3,0(a5)
 	lw	a2,%lo(modbus_rtu_rx_len)(s0)
@@ -137,36 +137,32 @@ modbus_rtu_isr:
 	li	a4,-268365824
 	lw	a5,4(a4)
 	srli	a5,a5,24
-	beq	a5,zero,.L23
-	lw	a3,4(a4)
-	lw	a4,%lo(modbus_rtu_rx_len)(s0)
-	lui	a2,%hi(.LC1)
-	srli	a3,a3,24
-	addi	a2,a2,%lo(.LC1)
-	li	a1,128
-	mv	a0,sp
-	call	snprintf
-	mv	a0,sp
-	call	print_uart0
+	bne	a5,zero,.L23
+.L27:
+	li	a5,-267714560
+	lw	a2,0(a5)
+	lw	a3,4(a5)
+	lw	ra,12(sp)
+	lui	a5,%hi(modbus_rtu_rx_timestamp)
+	lw	s0,8(sp)
+	sw	a2,%lo(modbus_rtu_rx_timestamp)(a5)
+	sw	a3,%lo(modbus_rtu_rx_timestamp+4)(a5)
+	lw	s1,4(sp)
+	addi	sp,sp,16
+	jr	ra
+.L23:
+	lw	a1,4(a4)
+	lw	a2,%lo(modbus_rtu_rx_len)(s0)
+	lui	a0,%hi(.LC1)
+	srli	a1,a1,24
+	addi	a0,a0,%lo(.LC1)
+	call	printf
 	li	a3,-268365824
 	li	a2,127
 .L25:
 	lw	a5,4(a3)
 	srli	a5,a5,24
-	bne	a5,zero,.L26
-.L23:
-	li	a5,-267714560
-	lw	a2,0(a5)
-	lw	a3,4(a5)
-	lw	ra,140(sp)
-	lui	a5,%hi(modbus_rtu_rx_timestamp)
-	lw	s0,136(sp)
-	sw	a2,%lo(modbus_rtu_rx_timestamp)(a5)
-	sw	a3,%lo(modbus_rtu_rx_timestamp+4)(a5)
-	lw	s1,132(sp)
-	addi	sp,sp,144
-	jr	ra
-.L26:
+	beq	a5,zero,.L27
 	lw	a4,0(a3)
 	lw	a5,%lo(modbus_rtu_rx_len)(s0)
 	andi	a4,a4,0xff
@@ -178,7 +174,7 @@ modbus_rtu_isr:
 	bleu	a5,a2,.L25
 	sw	zero,%lo(modbus_rtu_rx_len)(s0)
 	j	.L25
-	.size	modbus_rtu_isr, .-modbus_rtu_isr
+	.size	modbus_rtu_rx, .-modbus_rtu_rx
 	.globl	modbus_rtu_rx_timestamp
 	.globl	modbus_rtu_rx_len
 	.globl	modbus_rtu_rx_buf
@@ -195,7 +191,7 @@ modbus_rtu_rx_buf:
 	.string	"modbus_rtu_init() done, dataLength = %d, parity = %d, stop = %d, clockDivider = %d (was: %d)\r\n"
 	.zero	1
 .LC1:
-	.string	"modbus_rtu_isr() stale RX FIFO %d bytes, rx_len = %d\r\n"
+	.string	"modbus_rtu_rx() stale RX FIFO %d bytes, rx_len = %d\r\n"
 	.section	.sbss,"aw",@nobits
 	.align	3
 	.type	modbus_rtu_rx_timestamp, @object

@@ -365,9 +365,9 @@ ip4addr_ntoa:
 	.bss
 	.align	2
 	.set	.LANCHOR0,. + 0
-	.type	str.4106, @object
-	.size	str.4106, 16
-str.4106:
+	.type	str.4107, @object
+	.size	str.4107, 16
+str.4107:
 	.zero	16
 	.section	.srodata,"a"
 	.align	2

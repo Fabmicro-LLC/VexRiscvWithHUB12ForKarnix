@@ -8,10 +8,12 @@ import spinal.lib.bus.misc.SizeMapping
 import spinal.lib.bus.simple.PipelinedMemoryBus
 import spinal.lib.com.jtag.Jtag
 import spinal.lib.com.spi.ddr.SpiXdrMaster
+import spinal.lib.com.spi._
 import spinal.lib.com.uart._
 import spinal.lib.io.{InOutWrapper, TriStateArray}
 import spinal.lib.misc.{InterruptCtrl, Prescaler, Timer}
 import spinal.lib.soc.pinsec.{PinsecTimerCtrl, PinsecTimerCtrlExternal}
+import spinal.lib.blackbox.lattice.ecp5._
 import vexriscv.plugin._
 import vexriscv.{VexRiscv, VexRiscvConfig, plugin}
 import vexriscv.ip.InstructionCacheConfig
@@ -63,6 +65,7 @@ case class MuraxForKarnixWithHUB12Config(coreFrequency : HertzNumber,
 		macConfig		: MacEthParameter,
 		uart0CtrlConfig		: UartCtrlMemoryMappedConfig,
 		uart1CtrlConfig		: UartCtrlMemoryMappedConfig,
+                spiAudioDACCtrlConfig   : SpiMasterCtrlMemoryMappedConfig,
 		xipConfig		: SpiXdrMasterCtrl.MemoryMappingParameters,
 		hardwareBreakpointCount : Int,
 		cpuPlugins         : ArrayBuffer[Plugin[VexRiscv]]){
@@ -76,8 +79,8 @@ case class MuraxForKarnixWithHUB12Config(coreFrequency : HertzNumber,
 object MuraxForKarnixWithHUB12Config{
   def default : MuraxForKarnixWithHUB12Config = default(false, false)
   def default(withXip : Boolean = false, bigEndian : Boolean = false) =  MuraxForKarnixWithHUB12Config(
-    coreFrequency         = 25 MHz,
-    onChipRamSize         = 72 kB ,
+    coreFrequency         = 60.0 MHz,
+    onChipRamSize         = 96 kB ,
     onChipRamHexFile      = null,
     pipelineDBus          = true,
     pipelineMainBus       = false,
@@ -214,8 +217,17 @@ object MuraxForKarnixWithHUB12Config{
       busCanWriteFrameConfig = false,
       txFifoDepth = 16,
       rxFifoDepth = 16
-    )
+    ),
 
+    spiAudioDACCtrlConfig = SpiMasterCtrlMemoryMappedConfig(
+      ctrlGenerics = SpiMasterCtrlGenerics(
+        dataWidth      = 16, // transmit 16 bit words
+        timerWidth     = 16,
+        ssWidth        = 1 // only one CS line
+      ),
+      cmdFifoDepth = 512, // CMD is same as TX FIFO
+      rspFifoDepth = 512  // RSP is same as RX FIFO
+    )
   )
 
   def fast = {
@@ -252,6 +264,7 @@ case class MuraxHUBFabric(config : MuraxForKarnixWithHUB12Config) extends Compon
     val gpioA = master(TriStateArray(32 bits))
     val uart0 = master(Uart(config.uart0CtrlConfig.uartCtrlConfig))
     val uart1 = master(Uart(config.uart1CtrlConfig.uartCtrlConfig))
+    val spiAudioDAC = master(SpiMaster(ssWidth = config.spiAudioDACCtrlConfig.ctrlGenerics.ssWidth))
     val xip = ifGen(genXip)(master(SpiXdrMaster(xipConfig.ctrl.spi)))
     val pwm = out Bool
     val hub = out Bits(16 bits)
@@ -430,7 +443,6 @@ case class MuraxHUBFabric(config : MuraxForKarnixWithHUB12Config) extends Compon
     macCtrl.io.mii <> io.mii
     plic.setIRQ(macCtrl.io.interrupt, 2)
 
-
     val machineTimerCtrl = Apb3MachineTimerCtrl(coreFrequency.toInt / 1000000)
     apbMapping += machineTimerCtrl.io.apb   -> (0xB0000, 4 kB)
 
@@ -457,6 +469,12 @@ case class MuraxHUBFabric(config : MuraxForKarnixWithHUB12Config) extends Compon
     val wdCtrl = new Apb3WatchDogCtrl()
     apbMapping += wdCtrl.io.apb     -> (0xa0000, 64 kB)
     io.hard_reset := wdCtrl.io.hard_reset 
+
+    val spiAudioDACCtrl = new Apb3SpiMasterCtrl(spiAudioDACCtrlConfig)
+    spiAudioDACCtrl.io.spi <> io.spiAudioDAC
+    //externalInterrupt setWhen(uart0Ctrl.io.interrupt)
+    plic.setIRQ(spiAudioDACCtrl.io.interrupt, 6)
+    apbMapping += spiAudioDACCtrl.io.apb  -> (0xC0000, 4 kB)
 
 
     //******** Memory mappings *********
@@ -514,21 +532,21 @@ case class MuraxForKarnixWithHUB12() extends Component{
 	val i2c_sda = inout(Analog(Bool()))
 
         val sram = master(SramInterface(SramLayout(addressWidth = 18, dataWidth = 16)))
-
+        val spiAudioDAC = master(SpiMaster(ssWidth = 1))
+        
 	val config = in Bool() // Config reset pin
+
+	var core_jtag_tck = in Bool()
+	var core_jtag_tdi = in Bool()
+	var core_jtag_tdo = out Bool()
+	var core_jtag_tms = in Bool()
     }
 
 
-
-    case class DCCA() extends BlackBox{
-	val CLKI = in  Bool()
-	val CLKO = out  Bool()
-	val CE = in  Bool()
-    }
 
     val murax = MuraxHUBFabric(MuraxForKarnixWithHUB12Config.default(withXip = false).copy(
-		coreFrequency = 25.0 MHz, 
-		onChipRamSize = 72 kB , 
+		coreFrequency = 60.0 MHz, 
+		onChipRamSize = 96 kB , 
 		pipelineMainBus = true, // XXX
 		onChipRamHexFile = "MuraxForKarnixWithHUB12TopLevel_random.hex"
 		//onChipRamHexFile = "src/main/c/murax/karnix_hub12/build/karnix_hub12.hex"
@@ -559,24 +577,60 @@ case class MuraxForKarnixWithHUB12() extends Component{
 
 
 
+    murax.io.asyncReset := False 
     io.rst_n := murax.io.hard_reset // Watch-dog is sitting there 
 
-    murax.io.mainClk := io.clk25 
+    //val pll = new EHXPLLL(EHXPLLLConfig.singleOutput(25.0 MHz, 50.0 MHz, 0.02)) // This thing is buggy, gives incorrect dividers
 
-    murax.io.asyncReset := False 
+    //val core_pll = new EHXPLLL( EHXPLLLConfig(clkiFreq = 25.0 MHz, mDiv = 1, fbDiv = 3, opDiv = 8, opCPhase = 4) ) // 75.0 MHz
+    //val core_pll = new EHXPLLL( EHXPLLLConfig(clkiFreq = 25.0 MHz, mDiv = 1, fbDiv = 2, opDiv = 12, opCPhase = 5) ) // 50.0 MHz
+    //val core_pll = new EHXPLLL( EHXPLLLConfig(clkiFreq = 25.0 MHz, mDiv = 5, fbDiv = 13, opDiv = 9, opCPhase = 4) ) // 65.0 MHz
+    val core_pll = new EHXPLLL( EHXPLLLConfig(clkiFreq = 25.0 MHz, mDiv = 5, fbDiv = 12, opDiv = 10, opCPhase = 4) ) // 60.0 MHz
 
-/*
+    core_pll.io.CLKI := io.clk25
+    core_pll.io.CLKFB := core_pll.io.CLKOP
+    core_pll.io.STDBY := False
+    core_pll.io.RST := False
+    core_pll.io.ENCLKOP := True
+    core_pll.io.ENCLKOS := False
+    core_pll.io.ENCLKOS2 := False
+    core_pll.io.ENCLKOS3 := False
+    core_pll.io.PLLWAKESYNC := False
+    core_pll.io.PHASESEL0 := False
+    core_pll.io.PHASESEL1 := False
+    core_pll.io.PHASEDIR := False
+    core_pll.io.PHASESTEP := False
+    core_pll.io.PHASELOADREG := False
+
+    murax.io.mainClk := core_pll.io.CLKOP 
+
+    /*
+    case class DCCA() extends BlackBox{
+	val CLKI = in  Bool()
+	val CLKO = out  Bool()
+	val CE = in  Bool()
+    }
+
+    var dcca_core_pll = DCCA()
+    dcca_core_pll.CE := True
+    dcca_core_pll.CLKI := core_pll.io.CLKOP
+    murax.io.mainClk := dcca_core_pll.CLKO
+    */
+
+    /*
     val jtagClkBuffer = DCCA()
-    jtagClkBuffer.CLKI <> io.spi_clk
+    jtagClkBuffer.setDefinitionName("DCCA");
+    jtagClkBuffer.CLKI <> io.core_jtag_tck
     jtagClkBuffer.CLKO <> murax.io.jtag.tck
     jtagClkBuffer.CE := True
-    murax.io.jtag.tdi <> io.spi_mosi
-    murax.io.jtag.tdo <> io.spi_miso
-    murax.io.jtag.tms <> io.spi_cs_n
-*/
+    murax.io.jtag.tdi <> io.core_jtag_tdi
+    murax.io.jtag.tdo <> io.core_jtag_tdo
+    murax.io.jtag.tms <> io.core_jtag_tms
+    */
     murax.io.jtag.tdi := False
     murax.io.jtag.tck := False
     murax.io.jtag.tms := False
+    io.core_jtag_tdo := False
 
     io.rgb := murax.io.gpioA.write.resized
 
@@ -594,6 +648,7 @@ case class MuraxForKarnixWithHUB12() extends Component{
     murax.io.uart1.de <> io.rs485_de
 
     murax.io.sram <> io.sram
+    murax.io.spiAudioDAC <> io.spiAudioDAC
 
     io.i2c_scl <> murax.io.i2c.scl
     io.i2c_sda <> murax.io.i2c.sda

@@ -73,8 +73,7 @@ void modbus_rtu_poll(void) {
 
 }
 
-void modbus_rtu_isr(void) {
-	
+void modbus_rtu_rx(void) {
 		
 	modbus_rtu_rx_buf[modbus_rtu_rx_len++] = UART1->DATA;
 
@@ -83,9 +82,7 @@ void modbus_rtu_isr(void) {
 
 	if(uart_readOccupancy(UART1) > 0) {
 
-		char str[128];
-		snprintf(str, 128, "modbus_rtu_isr() stale RX FIFO %d bytes, rx_len = %d\r\n", uart_readOccupancy(UART1), modbus_rtu_rx_len);
-		print(str);
+		printf("modbus_rtu_rx() stale RX FIFO %d bytes, rx_len = %d\r\n", uart_readOccupancy(UART1), modbus_rtu_rx_len);
 
 		while(uart_readOccupancy(UART1)) {
 
@@ -98,3 +95,4 @@ void modbus_rtu_isr(void) {
 
 	modbus_rtu_rx_timestamp = get_mtime();
 }
+

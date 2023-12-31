@@ -5,6 +5,7 @@
 #include "crc16.h"
 //#include "aes.h"
 #include "hub.h"
+#include "audiodac.h"
 #include "modbus.h"
 
 //#define MODBUS_DEBUG	1
@@ -36,6 +37,35 @@ int modbus_store_reg(uint16_t reg, uint8_t *data, uint16_t data_len) {
 		case REG_CLEAR_TEXT: {
 			memset((void*)HUB0->FB,  0, hub_frame_size);
 			ret = 0;
+		} break;
+
+		case REG_AUDIODAC0_BUFFER: {
+			int samples = data_len/2;
+			short audio_buf[samples];
+
+			for(int i = 0; i < samples; i++)
+				audio_buf[i] = (short)((data[i*2 + 0] << 8) | data[i*2 + 1]);
+
+			int written = audiodac0_submit_buffer(audio_buf, samples, DAC_NOT_ISR);
+
+			#ifdef MODBUS_DEBUG
+			printf("modbus: %d of %d samples written to AUDIODAC0\r\n", written, samples);
+			#endif
+
+			// Below is non-standard Modbus response we put in rx data buf.
+			// Standard parser should have no problems skipping it.
+			int fill;
+			if(audiodac0_tx_ring_buffer_playback_ptr <= audiodac0_tx_ring_buffer_fill_ptr)
+				fill = audiodac0_tx_ring_buffer_fill_ptr - audiodac0_tx_ring_buffer_playback_ptr;
+			else
+				fill = audiodac0_tx_ring_buffer_size - audiodac0_tx_ring_buffer_playback_ptr + audiodac0_tx_ring_buffer_fill_ptr - 1;
+				
+			data[0] = fill >> 8;
+			data[1] = fill & 0xff;	
+			data[2] = audiodac0_tx_ring_buffer_size >> 8;
+			data[3] = audiodac0_tx_ring_buffer_size & 0xff;
+
+			ret = 4; // num of bytes in response
 		} break;
 
 		case REG_FRAMEBUFFER: {
@@ -420,8 +450,9 @@ int modbus_recv(uint8_t *rx_buf, int rx_len, uint8_t *tx_buf) {
 							tx_len = modbus_error(func, ERR_WRONG_ARGS, tx_buf);
 					} else {
 						memcpy(&(tx_buf[2]), &(rx_buf[2]), 4);
-						add_crc(tx_buf, 6);
-						tx_len = 6+2; // PDU size
+						memcpy(&(tx_buf[2+4]), &(rx_buf[7]), rc);
+						add_crc(tx_buf, 2 + 4 + rc);
+						tx_len = 2 + 4 + rc + 2; // PDU size
 					}
 
 				} break; // FUNC_WRITE_ONE_COIL_REG
@@ -438,8 +469,9 @@ int modbus_recv(uint8_t *rx_buf, int rx_len, uint8_t *tx_buf) {
 							tx_len = modbus_error(func, ERR_WRONG_ARGS, tx_buf);
 					} else {
 						memcpy(&(tx_buf[2]), &(rx_buf[2]), 4);
-						add_crc(tx_buf, 6);
-						tx_len = 6+2; // PDU size
+						memcpy(&(tx_buf[2+4]), &(rx_buf[7]), rc);
+						add_crc(tx_buf, 2 + 4 + rc);
+						tx_len = 2 + 4 + rc + 2; // PDU size
 					}
 					
 				} break; // FUNC_WRITE_MANY_COIL_REG

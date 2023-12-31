@@ -40,7 +40,12 @@ volatile uint32_t reg_config_write = 0;
 
 volatile uint32_t uart_config_reset_counter = 0;
 volatile uint32_t events_mac_poll = 0;
+volatile uint32_t events_mac_rx = 0;
 volatile uint32_t events_modbus_rtu_poll = 0;
+volatile uint32_t events_modbus_rtu_rx = 0;
+
+volatile uint32_t audiodac0_irqs = 0;
+volatile uint32_t audiodac0_samples_sent = 0;
 
 uint32_t deadbeef = 0;		// If not zero - we are in soft-start mode
 
@@ -68,6 +73,22 @@ void to_hex(char*s , unsigned int n)
 }
 
 
+#define SINE_TABLE_SIZE	80
+
+const short sine_table[SINE_TABLE_SIZE] = {0, 5125, 10125, 14876, 19260, 23170, 26509, 29196,
+	31163, 32364, 32767,  32364, 31163, 29196, 26509, 23170, 19260, 14876, 10125,
+	5125, 0, -5126, -10126,-14877, -19261, -23171, -26510, -29197, -31164, -32365,
+	-32768, -32365, -31164, -29197, -26510, -23171, -19261, -14877, -10126, -5126,
+
+	0, 5125, 10125, 14876, 19260, 23170, 26509, 29196,
+	31163, 32364, 32767,  32364, 31163, 29196, 26509, 23170, 19260, 14876, 10125,
+	5125, 0, -5126, -10126,-14877, -19261, -23171, -26510, -29197, -31164, -32365,
+	-32768, -32365, -31164, -29197, -26510, -23171, -19261, -14877, -10126, -5126};
+
+const short saw_table[40] = {-32768, -31130, -29492, -27854, -26216, -24578, -22940, -21302, -19664, -18026,
+       			     -16388, -14750, -13112, -11474, -9836, -8189, -6560, -4922, -3284, -1646,
+		     	     -8, 1630, 3268, 4906, 6544, 8182, 9820, 11458, 13096, 14734, 16372, 18010, 19648,
+			     21286, 22924, 24562, 25200, 27838, 29476, 31114 };	     
 
 
 volatile unsigned long long t1, t2;
@@ -92,9 +113,19 @@ void process_and_wait(uint32_t us) {
 			events_modbus_rtu_poll = 0;
 		}
 
+		if(events_modbus_rtu_rx) {
+			modbus_rtu_rx(); 
+			events_modbus_rtu_poll = 0;
+		}
+
 		if(events_mac_poll) {
 			mac_poll();
 			events_mac_poll = 0;
+		}
+
+		if(events_mac_rx) {
+			mac_rx();
+			events_mac_rx = 0;
 		}
 	}
 }
@@ -255,7 +286,7 @@ void main() {
 	GPIO->OUTPUT &= ~(1 << EEPROM_WP); 
 
 	// Configure interrupt controller 
-	PLIC->POLARITY = 0x0000003f; // Configure PLIC IRQ polarity for UART0, UART1, MAC and I2C to Active High 
+	PLIC->POLARITY = 0x0000007f; // Configure PLIC IRQ polarity for UART0, UART1, MAC, I2C and AUDIODAC0 to Active High 
 	PLIC->PENDING = 0; // Clear all pending IRQs
 	PLIC->ENABLE = 0xffffffff; // Configure PLIC to enable interrupts from all possible IRQ lines
 
@@ -339,6 +370,8 @@ void main() {
 	// Setup serial paramenters for Modbus/RTU module
 	modbus_rtu_init();
 	
+	// AUDIO DAC
+	audiodac_init(AUDIODAC0, 16000);
 
 	printf("Hardware init done\r\n");
 
@@ -353,7 +386,7 @@ void main() {
 		char txt[32];
 		int len;
 
-		printf("Displaying current setting...\r\n");
+		printf("Displaying network settings...\r\n");
 
 		hub_print(6, 0, HUB_COLOR_WHITE, "MBus:", 5, font_6x8, 6, 8);
 
@@ -384,7 +417,16 @@ void main() {
 
 	memset((void*)HUB0->FB,  0, hub_frame_size); 
 
+	short *ring_buffer = (short *)malloc(30000*2);
+
+	if(ring_buffer) {
+		audiodac0_start_playback(ring_buffer, 30000);
+	} else {
+		printf("Failed to allocate ring_buffer!\r\n");
+	}
+
 	while(1) {
+		int audio_idx = 0;
 
 		GPIO->OUTPUT |= (1 << LED_G); // LED_G is ON
 
@@ -395,23 +437,40 @@ void main() {
     		process_and_wait(500000); 
 
 
-		{ // Critical section - printfs is not re-enterable
-			csr_clear(mstatus, MSTATUS_MIE); // Disable Machine interrupts
-	
-			printf("HUB12/75 adapter build %05d: mode = HUB%d, hub_fb_size = %d, irqs = %d, sys_cnt = %d, scratch = %p, sbrk_heap_end = %p\r\n",
+		if(1) {
+			printf("HUB12/75 adapter build %05d: mode = HUB%d, hub_fb_size = %d, irqs = %d, sys_cnt = %d, scratch = %p, sbrk_heap_end = %p, audiodac0_samples_sent = %d, audiodac0_irqs = %d\r\n",
 				BUILD_NUMBER,
 				(HUB0->CONTROL & HUB_MASK_TYPE),
-				hub_frame_size, reg_irq_counter, reg_sys_counter, reg_scratch, sbrk_heap_end);
+				hub_frame_size, reg_irq_counter, reg_sys_counter, reg_scratch, sbrk_heap_end, audiodac0_samples_sent, audiodac0_irqs);
 
 			plic_print_stats();
 
 			mac_print_stats();
 
-			csr_set(mstatus, MSTATUS_MIE); // Enable Machine interrupts
 		}
 	
 		//sram_test_write_shorts();
 		//sram_test_write_random_ints();
+
+		if(0) {
+			for(int i = 0; i < 30000 / SINE_TABLE_SIZE; i++) {
+
+				short audio_buf[SINE_TABLE_SIZE];
+				int a;
+
+				for(int j = 0; j < SINE_TABLE_SIZE; j++) {
+					audio_buf[j] = sine_table[audio_idx];
+					//audio_buf[j] = saw_table[audio_idx];
+					audio_idx++;
+					audio_idx %= SINE_TABLE_SIZE;
+				}
+
+				if((a = audiodac0_submit_buffer(audio_buf, SINE_TABLE_SIZE, DAC_NOT_ISR)) != SINE_TABLE_SIZE) {
+				       	//printf("main: audiodac0_submit_buffer partial: %d (%d), i = %d\r\n", a, SINE_TABLE_SIZE, i);
+					break;
+				}
+			}
+		}
 
 		reg_sys_counter++;
 
@@ -449,33 +508,40 @@ void externalInterrupt(void){
 
 	if(PLIC->PENDING & PLIC_IRQ_UART1) { // UART1 is pending
 		//printf("UART1: %02X (%c)\r\n", c, c);
-		modbus_rtu_isr();
+		events_modbus_rtu_rx++;
 		PLIC->PENDING &= ~PLIC_IRQ_UART1;
 	}
 
 	if(PLIC->PENDING & PLIC_IRQ_MAC) { // MAC is pending
 		//print("MAC IRQ\r\n");
-		mac_rx_isr();
+		events_mac_rx++;
 		PLIC->PENDING &= ~PLIC_IRQ_MAC;
 	}
 
 	if(PLIC->PENDING & PLIC_IRQ_TIMER0) { // Timer0 (for MAC) 
 		//printf("TIMER0 IRQ\r\n");
 		timer_run(TIMER0, 100000); // 100 ms timer
-		events_mac_poll = 1;
+		events_mac_poll++;
 		PLIC->PENDING &= ~PLIC_IRQ_TIMER0;
 	}
 
 	if(PLIC->PENDING & PLIC_IRQ_TIMER1) { // Timer1 (for Modbus RTU) 
 		//print("TIMER1 IRQ\r\n");
 		timer_run(TIMER1, 50000); // 50 ms timer
-		events_modbus_rtu_poll = 1;
+		events_modbus_rtu_poll++;
 		PLIC->PENDING &= ~PLIC_IRQ_TIMER1;
 	}
 
 	if(PLIC->PENDING & PLIC_IRQ_I2C) { // I2C xmit complete 
 		//print("I2C IRQ\r\n");
 		PLIC->PENDING &= ~PLIC_IRQ_I2C;
+	}
+
+	if(PLIC->PENDING & PLIC_IRQ_AUDIODAC0) { // MAC is pending
+		//print("AUDIODAC IRQ\r\n");
+		audiodac0_irqs++;
+		audiodac0_samples_sent += audiodac0_isr();
+		PLIC->PENDING &= ~PLIC_IRQ_AUDIODAC0;
 	}
 
 }

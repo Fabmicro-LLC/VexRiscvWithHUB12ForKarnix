@@ -69,4 +69,5 @@ build/src/modbus_udp.o: src/modbus_udp.c src/utils.h \
  src/lwip/include/lwip/prot/ieee.h src/lwip/include/lwip/prot/etharp.h \
  src/lwip/include/netif/ethernet.h src/soc.h src/timer.h src/prescaler.h \
  src/interrupt.h src/gpio.h src/uart.h src/pwm.h src/hub.h src/mac.h \
- src/i2c.h src/wd.h src/config.h src/eeprom.h src/crc16.h src/modbus.h
+ src/i2c.h src/wd.h src/audiodac.h src/config.h src/eeprom.h src/crc16.h \
+ src/modbus.h

@@ -298,9 +298,9 @@ mac_lwip_init:
 	j	.L42
 	.size	mac_lwip_init, .-mac_lwip_init
 	.align	2
-	.globl	mac_rx_isr
-	.type	mac_rx_isr, @function
-mac_rx_isr:
+	.globl	mac_rx
+	.type	mac_rx, @function
+mac_rx:
 	addi	sp,sp,-64
 	sw	s1,52(sp)
 	sw	s5,36(sp)
@@ -457,7 +457,7 @@ mac_rx_isr:
 	addi	a0,s9,%lo(.LC7)
 	ori	a5,a5,2
 	sw	a5,4(a4)
-	call	printf
+	call	print_uart0
 	lw	a5,24(s1)
 	li	a4,-267976704
 	addi	a5,a5,1
@@ -500,7 +500,7 @@ mac_rx_isr:
 	addi	s4,s4,1
 	addi	s3,s3,-1
 	j	.L55
-	.size	mac_rx_isr, .-mac_rx_isr
+	.size	mac_rx, .-mac_rx
 	.align	2
 	.globl	mac_poll
 	.type	mac_poll, @function
@@ -548,38 +548,42 @@ mac_poll:
 	lw	a5,8(a5)
 	andi	a5,a5,4
 	beq	a5,zero,.L78
-	lui	a0,%hi(.LC9)
-	addi	a0,a0,%lo(.LC9)
-	call	printf
 	lw	s0,8(sp)
 	lw	ra,12(sp)
 	lw	s1,4(sp)
 	addi	sp,sp,16
-	tail	mac_rx_isr
+	tail	mac_rx
 	.size	mac_poll, .-mac_poll
 	.align	2
 	.globl	mac_print_stats
 	.type	mac_print_stats, @function
 mac_print_stats:
 	lui	a0,%hi(.LANCHOR0+4)
-	addi	sp,sp,-16
+	addi	sp,sp,-288
 	addi	a0,a0,%lo(.LANCHOR0+4)
-	sw	ra,12(sp)
+	sw	ra,284(sp)
 	call	ip4addr_ntoa
-	lui	a2,%hi(lwip_stats)
-	addi	a2,a2,%lo(lwip_stats)
-	lw	a7,16(a2)
-	lw	a6,20(a2)
-	lw	a5,12(a2)
-	lw	a4,40(a2)
-	lw	a3,0(a2)
-	lw	ra,12(sp)
-	lw	a2,4(a2)
-	mv	a1,a0
-	lui	a0,%hi(.LC10)
-	addi	a0,a0,%lo(.LC10)
-	addi	sp,sp,16
-	tail	printf
+	lui	a4,%hi(lwip_stats)
+	addi	a4,a4,%lo(lwip_stats)
+	lw	a5,16(a4)
+	lui	a2,%hi(.LC9)
+	mv	a3,a0
+	sw	a5,4(sp)
+	lw	a5,20(a4)
+	addi	a2,a2,%lo(.LC9)
+	li	a1,256
+	sw	a5,0(sp)
+	lw	a7,12(a4)
+	lw	a6,40(a4)
+	lw	a5,0(a4)
+	lw	a4,4(a4)
+	addi	a0,sp,16
+	call	snprintf
+	addi	a0,sp,16
+	call	print_uart0
+	lw	ra,284(sp)
+	addi	sp,sp,288
+	jr	ra
 	.size	mac_print_stats, .-mac_print_stats
 	.globl	default_netif
 	.globl	ts_dhcp_coarse
@@ -608,22 +612,20 @@ default_netif:
 .LC3:
 	.string	"mac_lwip_init() netif_add failed!\r\n"
 .LC4:
-	.string	"mac_rx_isr() RX FIFO error, bytes_left = %d bytes (%d bits)\r\n"
+	.string	"mac_rx() RX FIFO error, bytes_left = %d bytes (%d bits)\r\n"
 	.zero	2
 .LC5:
-	.string	"mac_rx_isr() pbuf_alloc(%d) error, bytes_left = %d, bits = %d, words = %d !!!\r\n"
+	.string	"mac_rx() pbuf_alloc(%d) error, bytes_left = %d, bits = %d, words = %d !!!\r\n"
 .LC6:
-	.string	"mac_rx_isr() RX FIFO cleared\r\n"
+	.string	"mac_rx() RX FIFO cleared\r\n"
 	.zero	1
 .LC7:
-	.string	"mac_rx_isr() not enough space in pbuf!\r\n"
+	.string	"mac_rx() not enough space in pbuf!\r\n"
 	.zero	3
 .LC8:
-	.string	"mac_rx_isr() default_netif.input() error %d\r\n"
+	.string	"mac_rx() default_netif.input() error %d\r\n"
 	.zero	2
 .LC9:
-	.string	"mac_poll() stuck RX packet...\r\n"
-.LC10:
 	.string	"NETLINK: ip_addr = %s, rx = %d, tx = %d, err = %d, drop = %d, lenerr = %d, chkerr = %d\r\n"
 	.section	.sbss,"aw",@nobits
 	.align	2
