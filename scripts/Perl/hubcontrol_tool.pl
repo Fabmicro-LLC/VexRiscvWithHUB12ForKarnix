@@ -10,10 +10,14 @@
 ##
 #############################################################################################
 
-# Override standard Request module with local one.
-# We need this local version of the module to allow more than 255 bytes of data per packet
+# Override standard Request and Response modules with local ones.
+# We need this local version of the modules to allow more than 255 bytes of data per packet
 require 'Request.pm';
 Request->import();
+require 'Response.pm';
+Response->import();
+require 'Client.pm';
+Client->import();
 
 use Time::HiRes qw(usleep);
 use Getopt::Long qw(GetOptions);
@@ -31,8 +35,11 @@ use File::stat;
 use File::Basename;
 use Data::Dumper;
 
-my $max_pixels_per_packet = 1380;			### How many animation pixels to send per packet, less than (UDP - RTU)
-my $animation_fps = 30.0;				### Target framerate to play animation
+my $max_pixels_per_packet = 1380;			### How many animation pixels to send per packet, less than (UDP - Modbus)
+my $animation_fps = 25.1;				### Target framerate to play animation
+my $frame_width = 80;
+my $frame_height = 40;
+my $audio_samples_per_frame = 512;			### One sample is 2 bytes, should be less than (UDP - Modbus)
 
 print "Running under ".$^O."\r\n";
 
@@ -113,6 +120,8 @@ $reg_print_text = 50;
 $reg_clear_text = 51;
 $reg_hub_color = 52;
 
+$reg_audiodac0_buffer = 60;
+
 $reg_config_write = 126;
 $reg_reboot = 127;
 
@@ -179,6 +188,7 @@ sub MIN {
 }
 
 my $client;
+my $audio_client;
 
 if(length($addr) > 0) {
 	$device_addr = $addr;
@@ -371,23 +381,93 @@ if(length($demo_animation_hub75) > 0) {
 
 
 	if($ARGV[0] =~ /\.gz/) {
-		open($in, "gunzip -c $ARGV[0] |") or die "Cannot open gzipped BGR8 animation file: $ARGV[0], $!\n";
+		open($video_in, "gunzip -c $ARGV[0] |") or die "Cannot open gzipped BGR8 animation file: $ARGV[0], $!\n";
 	} else {
-		open($in, "<" , $ARGV[0]) or die "Cannot open plain BGR8 animation file: $ARGV[0], $!\n";
+		open($video_in, "<" , $ARGV[0]) or die "Cannot open plain BGR8 animation file: $ARGV[0], $!\n";
 	}
 
-	binmode($in);
+	if(length($ARGV[1])) {
+		open($audio_in, "<" , $ARGV[1]) or die "Cannot open WAV file: $ARGV[1], $!\n";
+	}
 
-	my $frame_width = 80;
-	my $frame_height = 40;
+	binmode($video_in) if(defined $video_in);
+	binmode($audio_in) if(defined $audio_in);
+
+	$client->{timeout} = 0.1;
+
 	my $frame_size = $frame_width * $frame_height;
 	my $start_time = Time::HiRes::time();
+	my $total_samples_sent = 0;
+
 
 	while(1) {
 
-		my $success = read($in, $frame, $frame_size);
+		if(defined $audio_in) {
 
-		if(!defined($success)) {
+			## Send AUDIO data till there's at least 16000 samples in remote buffer 
+
+			my $samples_sent = 0;
+
+			while(1) {
+
+				my $success = read($audio_in, $audio_frame, $audio_samples_per_frame * 2);
+
+				if($success < 1) {
+					last;
+				}
+
+				my @data = (0);
+
+				for(my $sample_idx = 0; $sample_idx < $audio_samples_per_frame; $sample_idx++) {
+			
+					(@data[$sample_idx], $audio_frame) = unpack("sa*", $audio_frame);
+					# print sprintf("Sample: %d\n", @data[$sample_idx]);
+
+				}
+
+
+				eval {
+					$req = $client->write_multiple_registers( unit => $device_addr, address  => $reg_audiodac0_buffer, values => \@data );
+					$client->send_request($req);
+				
+					$samples_sent += $audio_samples_per_frame;
+
+					# Skip Modbus responses that are not for AUDIODAC0 update 
+					for(my $i = 0; $i < 10; $i++) {
+						$resp = $client->receive_response;
+						last if ($resp->{message}->{address} == $reg_audiodac0_buffer);
+					}
+				};
+					
+				if($@) {
+					last;
+				}
+
+				if($resp->{message}->{exception_code} > 0) {
+					print STDERR "Received error code: ".sprintf("0x%02X (0x%02X)",$resp->{message}->{exception_code},$resp->{message}->{exception_code})."\n";
+					exit;
+				}
+	
+				if ($resp->{message}->{address} == $reg_audiodac0_buffer) {
+					my ($remote_buffer_fill, $remote_buffer_size) = @{$resp->values};
+
+					if($remote_buffer_fill > 16000) {
+						my $end_time = Time::HiRes::time();
+						my $delta_time = $end_time - $start_time;
+
+						$total_samples_sent += $samples_sent;
+
+						print "AUDIODAC0: samples_sent = $samples_sent (".int($total_samples_sent/$delta_time)." samp/sec), remote_buffer_fill = $remote_buffer_fill, remote_buffer_size = $remote_buffer_size\n";
+						last;
+					}
+				}
+			}
+		}
+
+
+		my $success = read($video_in, $frame, $frame_size);
+
+		if($success < 1) {
 			print "End of file: $ARGV[0]\n";
 			exit;
 		}
@@ -449,7 +529,9 @@ if(length($demo_animation_hub75) > 0) {
 		print sprintf("Frame %d sent (fps = %.1f)\n", $frames, $fps) ;
 
 		if($fps > $animation_fps) {
-			usleep(($fps + 1 - $animation_fps) * 1000000/30);
+			my $sleep_time = ($fps + 1 - $animation_fps) * 1000000/30;
+			usleep($sleep_time);
+			## print "Slept for $sleep_time\n";
 		}
 
 		$frames++;
