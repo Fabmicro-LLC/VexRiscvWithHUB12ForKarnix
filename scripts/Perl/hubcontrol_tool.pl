@@ -387,7 +387,11 @@ if(length($demo_animation_hub75) > 0) {
 	}
 
 	if(length($ARGV[1])) {
-		open($audio_in, "<" , $ARGV[1]) or die "Cannot open WAV file: $ARGV[1], $!\n";
+		if($ARGV[1] =~ /\.gz/) {
+			open($audio_in, "gunzip -c $ARGV[1] |") or die "Cannot open gzipped S16LE sound file: $ARGV[1], $!\n";
+		} else {
+			open($audio_in, "<" , $ARGV[1]) or die "Cannot open plain S16LE sound file: $ARGV[1], $!\n";
+		}
 	}
 
 	binmode($video_in) if(defined $video_in);
@@ -398,7 +402,6 @@ if(length($demo_animation_hub75) > 0) {
 	my $frame_size = $frame_width * $frame_height;
 	my $start_time = Time::HiRes::time();
 	my $total_samples_sent = 0;
-
 
 	while(1) {
 
@@ -526,7 +529,7 @@ if(length($demo_animation_hub75) > 0) {
 		my $delta_time = $end_time - $start_time;
 		my $fps = $frames / $delta_time;
 
-		print sprintf("Frame %d sent (fps = %.1f)\n", $frames, $fps) ;
+		print sprintf("VIDEO frame %d sent (fps = %.1f)\n", $frames, $fps) ;
 
 		if($fps > $animation_fps) {
 			my $sleep_time = ($fps + 1 - $animation_fps) * 1000000/30;
