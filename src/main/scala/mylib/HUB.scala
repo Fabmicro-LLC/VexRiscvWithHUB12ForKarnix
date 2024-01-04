@@ -18,11 +18,15 @@ class Hub12SPI(data_size: Int = 8) extends Component {
 
 	val state = Reg(UInt(3 bits)) init(0)
 	val mask = Reg(Bits(data_size bits)) init(0)
+	val clk_div = Reg(Bool) init(False)
+
 
 	io.clk := False
 	io.data := False
 	io.cmd.ready := False
 
+        clk_div := RegNext(~clk_div)
+        
         /*
 	assert(False, "HUB12SPI mask:", NOTE)
 	assert(False, List(io.cmd.valid), NOTE)
@@ -30,7 +34,8 @@ class Hub12SPI(data_size: Int = 8) extends Component {
 	assert(False, List(io.cmd.payload.data), NOTE)
         */
 
-	when(io.cmd.valid) {
+	when(io.cmd.valid && clk_div) {
+	//when(io.cmd.valid) {
 
 		switch(state) {
 
@@ -79,6 +84,7 @@ class Hub12SPI(data_size: Int = 8) extends Component {
 			}
 		}
 	}
+
 } 
 
 
@@ -98,6 +104,7 @@ class Hub75SPI() extends Component {
 	val state = Reg(UInt(2 bits)) init(0)
 	val counter = Reg(UInt(2 bits)) init(0)
 	val data = Reg(Bits(64 bits)) init(0)
+	val clk_div = Reg(Bool) init(False)
 
 	io.clk := False
 	io.r1 := False
@@ -107,6 +114,8 @@ class Hub75SPI() extends Component {
 	io.b1 := False
 	io.b2 := False
 	io.cmd.ready := False
+
+        clk_div := RegNext(~clk_div)
 
 	//assert(False, "HUB75SPI mask:", NOTE)
 	//assert(False, List(io.cmd.valid), NOTE)
@@ -130,7 +139,8 @@ class Hub75SPI() extends Component {
 	g2 := data(3 downto 2).asUInt
 	b2 := data(5 downto 4).asUInt
 
-	when(io.cmd.valid) {
+	when(io.cmd.valid && clk_div) {
+	//when(io.cmd.valid) {
 
 		switch(state) {
 
@@ -166,7 +176,7 @@ class Hub75SPI() extends Component {
 				io.g2 := (g2 > io.phase) || (g2 === 3)
 				io.b2 := (b2 > io.phase) || (b2 === 3)
 
-				io.clk := False 
+				io.clk := False
 
 				when(counter === 3) {
 					state := 3
