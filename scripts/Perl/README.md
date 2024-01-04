@@ -65,7 +65,7 @@ perl -MCPAN -e 'install Device::Modbus'
 Once installed, run the demo:
 
 ```
-perl hubcontrol_tool.pl -host 192.168.174.199 -port 2001 -addr 1 -demo_animation_hub75 bad_apple_80x40_25.bgr8.gz badapple-16000.pcm_s16le.gz
+perl hubcontrol_tool.pl -host 192.168.174.199 -port 2001 -addr 1 -demo_animation_hub75 bad_apple_80x40_25.bgr8.gz bad_apple-16000.pcm_s16le.gz
 ```
 
 Where ```-host``` and ```-ports``` defines IP:port of the Karnix board, ```-addr``` defines Modbus device address (1 is default value). First file contains raw video data, second file contains audio PCM data.
