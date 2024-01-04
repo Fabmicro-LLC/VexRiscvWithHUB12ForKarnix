@@ -147,7 +147,7 @@ sub buffer_to_array {
 	my $flag = shift @_;
 
 	if($flag) {
-		print STDERR "buffer_to_array() converting charset\n";
+		# print STDERR "buffer_to_array() converting charset\n";
 		Encode::from_to($buf, 'utf-8', 'windows-1251');
 	}
 
@@ -274,7 +274,7 @@ if(length($version) > 0) {
 
 
 
-$text_flag = 0; ## UTF-8 conversion: 0 - no conversion, 1 - convert text from UTF-8 to WIN1251
+$text_flag = 1; ## UTF-8 conversion: 0 - no conversion, 1 - convert text from UTF-8 to WIN1251
 
 if(length($get_config_write) > 0) {
 
@@ -370,7 +370,7 @@ sub bgr8_to_hub75 {
 	my $g = ($bgr8 >> 3) & 0x3;
 	my $b = $bgr8 & 0x3;
 
-	my $rgb2 = ($r << 4) | ($g << 2) | $b;
+	my $rgb2 = ($b << 4) | ($g << 2) | $r;
 
 	#print "bgr8 = $bgr8, rgb2 = $rgb2\n"; 
 
@@ -472,12 +472,12 @@ if(length($demo_animation_hub75) > 0) {
 
 		if($success < 1) {
 			print "End of file: $ARGV[0]\n";
-			exit;
+			last;
 		}
 
 		if(length($frame) < $frame_size) {
 			print "No enough data read ".length($frame).", expected $frame_size. Stop!\n";
-			exit;
+			last;
 		}
 
 		my @data = (0);
@@ -769,7 +769,7 @@ if(length($demo_clock_hub75) > 0) {
 			$resp = $client->receive_response;
 		};
 
-		$text = sprintf("%d %d %d", $mday, $mon+1, $year+1900);
+		$text = sprintf("%02d.%02d.%04d", $mday, $mon+1, $year+1900);
 
 		@data = buffer_to_array($text, 3, $text_flag);
 		@data[0] = 10; ## X
