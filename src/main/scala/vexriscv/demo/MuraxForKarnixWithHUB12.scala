@@ -500,7 +500,8 @@ case class MuraxForKarnixWithHUB12() extends Component{
 	val clk25 = in Bool()
 	val uart_debug_txd = out Bool() // mapped to uart_debug_txd
 	val uart_debug_rxd = in Bool() // mapped to uart_debug_rxd
-	val rgb = out Bits(3 bits)
+	val led = out Bits(3 bits)
+	val key = in Bits(4 bits)
 	val gpio = out Bits(16 bits)
 	val rst_n = out Bool() // Hard-reset pin
 	val eeprom_wp = out Bool()
@@ -632,10 +633,11 @@ case class MuraxForKarnixWithHUB12() extends Component{
     murax.io.jtag.tms := False
     io.core_jtag_tdo := False
 
-    io.rgb := murax.io.gpioA.write.resized
+    io.led := murax.io.gpioA.write.resized
 
     io.eeprom_wp := murax.io.gpioA.write(3) 
-    murax.io.gpioA.read(30 downto 0) := 0
+    murax.io.gpioA.read(3 downto 0) := io.key 
+    murax.io.gpioA.read(30 downto 4) := 0
     murax.io.gpioA.read(31) := io.config 
 
     io.gpio <> murax.io.hub
