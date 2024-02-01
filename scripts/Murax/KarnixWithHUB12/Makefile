@@ -36,7 +36,7 @@ bin/MuraxForKarnixWithHUB12TopLevel.json : ${VERILOG} ../../../MuraxForKarnixWit
 	#yosys -v2 -e ABC -p "synth_ecp5 -abc9 -top MuraxForKarnixWithHUB12TopLevel -json bin/MuraxForKarnixWithHUB12TopLevel.json" ${VERILOG}
 
 bin/MuraxForKarnixWithHUB12TopLevel_random_25F.config : karnix_cabga256.lpf bin/MuraxForKarnixWithHUB12TopLevel.json
-	nextpnr-ecp5 --seed 4433 --speed 7 --25k --lpf karnix_cabga256.lpf --placed-svg bin/MuraxForKarnixWithHUB12TopLevel_placed.svg --package CABGA256 --json bin/MuraxForKarnixWithHUB12TopLevel.json --textcfg $@ 
+	nextpnr-ecp5 --seed 4433 --speed 6 --25k --lpf karnix_cabga256.lpf --placed-svg bin/MuraxForKarnixWithHUB12TopLevel_placed.svg --package CABGA256 --json bin/MuraxForKarnixWithHUB12TopLevel.json --textcfg $@ 
 
 bin/MuraxForKarnixWithHUB12TopLevel_25F.config: bin/MuraxForKarnixWithHUB12TopLevel_random_25F.config ../../../src/main/c/murax/karnix_hub12/build/karnix_hub12.hexx ../../../MuraxForKarnixWithHUB12TopLevel_random.hexx
 	ecpbram -v -i bin/MuraxForKarnixWithHUB12TopLevel_random_25F.config -o bin/MuraxForKarnixWithHUB12TopLevel_25F.config -f ../../../MuraxForKarnixWithHUB12TopLevel_random.hexx -t ../../../src/main/c/murax/karnix_hub12/build/karnix_hub12.hexx
