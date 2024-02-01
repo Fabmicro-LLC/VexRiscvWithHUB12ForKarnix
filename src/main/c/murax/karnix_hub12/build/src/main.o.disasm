@@ -294,7 +294,7 @@ main:
 	call	hard_reboot
 .L40:
 	lui	a0,%hi(.LC6)
-	li	a1,322
+	li	a1,327
 	addi	a0,a0,%lo(.LC6)
 	call	printf
 	li	a4,-268435456
@@ -322,7 +322,7 @@ main:
 	sw	zero,0(a5)
 	li	a4,-268435456
 	lw	a5,4(a4)
-	li	a2,60
+	li	a2,58
 	li	a3,1
 	andi	a5,a5,-9
 	sw	a5,4(a4)
@@ -622,7 +622,7 @@ main:
 	andi	a2,a2,127
 	sw	a1,4(sp)
 	addi	a0,a0,%lo(.LC26)
-	li	a1,322
+	li	a1,327
 	call	printf
 	call	plic_print_stats
 	call	mac_print_stats
@@ -1028,7 +1028,7 @@ crash_str:
 	.string	"Soft-start, performing hard reset!\r\n"
 	.zero	3
 .LC6:
-	.string	"\r\nHUB-12/HUB-75 driver for Karnix ASB-254. Build %05d, date/time: Dec 31 2023 16:39:43\r\nCopyright (C) 2021-2023 Fabmicro, LLC., Tyumen, Russia.\r\n\r\n"
+	.string	"\r\nHUB-12/HUB-75 driver for Karnix ASB-254. Build %05d, date/time: Feb  1 2024 22:20:23\r\nCopyright (C) 2021-2023 Fabmicro, LLC., Tyumen, Russia.\r\n\r\n"
 .LC7:
 	.string	"Hardware init\r\n"
 .LC8:

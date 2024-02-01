@@ -459,8 +459,8 @@ Disassembly of section .memory:
 80003c84:	f0011437          	lui	s0,0xf0011
 80003c88:	00842783          	lw	a5,8(s0) # f0011008 <_ram_heap_end+0x6fff9008>
 80003c8c:	9cc1a583          	lw	a1,-1588(gp) # 8000343c <active_config+0x18>
-80003c90:	03938537          	lui	a0,0x3938
-80003c94:	70050513          	addi	a0,a0,1792 # 3938700 <_stack_size+0x3937700>
+80003c90:	037a1537          	lui	a0,0x37a1
+80003c94:	74850513          	addi	a0,a0,1864 # 37a1748 <_stack_size+0x37a0748>
 80003c98:	00f12623          	sw	a5,12(sp)
 80003c9c:	7cd090ef          	jal	ra,8000dc68 <__udivsi3>
 80003ca0:	00500593          	li	a1,5
@@ -1528,7 +1528,7 @@ Disassembly of section .memory:
 80004ce0:	800026b7          	lui	a3,0x80002
 80004ce4:	800035b7          	lui	a1,0x80003
 80004ce8:	7f868693          	addi	a3,a3,2040 # 800027f8 <_ram_heap_end+0xfffea7f8>
-80004cec:	14100613          	li	a2,321
+80004cec:	14700613          	li	a2,327
 80004cf0:	80458593          	addi	a1,a1,-2044 # 80002804 <_ram_heap_end+0xfffea804>
 80004cf4:	00348513          	addi	a0,s1,3
 80004cf8:	63c0a0ef          	jal	ra,8000f334 <siprintf>
@@ -2706,9 +2706,9 @@ Disassembly of section .memory:
 80005eb8:	ff010113          	addi	sp,sp,-16
 80005ebc:	00812423          	sw	s0,8(sp)
 80005ec0:	00050413          	mv	s0,a0
-80005ec4:	03938537          	lui	a0,0x3938
+80005ec4:	037a1537          	lui	a0,0x37a1
 80005ec8:	00559593          	slli	a1,a1,0x5
-80005ecc:	70050513          	addi	a0,a0,1792 # 3938700 <_stack_size+0x3937700>
+80005ecc:	74850513          	addi	a0,a0,1864 # 37a1748 <_stack_size+0x37a0748>
 80005ed0:	00112623          	sw	ra,12(sp)
 80005ed4:	58d070ef          	jal	ra,8000dc60 <__divsi3>
 80005ed8:	00200793          	li	a5,2
@@ -3060,7 +3060,7 @@ Disassembly of section .memory:
 80006418:	00008067          	ret
 
 8000641c <i2c_init>:
-8000641c:	25800793          	li	a5,600
+8000641c:	24700793          	li	a5,583
 80006420:	00f52423          	sw	a5,8(a0)
 80006424:	00008067          	ret
 
@@ -11245,7 +11245,7 @@ Disassembly of section .text.startup:
 8000dd6c:	fa0f80ef          	jal	ra,8000650c <print_uart0>
 8000dd70:	8e1f80ef          	jal	ra,80006650 <hard_reboot>
 8000dd74:	80002537          	lui	a0,0x80002
-8000dd78:	14200593          	li	a1,322
+8000dd78:	14700593          	li	a1,327
 8000dd7c:	0ec50513          	addi	a0,a0,236 # 800020ec <_ram_heap_end+0xfffea0ec>
 8000dd80:	1c8010ef          	jal	ra,8000ef48 <iprintf>
 8000dd84:	f0000737          	lui	a4,0xf0000
@@ -11272,7 +11272,7 @@ Disassembly of section .text.startup:
 8000ddd8:	0007a023          	sw	zero,0(a5) # f0054000 <_ram_heap_end+0x7003c000>
 8000dddc:	f0000737          	lui	a4,0xf0000
 8000dde0:	00472783          	lw	a5,4(a4) # f0000004 <_ram_heap_end+0x6ffe8004>
-8000dde4:	03c00613          	li	a2,60
+8000dde4:	03a00613          	li	a2,58
 8000dde8:	00100693          	li	a3,1
 8000ddec:	ff77f793          	andi	a5,a5,-9
 8000ddf0:	00f72223          	sw	a5,4(a4)
@@ -11539,7 +11539,7 @@ Disassembly of section .text.startup:
 8000e204:	07f67613          	andi	a2,a2,127
 8000e208:	00b12223          	sw	a1,4(sp)
 8000e20c:	2d850513          	addi	a0,a0,728 # 800022d8 <_ram_heap_end+0xfffea2d8>
-8000e210:	14200593          	li	a1,322
+8000e210:	14700593          	li	a1,327
 8000e214:	535000ef          	jal	ra,8000ef48 <iprintf>
 8000e218:	c49f70ef          	jal	ra,80005e60 <plic_print_stats>
 8000e21c:	c7cf70ef          	jal	ra,80005698 <mac_print_stats>

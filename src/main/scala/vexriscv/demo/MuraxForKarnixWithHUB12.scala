@@ -79,7 +79,7 @@ case class MuraxForKarnixWithHUB12Config(coreFrequency : HertzNumber,
 object MuraxForKarnixWithHUB12Config{
   def default : MuraxForKarnixWithHUB12Config = default(false, false)
   def default(withXip : Boolean = false, bigEndian : Boolean = false) =  MuraxForKarnixWithHUB12Config(
-    coreFrequency         = 60.0 MHz,
+    coreFrequency         = 58.0 MHz,
     onChipRamSize         = 96 kB ,
     onChipRamHexFile      = null,
     pipelineDBus          = true,
@@ -546,7 +546,7 @@ case class MuraxForKarnixWithHUB12() extends Component{
 
 
     val murax = MuraxHUBFabric(MuraxForKarnixWithHUB12Config.default(withXip = false).copy(
-		coreFrequency = 60.0 MHz, 
+		coreFrequency = 58.0 MHz, 
 		onChipRamSize = 96 kB , 
 		pipelineMainBus = true, // XXX
 		onChipRamHexFile = "MuraxForKarnixWithHUB12TopLevel_random.hex"
@@ -586,7 +586,9 @@ case class MuraxForKarnixWithHUB12() extends Component{
     //val core_pll = new EHXPLLL( EHXPLLLConfig(clkiFreq = 25.0 MHz, mDiv = 1, fbDiv = 3, opDiv = 8, opCPhase = 4) ) // 75.0 MHz
     //val core_pll = new EHXPLLL( EHXPLLLConfig(clkiFreq = 25.0 MHz, mDiv = 1, fbDiv = 2, opDiv = 12, opCPhase = 5) ) // 50.0 MHz
     //val core_pll = new EHXPLLL( EHXPLLLConfig(clkiFreq = 25.0 MHz, mDiv = 5, fbDiv = 13, opDiv = 9, opCPhase = 4) ) // 65.0 MHz
-    val core_pll = new EHXPLLL( EHXPLLLConfig(clkiFreq = 25.0 MHz, mDiv = 5, fbDiv = 12, opDiv = 10, opCPhase = 4) ) // 60.0 MHz
+    //val core_pll = new EHXPLLL( EHXPLLLConfig(clkiFreq = 25.0 MHz, mDiv = 5, fbDiv = 12, opDiv = 10, opCPhase = 4) ) // 60.0 MHz
+    //val core_pll = new EHXPLLL( EHXPLLLConfig(clkiFreq = 25.0 MHz, mDiv = 6, fbDiv = 15, opDiv = 10, opCPhase = 4) ) // 62.0 MHz
+    val core_pll = new EHXPLLL( EHXPLLLConfig(clkiFreq = 25.0 MHz, mDiv = 3, fbDiv = 7, opDiv = 11, opCPhase = 5) ) // 58.0 MHz
 
     core_pll.io.CLKI := io.clk25
     core_pll.io.CLKFB := core_pll.io.CLKOP

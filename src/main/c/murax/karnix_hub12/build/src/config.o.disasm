@@ -163,7 +163,7 @@ default_config:
 	.byte	12
 	.byte	21
 	.byte	-108
-	.byte	12
+	.byte	75
 	.byte	1
 	.zero	3
 	.word	115200

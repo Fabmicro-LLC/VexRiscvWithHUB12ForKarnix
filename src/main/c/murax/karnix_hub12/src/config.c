@@ -11,7 +11,7 @@ Config default_config = {
 	IPADDR4_INIT_BYTES(255,255,255,0),	// IP netmask
 	0x01,					// Option: Use DHCP is ON
 	{0x02,0x0A,0x0B,0x0C,0x15,0x94},	// MAC addr
-	12,					// HUB type (12 - HUB12, 75 - HUB75)
+	75,					// HUB type (12 - HUB12, 75 - HUB75)
 	1,					// modbus add (RTU and UDP)
 	115200,					// modbus RTU baud rate
 	0xffff					// CRC16 check-sum, will be computed automagically

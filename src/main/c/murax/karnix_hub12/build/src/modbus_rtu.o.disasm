@@ -17,8 +17,8 @@ modbus_rtu_init:
 	li	s0,-268365824
 	lw	a5,8(s0)
 	lw	a1,%lo(active_config+24)(a4)
-	li	a0,59998208
-	addi	a0,a0,1792
+	li	a0,58331136
+	addi	a0,a0,1864
 	sw	a5,12(sp)
 	call	__udivsi3
 	li	a1,5
