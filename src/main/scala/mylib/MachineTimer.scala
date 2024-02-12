@@ -5,11 +5,6 @@ import spinal.lib._
 import spinal.lib.bus.amba3.apb._
 import spinal.lib.bus.misc._
 
-case class MachineTimer() extends Bundle with IMasterSlave {
-  override def asMaster(): Unit = {
-  }
-}
-
 case class MachineTimerCtrl(clockMHz: Int = 50) extends Component {
   val io = new Bundle {
     val micros = out UInt(32 bits)
