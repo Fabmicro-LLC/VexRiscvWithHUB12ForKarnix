@@ -184,7 +184,7 @@ int sram_test_write_random_ints(void) {
 
 	while((unsigned int)mem < SRAM_ADDR_END) {
 		*mem++ = fill;
-		fill += fill;
+		fill += 0xdeadbeef; // generate pseudo-random data
 	}
 
 	fill = 0xdeadbeef;
@@ -200,7 +200,7 @@ int sram_test_write_random_ints(void) {
 			//printf("\r\nMem check OK     at: %p, expected: %p, got: %p\r\n", mem, fill, *mem);
 		}
 		mem++;
-		fill += fill; // generate pseudo-random data
+		fill += 0xdeadbeef; // generate pseudo-random data
 	}
 
 	if((unsigned int)mem == SRAM_ADDR_END)
