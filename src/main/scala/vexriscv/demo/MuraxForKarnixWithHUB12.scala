@@ -29,6 +29,7 @@ import spinal.lib.bus.simple.Apb3PwmCtrl
 
 import spinal.lib.mem.{SramInterface,SramLayout,PipelinedMemoryBusSram}
 
+import mylib.Apb3MachineTimer
 import mylib.Apb3HubCtrl
 import mylib.Apb3MicroPLICCtrl
 import mylib.Apb3MacEthCtrl
@@ -443,8 +444,8 @@ case class MuraxHUBFabric(config : MuraxForKarnixWithHUB12Config) extends Compon
     macCtrl.io.mii <> io.mii
     plic.setIRQ(macCtrl.io.interrupt, 2)
 
-    val machineTimerCtrl = Apb3MachineTimerCtrl(coreFrequency.toInt / 1000000)
-    apbMapping += machineTimerCtrl.io.apb   -> (0xB0000, 4 kB)
+    val machineTimer = Apb3MachineTimer(coreFrequency.toInt / 1000000)
+    apbMapping += machineTimer.io.apb   -> (0xB0000, 4 kB)
 
     val xip = ifGen(genXip)(new Area{
       val ctrl = Apb3SpiXdrMasterCtrl(xipConfig)
