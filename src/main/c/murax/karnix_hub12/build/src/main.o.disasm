@@ -204,46 +204,47 @@ sram_test_write_random_ints:
 	li	a2,524288
 	li	a1,-1879048192
 	addi	a0,a0,%lo(.LC1)
-	sw	ra,28(sp)
 	sw	s0,24(sp)
+	sw	ra,28(sp)
 	sw	s1,20(sp)
 	sw	s2,16(sp)
 	sw	s3,12(sp)
 	sw	s4,8(sp)
+	sw	s5,4(sp)
 	call	printf
 	li	a5,-559038464
 	addi	a5,a5,-273
 	li	a4,-1879048192
+	mv	s0,a5
 	li	a3,-1878523904
 .L32:
 	sw	a5,0(a4)
 	addi	a4,a4,4
-	slli	a5,a5,1
+	add	a5,a5,s0
 	bne	a4,a3,.L32
 	lui	a0,%hi(.LC2)
 	li	a2,524288
 	li	a1,-1879048192
 	addi	a0,a0,%lo(.LC2)
-	li	s1,-559038464
 	call	printf
 	li	s2,0
-	addi	s1,s1,-273
-	li	s0,-1879048192
-	lui	s4,%hi(.LC3)
+	li	s1,-1879048192
+	lui	s5,%hi(.LC3)
+	mv	s4,s0
 	li	s3,-1878523904
 .L34:
-	lw	a5,0(s0)
-	beq	a5,s1,.L33
-	lw	a3,0(s0)
-	mv	a2,s1
-	mv	a1,s0
-	addi	a0,s4,%lo(.LC3)
+	lw	a5,0(s1)
+	beq	a5,s0,.L33
+	lw	a3,0(s1)
+	mv	a2,s0
+	mv	a1,s1
+	addi	a0,s5,%lo(.LC3)
 	call	printf
 	addi	s2,s2,1
 .L33:
-	addi	s0,s0,4
-	slli	s1,s1,1
-	bne	s0,s3,.L34
+	addi	s1,s1,4
+	add	s0,s0,s4
+	bne	s1,s3,.L34
 	lui	a0,%hi(.LC4)
 	mv	a1,s2
 	addi	a0,a0,%lo(.LC4)
@@ -255,6 +256,7 @@ sram_test_write_random_ints:
 	lw	s2,16(sp)
 	lw	s3,12(sp)
 	lw	s4,8(sp)
+	lw	s5,4(sp)
 	addi	sp,sp,32
 	jr	ra
 	.size	sram_test_write_random_ints, .-sram_test_write_random_ints
@@ -294,7 +296,7 @@ main:
 	call	hard_reboot
 .L40:
 	lui	a0,%hi(.LC6)
-	li	a1,327
+	li	a1,334
 	addi	a0,a0,%lo(.LC6)
 	call	printf
 	li	a4,-268435456
@@ -622,7 +624,7 @@ main:
 	andi	a2,a2,127
 	sw	a1,4(sp)
 	addi	a0,a0,%lo(.LC26)
-	li	a1,327
+	li	a1,334
 	call	printf
 	call	plic_print_stats
 	call	mac_print_stats
@@ -1028,7 +1030,7 @@ crash_str:
 	.string	"Soft-start, performing hard reset!\r\n"
 	.zero	3
 .LC6:
-	.string	"\r\nHUB-12/HUB-75 driver for Karnix ASB-254. Build %05d, date/time: Feb  1 2024 22:20:23\r\nCopyright (C) 2021-2023 Fabmicro, LLC., Tyumen, Russia.\r\n\r\n"
+	.string	"\r\nHUB-12/HUB-75 driver for Karnix ASB-254. Build %05d, date/time: Feb 17 2024 00:28:43\r\nCopyright (C) 2021-2023 Fabmicro, LLC., Tyumen, Russia.\r\n\r\n"
 .LC7:
 	.string	"Hardware init\r\n"
 .LC8:

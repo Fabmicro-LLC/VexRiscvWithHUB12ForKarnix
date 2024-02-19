@@ -523,7 +523,7 @@ modbus_recv:
 	lui	a3,%hi(.LC2)
 	lui	a1,%hi(.LC3)
 	addi	a3,a3,%lo(.LC2)
-	li	a2,327
+	li	a2,333
 	addi	a1,a1,%lo(.LC3)
 	addi	a0,s1,3
 	call	sprintf
@@ -808,7 +808,7 @@ modbus_recv:
 	.string	"modbus_store_reg() config write not allowed! Unlock first!\r\n"
 	.zero	3
 .LC2:
-	.string	"Feb  1 2024"
+	.string	"Feb  9 2024"
 .LC3:
 	.string	"HUB12/75: build %05d, date: %s"
 	.zero	1
