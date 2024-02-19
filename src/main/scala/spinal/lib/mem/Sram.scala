@@ -20,7 +20,7 @@ case class SramInterface(g : SramLayout) extends Bundle with IMasterSlave{
   val bhe  = Bool
 
   override def asMaster(): Unit = {
-    out(cs,we,oe,ble,bhe)
+    out(cs,we,oe,ble,bhe,addr)
     inout(dat,addr)
   }
 }
@@ -32,37 +32,32 @@ case class PipelinedMemoryBusSram(pipelinedMemoryBusConfig: PipelinedMemoryBusCo
     val sram = master(SramInterface(sramLayout))
   }
 
-  val state = Reg(UInt(1 bits)) init(0)
-  val rsp_valid = Reg(Bool)
-  val rsp_data = Reg(Bits(io.bus.rsp.data.getWidth bits)) init((U"xaabbccdd").asBits)
+  val state = Reg(UInt(3 bits)) init(0)
+  val rsp_data = Reg(Bits(pipelinedMemoryBusConfig.addressWidth bits)) init(0)
+  val rsp_valid = Reg(Bool()) init(False)
   
-  io.bus.rsp.data := rsp_data
   io.sram.cs := ~io.bus.cmd.valid
   io.sram.we := True 
   io.sram.oe := True 
   io.sram.bhe := True 
   io.sram.ble := True 
 
-  io.bus.rsp.valid := rsp_valid 
-
-  io.bus.cmd.ready := (state === 1)
+  io.bus.rsp.data := rsp_data; 
+  io.bus.rsp.valid := rsp_valid
+  io.bus.cmd.ready := (state === 1 && io.bus.cmd.write) || (state === 3 && !io.bus.cmd.write)
 
   when (io.bus.cmd.valid) {
     when (io.bus.cmd.write) { // Write
       io.sram.we := False // active low 
-      when (state === 0) { // Wrire low 16 bits
+      when (state === 0) { // Write low 16 bits
         io.sram.addr := io.bus.cmd.address(sramLayout.addressWidth downto 2).asBits ## B"0"
         io.sram.dat := io.bus.cmd.data(15 downto 0).asBits
-        //io.sram.dat := io.sram.addr(15 downto 0).asBits // Test
-        //io.sram.dat := io.bus.cmd.address(15 downto 0).asBits // Test
         io.sram.ble := ~io.bus.cmd.mask(0)
         io.sram.bhe := ~io.bus.cmd.mask(1)
         state := 1
-      } elsewhen (state === 1) { // Write high 16 bits
+      } otherwise { // Write high 16 bits
         io.sram.addr := io.bus.cmd.address(sramLayout.addressWidth downto 2).asBits ## B"1"
         io.sram.dat := io.bus.cmd.data(31 downto 16).asBits
-        //io.sram.dat := io.sram.addr(15 downto 0).asBits // Test
-        //io.sram.dat := io.bus.cmd.address(31 downto 16).asBits // Test
         io.sram.ble := ~io.bus.cmd.mask(2)
         io.sram.bhe := ~io.bus.cmd.mask(3)
         state := 0
@@ -73,19 +68,27 @@ case class PipelinedMemoryBusSram(pipelinedMemoryBusConfig: PipelinedMemoryBusCo
       io.sram.oe := False 
       when (state === 0) {
         io.sram.addr := io.bus.cmd.address(sramLayout.addressWidth downto 2).asBits ## B"0"
-        rsp_data(15 downto 0) := io.sram.dat 
-        rsp_valid := False 
+        rsp_data(15 downto 0) := io.sram.dat // buffer low 16 bits - first time 
         state := 1
+        rsp_valid := False
+      } elsewhen (state === 1) {
+        io.sram.addr := io.bus.cmd.address(sramLayout.addressWidth downto 2).asBits ## B"0"
+        rsp_data(15 downto 0) := io.sram.dat // buffer low 16 bits - second time
+        state := 2
+      } elsewhen (state === 2) {
+        io.sram.addr := io.bus.cmd.address(sramLayout.addressWidth downto 2).asBits ## B"1"
+        rsp_data(31 downto 16) := io.sram.dat // buffer high 16 bits - first time
+        state := 3
       } otherwise {
         io.sram.addr := io.bus.cmd.address(sramLayout.addressWidth downto 2).asBits ## B"1"
-        rsp_data(31 downto 16) := io.sram.dat
-        rsp_valid := True 
+        rsp_data(31 downto 16) := io.sram.dat // buffer high 16 bits - second time
+        rsp_valid := True
         state := 0
       }
     }
   } otherwise { // not Valid
-    rsp_valid := False 
     state := 0
+    rsp_valid := False
   }
 }
 
