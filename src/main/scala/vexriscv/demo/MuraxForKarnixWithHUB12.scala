@@ -584,6 +584,7 @@ case class MuraxForKarnixWithHUB12() extends Component{
 
     //val pll = new EHXPLLL(EHXPLLLConfig.singleOutput(25.0 MHz, 50.0 MHz, 0.02)) // This thing is buggy, gives incorrect dividers
 
+    //val core_pll = new EHXPLLL( EHXPLLLConfig(clkiFreq = 25.0 MHz, mDiv = 5, fbDiv = 16, opDiv = 7, opCPhase = 3) ) // 80.0 MHz
     //val core_pll = new EHXPLLL( EHXPLLLConfig(clkiFreq = 25.0 MHz, mDiv = 1, fbDiv = 3, opDiv = 8, opCPhase = 4) ) // 75.0 MHz
     //val core_pll = new EHXPLLL( EHXPLLLConfig(clkiFreq = 25.0 MHz, mDiv = 1, fbDiv = 2, opDiv = 12, opCPhase = 5) ) // 50.0 MHz
     //val core_pll = new EHXPLLL( EHXPLLLConfig(clkiFreq = 25.0 MHz, mDiv = 5, fbDiv = 13, opDiv = 9, opCPhase = 4) ) // 65.0 MHz
@@ -679,8 +680,8 @@ object MuraxForKarnixWithHUB12VerilogSim {
     //SimConfig.withWave.compile{
     SimConfig.compile{
         val dut = new MuraxHUBFabric(MuraxForKarnixWithHUB12Config.default(withXip = false).copy(
-                coreFrequency = 25.0 MHz,
-                onChipRamSize = 72 kB ,
+                coreFrequency = 58.0 MHz,
+                onChipRamSize = 96 kB ,
                 //pipelineMainBus = true,
                 //onChipRamHexFile = "src/main/c/murax/karnix_hub12/build/karnix_hub12.hex"
                 onChipRamHexFile = "MuraxForKarnixWithHUB12TopLevel_random.hex"
